@@ -1,37 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>wwwonderlan</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+<title>wwwonderlan — Film poster prints</title>
+<meta name="description" content="Original film poster prints. Fallen Angels, Taipei Story, Millennium Mambo.">
 
-    body {
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: white;
-      overflow: hidden;
-    }
-
-    img {
-      max-width: 60vw;
-      max-height: 60vh;
-      height: auto;
-      width: auto;
-    }
-  </style>
+<link rel="preload" href="fonts/HelveticaNowDisplay-Bold.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
 
-<img src="wwwonderlan.png" alt="wwwonderlan">
+<header class="header">
+  <a class="header__home" href="/">
+    <img class="header__logo" src="img/wwwonderlan.png" alt="wwwonderlan">
+  </a>
+</header>
+
+<main>
+  <!-- Populated from the posters array in app.js -->
+  <ul class="grid" id="grid"></ul>
+</main>
+
+<script src="app.js"></script>
 
 </body>
 </html>
