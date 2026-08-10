@@ -28,18 +28,23 @@
 
   /* 6.667vw resolves to 96px at 1440, floors at 24px on small screens */
   --page-x: clamp(24px, 6.667vw, 96px);
-  --page-y: 32px;
+  --page-y: clamp(20px, 2.222vw, 32px);
 
   /* 1440 − (96 × 2) = 1248 content, minus 2 × 24px gap = 3 × 400 columns */
   --content-width: 1248px;
   --gap-col: 24px;
-  --gap-row: 64px;
 
-  --details-gap: 16px;
+  /* Scales with viewport so stacked cards don't drift apart on mobile */
+  --gap-row: clamp(32px, 4.444vw, 64px);
+
+  /* Card internals are type-relative, so they stay fixed */
+  --gap-poster: 8px;
+  --gap-details: 16px;
+  --gap-text: 8px;
   --details-pad: 16px;
   --buy-pad: 8px;
 
-  --logo-height: 24px;
+  --logo-width: 200px;
 }
 
 /* ---------------------------------------------------------------
@@ -91,13 +96,16 @@ a { text-decoration: none; }
 
 .header {
   padding: var(--page-y) var(--page-x);
+  text-align: center;
 }
 
 .header__home { display: inline-block; }
 
+/* height: auto keeps the ratio if the logo is ever narrower than 200px */
 .header__logo {
-  height: var(--logo-height);
-  width: auto;
+  width: var(--logo-width);
+  height: auto;
+  max-width: 100%;
 }
 
 /* ---------------------------------------------------------------
@@ -120,15 +128,18 @@ a { text-decoration: none; }
 }
 
 @media (max-width: 600px) {
-  .grid {
-    grid-template-columns: 1fr;
-    --gap-row: 48px;
-  }
+  .grid { grid-template-columns: 1fr; }
 }
 
 /* ---------------------------------------------------------------
    Card
    --------------------------------------------------------------- */
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-poster);
+}
 
 /* Height follows the file's own proportions — never cropped, never
    forced to a ratio. Column width is the only thing driving size. */
@@ -140,8 +151,14 @@ a { text-decoration: none; }
 .card__details {
   display: flex;
   flex-direction: column;
-  gap: var(--details-gap);
+  gap: var(--gap-details);
   padding-block: var(--details-pad);
+}
+
+.card__text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-text);
 }
 
 .card__title {
@@ -162,11 +179,13 @@ a { text-decoration: none; }
 }
 
 .card__buy {
-  display: block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   padding: var(--buy-pad);
   border: 1px solid var(--muted-30);
-  text-align: center;
 
+  text-align: center;
   font-size: 14px;
   line-height: 18px;
   letter-spacing: -0.2px;
