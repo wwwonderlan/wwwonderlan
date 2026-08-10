@@ -4,13 +4,6 @@
 
 @font-face {
   font-family: "Helvetica Now Display";
-  src: url("fonts/HelveticaNowDisplay-Regular.ttf") format("truetype");
-  font-weight: 400;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Helvetica Now Display";
   src: url("fonts/HelveticaNowDisplay-Medium.ttf") format("truetype");
   font-weight: 500;
   font-display: swap;
@@ -30,19 +23,22 @@
 :root {
   --bg: #ffffff;
   --ink: #000000;
-  --muted: rgba(112, 112, 114, 0.5);
+  --muted-50: rgba(112, 112, 114, 0.5);
+  --muted-30: rgba(112, 112, 114, 0.3);
 
   /* 6.667vw resolves to 96px at 1440, floors at 24px on small screens */
   --page-x: clamp(24px, 6.667vw, 96px);
   --page-y: 32px;
 
   /* 1440 − (96 × 2) = 1248 content, minus 2 × 24px gap = 3 × 400 columns */
-  --max-width: 1248px;
+  --content-width: 1248px;
   --gap-col: 24px;
   --gap-row: 64px;
-  --gap-card: 16px;
 
-  --poster-ratio: 2 / 3;
+  --details-gap: 16px;
+  --details-pad: 16px;
+  --buy-pad: 8px;
+
   --logo-height: 24px;
 }
 
@@ -66,6 +62,11 @@ img { display: block; }
 
 a { text-decoration: none; }
 
+:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 4px;
+}
+
 /* Three identical "Buy" links need distinguishing for screen readers */
 .visually-hidden {
   position: absolute;
@@ -76,9 +77,12 @@ a { text-decoration: none; }
   white-space: nowrap;
 }
 
-:focus-visible {
-  outline: 2px solid var(--ink);
-  outline-offset: 4px;
+/* ---------------------------------------------------------------
+   Frame
+   --------------------------------------------------------------- */
+
+.frame {
+  padding-block: var(--page-y);
 }
 
 /* ---------------------------------------------------------------
@@ -89,9 +93,7 @@ a { text-decoration: none; }
   padding: var(--page-y) var(--page-x);
 }
 
-.header__home {
-  display: inline-block;
-}
+.header__home { display: inline-block; }
 
 .header__logo {
   height: var(--logo-height);
@@ -107,16 +109,10 @@ a { text-decoration: none; }
   grid-template-columns: repeat(3, 1fr);
   gap: var(--gap-row) var(--gap-col);
 
-  max-width: var(--max-width);
+  max-width: calc(var(--content-width) + var(--page-x) * 2);
   margin: 0 auto;
   padding: 0 var(--page-x);
   list-style: none;
-}
-
-/* Padding sits inside max-width, so widen the cap to keep the
-   content column at 1248 rather than 1248 minus the margins. */
-@media (min-width: 1441px) {
-  .grid { max-width: calc(var(--max-width) + var(--page-x) * 2); }
 }
 
 @media (max-width: 900px) {
@@ -134,45 +130,68 @@ a { text-decoration: none; }
    Card
    --------------------------------------------------------------- */
 
+/* Height follows the file's own proportions — never cropped, never
+   forced to a ratio. Column width is the only thing driving size. */
 .card__poster {
   width: 100%;
-  aspect-ratio: var(--poster-ratio);
-  object-fit: cover;
-  background: rgba(0, 0, 0, 0.04);
+  height: auto;
 }
 
 .card__details {
-  margin-top: var(--gap-card);
+  display: flex;
+  flex-direction: column;
+  gap: var(--details-gap);
+  padding-block: var(--details-pad);
 }
 
-.card__title,
-.card__director {
+.card__title {
   margin: 0;
+  font-size: 22px;
+  line-height: 26px;
   letter-spacing: -0.2px;
   font-weight: 700;
 }
 
-.card__title {
-  font-size: 22px;
-  line-height: 26px;
-}
-
-.card__director {
-  font-size: 16px;
-  line-height: 20px;
-  color: var(--muted);
+.card__credits {
+  margin: 0;
+  font-size: 14px;
+  line-height: 18px;
+  letter-spacing: -0.2px;
+  font-weight: 500;
+  color: var(--muted-50);
 }
 
 .card__buy {
-  display: inline-block;
-  font-size: 16px;
-  line-height: 20px;
+  display: block;
+  padding: var(--buy-pad);
+  border: 1px solid var(--muted-30);
+  text-align: center;
+
+  font-size: 14px;
+  line-height: 18px;
   letter-spacing: -0.2px;
   font-weight: 500;
-  color: var(--muted);
-  transition: color 120ms ease;
+  color: var(--muted-30);
+
+  transition: color 120ms ease, border-color 120ms ease;
 }
 
 .card__buy:hover {
+  border-color: var(--ink);
   color: var(--ink);
 }
+
+/* ---------------------------------------------------------------
+   Fallback
+   --------------------------------------------------------------- */
+
+.fallback {
+  padding: 0 var(--page-x);
+  font-size: 14px;
+  line-height: 18px;
+  letter-spacing: -0.2px;
+  font-weight: 500;
+  color: var(--muted-50);
+}
+
+.fallback a { color: var(--ink); }
