@@ -1,9 +1,8 @@
 /* ---------------------------------------------------------------
    Posters
 
-   Add a listing by appending an object here. Nothing else changes.
-   `slug` is only used for click tracking on the Etsy link.
-   The first credits line is composed from year, title and director.
+   Add a listing by appending an object. Nothing else changes.
+   Credits and button label are composed from these fields.
    --------------------------------------------------------------- */
 
 const posters = [
@@ -47,46 +46,35 @@ const UTM = "utm_source=wwwonderlan&utm_medium=site&utm_campaign=poster-grid";
 const POSTER_WIDTH = 2000;
 const POSTER_HEIGHT = 3000;
 
-function buyLink({ url, slug }) {
-  const separator = url.includes("?") ? "&" : "?";
-  return `${url}${separator}${UTM}&utm_content=${slug}`;
-}
+/* Titles are ours, not user input — this exists so an ampersand or
+   apostrophe in a film title can't break the markup. */
+const escape = (value) =>
+  String(value).replace(/[&<>"]/g, (character) =>
+    ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[character]);
 
-function escapeHTML(value) {
-  return String(value).replace(/[&<>"']/g, (character) => ({
-    "&": "&amp;",
-    "<": "&lt;",
-    ">": "&gt;",
-    '"': "&quot;",
-    "'": "&#39;",
-  })[character]);
-}
+const buyLink = ({ url, slug }) =>
+  `${url}${url.includes("?") ? "&" : "?"}${UTM}&utm_content=${slug}`;
 
-function cardHTML(poster, index) {
-  const title = escapeHTML(poster.title);
-  const credit = escapeHTML(`© ${poster.year} ${poster.title} / ${poster.director}`);
-  const distributor = escapeHTML(poster.distributor);
-
-  return `
-    <li class="card">
-      <img
-        class="card__poster"
-        src="${escapeHTML(poster.image)}"
-        alt="${title} poster print"
-        width="${POSTER_WIDTH}"
-        height="${POSTER_HEIGHT}"
-        loading="${index < 3 ? "eager" : "lazy"}"
-        decoding="async">
-      <div class="card__details">
-        <h2 class="card__title">${title}</h2>
-        <p class="card__credits">${credit}<br>${distributor}</p>
-        <a class="card__buy"
-           href="${escapeHTML(buyLink(poster))}"
-           target="_blank"
-           rel="noopener noreferrer">Buy<span class="visually-hidden"> ${title} on Etsy</span></a>
+const cardHTML = ({ title, year, director, distributor, image, ...rest }) => `
+  <li class="card">
+    <img class="card__poster"
+         src="${escape(image)}"
+         alt="${escape(title)} poster print"
+         width="${POSTER_WIDTH}"
+         height="${POSTER_HEIGHT}"
+         decoding="async">
+    <div class="card__details">
+      <div class="card__text">
+        <h2 class="card__title">${escape(title)}</h2>
+        <p class="card__credits">
+          © ${year} ${escape(title)} / ${escape(director)}<br>${escape(distributor)}
+        </p>
       </div>
-    </li>
-  `;
-}
+      <a class="card__buy"
+         href="${escape(buyLink(rest))}"
+         target="_blank"
+         rel="noopener">Buy ${escape(title)} Poster</a>
+    </div>
+  </li>`;
 
 document.getElementById("grid").innerHTML = posters.map(cardHTML).join("");
