@@ -3,27 +3,34 @@
 
    Add a listing by appending an object here. Nothing else changes.
    `slug` is only used for click tracking on the Etsy link.
+   The first credits line is composed from year, title and director.
    --------------------------------------------------------------- */
 
 const posters = [
   {
     slug: "fallen-angels",
     title: "Fallen Angels",
-    director: "Wong Kar-Wai",
+    year: 1995,
+    director: "Wong Kar Wai",
+    distributor: "Block 2 Distribution",
     image: "https://pub-01259ba9a4fe4eccabe8b5baf85baa7a.r2.dev/fallen-angels.jpg",
     url: "https://wwwonderlan.etsy.com/uk/listing/4310610506/fallen-angels-movie-poster-print-wong",
   },
   {
     slug: "taipei-story",
     title: "Taipei Story",
+    year: 1985,
     director: "Edward Yang",
+    distributor: "Evergreen Film Company",
     image: "https://pub-01259ba9a4fe4eccabe8b5baf85baa7a.r2.dev/taipei-story.jpg",
     url: "https://wwwonderlan.etsy.com/uk/listing/4331048372/taipei-story-movie-poster-print-edward",
   },
   {
     slug: "millennium-mambo",
     title: "Millennium Mambo",
-    director: "Hou Hsiao-Hsien",
+    year: 2001,
+    director: "Hou Hsiao-hsien",
+    distributor: "3H Productions",
     image: "https://pub-01259ba9a4fe4eccabe8b5baf85baa7a.r2.dev/millennium-mambo.jpg",
     url: "https://wwwonderlan.etsy.com/uk/listing/4337108727/millennium-mambo-movie-poster-print-hou",
   },
@@ -34,6 +41,11 @@ const posters = [
    --------------------------------------------------------------- */
 
 const UTM = "utm_source=wwwonderlan&utm_medium=site&utm_campaign=poster-grid";
+
+/* Intrinsic size of the source files. Reserves the right space
+   during load without constraining the rendered ratio. */
+const POSTER_WIDTH = 2000;
+const POSTER_HEIGHT = 3000;
 
 function buyLink({ url, slug }) {
   const separator = url.includes("?") ? "&" : "?";
@@ -52,7 +64,8 @@ function escapeHTML(value) {
 
 function cardHTML(poster, index) {
   const title = escapeHTML(poster.title);
-  const director = escapeHTML(poster.director);
+  const credit = escapeHTML(`© ${poster.year} ${poster.title} / ${poster.director}`);
+  const distributor = escapeHTML(poster.distributor);
 
   return `
     <li class="card">
@@ -60,13 +73,13 @@ function cardHTML(poster, index) {
         class="card__poster"
         src="${escapeHTML(poster.image)}"
         alt="${title} poster print"
-        width="400"
-        height="600"
+        width="${POSTER_WIDTH}"
+        height="${POSTER_HEIGHT}"
         loading="${index < 3 ? "eager" : "lazy"}"
         decoding="async">
       <div class="card__details">
         <h2 class="card__title">${title}</h2>
-        <p class="card__director">${director}</p>
+        <p class="card__credits">${credit}<br>${distributor}</p>
         <a class="card__buy"
            href="${escapeHTML(buyLink(poster))}"
            target="_blank"
