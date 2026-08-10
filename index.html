@@ -8,21 +8,35 @@
 <meta name="description" content="Original film poster prints. Fallen Angels, Taipei Story, Millennium Mambo.">
 
 <link rel="preload" href="fonts/HelveticaNowDisplay-Bold.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="preload" href="fonts/HelveticaNowDisplay-Medium.ttf" as="font" type="font/ttf" crossorigin>
 <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
 
-<header class="header">
-  <a class="header__home" href="/">
-    <img class="header__logo" src="img/wwwonderlan.png" alt="wwwonderlan">
-  </a>
-</header>
+<div class="frame">
 
-<main>
-  <!-- Populated from the posters array in app.js -->
-  <ul class="grid" id="grid"></ul>
-</main>
+  <header class="header">
+    <a class="header__home" href="/">
+      <img class="header__logo" src="wwwonderlan.png" alt="wwwonderlan">
+    </a>
+  </header>
+
+  <main>
+    <h1 class="visually-hidden">Film poster prints</h1>
+
+    <!-- Populated from the posters array in app.js -->
+    <ul class="grid" id="grid"></ul>
+
+    <noscript>
+      <p class="fallback">
+        This site needs JavaScript to list the prints.
+        <a href="https://wwwonderlan.etsy.com/uk">View the shop on Etsy</a>.
+      </p>
+    </noscript>
+  </main>
+
+</div>
 
 <script src="app.js"></script>
 
