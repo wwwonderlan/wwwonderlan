@@ -1,0 +1,178 @@
+/* ---------------------------------------------------------------
+   Fonts
+   --------------------------------------------------------------- */
+
+@font-face {
+  font-family: "Helvetica Now Display";
+  src: url("fonts/HelveticaNowDisplay-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Helvetica Now Display";
+  src: url("fonts/HelveticaNowDisplay-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Helvetica Now Display";
+  src: url("fonts/HelveticaNowDisplay-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-display: swap;
+}
+
+/* ---------------------------------------------------------------
+   Tokens
+   --------------------------------------------------------------- */
+
+:root {
+  --bg: #ffffff;
+  --ink: #000000;
+  --muted: rgba(112, 112, 114, 0.5);
+
+  /* 6.667vw resolves to 96px at 1440, floors at 24px on small screens */
+  --page-x: clamp(24px, 6.667vw, 96px);
+  --page-y: 32px;
+
+  /* 1440 − (96 × 2) = 1248 content, minus 2 × 24px gap = 3 × 400 columns */
+  --max-width: 1248px;
+  --gap-col: 24px;
+  --gap-row: 64px;
+  --gap-card: 16px;
+
+  --poster-ratio: 2 / 3;
+  --logo-height: 24px;
+}
+
+/* ---------------------------------------------------------------
+   Base
+   --------------------------------------------------------------- */
+
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: "Helvetica Now Display", -apple-system, BlinkMacSystemFont, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+img { display: block; }
+
+a { text-decoration: none; }
+
+/* Three identical "Buy" links need distinguishing for screen readers */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 4px;
+}
+
+/* ---------------------------------------------------------------
+   Header
+   --------------------------------------------------------------- */
+
+.header {
+  padding: var(--page-y) var(--page-x);
+}
+
+.header__home {
+  display: inline-block;
+}
+
+.header__logo {
+  height: var(--logo-height);
+  width: auto;
+}
+
+/* ---------------------------------------------------------------
+   Grid
+   --------------------------------------------------------------- */
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--gap-row) var(--gap-col);
+
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--page-x);
+  list-style: none;
+}
+
+/* Padding sits inside max-width, so widen the cap to keep the
+   content column at 1248 rather than 1248 minus the margins. */
+@media (min-width: 1441px) {
+  .grid { max-width: calc(var(--max-width) + var(--page-x) * 2); }
+}
+
+@media (max-width: 900px) {
+  .grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 600px) {
+  .grid {
+    grid-template-columns: 1fr;
+    --gap-row: 48px;
+  }
+}
+
+/* ---------------------------------------------------------------
+   Card
+   --------------------------------------------------------------- */
+
+.card__poster {
+  width: 100%;
+  aspect-ratio: var(--poster-ratio);
+  object-fit: cover;
+  background: rgba(0, 0, 0, 0.04);
+}
+
+.card__details {
+  margin-top: var(--gap-card);
+}
+
+.card__title,
+.card__director {
+  margin: 0;
+  letter-spacing: -0.2px;
+  font-weight: 700;
+}
+
+.card__title {
+  font-size: 22px;
+  line-height: 26px;
+}
+
+.card__director {
+  font-size: 16px;
+  line-height: 20px;
+  color: var(--muted);
+}
+
+.card__buy {
+  display: inline-block;
+  font-size: 16px;
+  line-height: 20px;
+  letter-spacing: -0.2px;
+  font-weight: 500;
+  color: var(--muted);
+  transition: color 120ms ease;
+}
+
+.card__buy:hover {
+  color: var(--ink);
+}
