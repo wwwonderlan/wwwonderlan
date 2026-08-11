@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" id="theme-color" content="#FFFFFF">
 
 <title>wwwonderlan — Film poster prints</title>
 <meta name="description" content="Film poster prints in maxi size. Fallen Angels, Taipei Story, Millennium Mambo.">
@@ -15,6 +16,18 @@
 <meta property="og:image" content="https://pub-01259ba9a4fe4eccabe8b5baf85baa7a.r2.dev/fallen-angels.jpg">
 <meta name="twitter:card" content="summary_large_image">
 
+<!-- Must run before first paint, or the wrong theme flashes. -->
+<script>
+(() => {
+  let stored;
+  try { stored = localStorage.getItem("wwwonderlan-theme"); } catch {}
+  const theme = stored
+    || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+  document.documentElement.dataset.theme = theme;
+  document.getElementById("theme-color")?.setAttribute("content", theme === "dark" ? "#000000" : "#FFFFFF");
+})();
+</script>
+
 <link rel="preload" href="fonts/HelveticaNowDisplay-Bold.ttf" as="font" type="font/ttf" crossorigin>
 <link rel="preload" href="fonts/HelveticaNowDisplay-Medium.ttf" as="font" type="font/ttf" crossorigin>
 <link rel="stylesheet" href="styles.css">
@@ -26,7 +39,8 @@
 
   <header class="header">
     <a class="header__home" href="/">
-      <img class="header__logo" src="wwwonderlan.png" alt="wwwonderlan" width="200" height="57">
+      <img class="header__logo header__logo--light" src="wwwonderlan-black.png" alt="wwwonderlan" width="200" height="57">
+      <img class="header__logo header__logo--dark" src="wwwonderlan-white.png" alt="wwwonderlan" width="200" height="57">
     </a>
   </header>
 
@@ -44,22 +58,45 @@
     </noscript>
   </main>
 
-  <nav class="dock" aria-label="Links">
+  <nav class="dock" aria-label="Site actions">
     <span class="dock-label" id="dock-label" aria-hidden="true"></span>
 
+    <div class="dock-progress" id="scroll-progress"
+         role="progressbar" aria-label="Page scrolled"
+         aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+      <div class="dock-progress-fill" id="scroll-progress-fill"></div>
+    </div>
+
     <div class="dock-actions">
-      <a class="dock-action"
-         href="https://instagram.com/wwwonderlan"
-         target="_blank"
-         rel="noopener"
-         data-label="Instagram"
-         aria-label="wwwonderlan on Instagram">
+      <a class="dock-action" href="https://instagram.com/wwwonderlan"
+         target="_blank" rel="noopener"
+         data-label="Instagram" aria-label="wwwonderlan on Instagram">
         <svg viewBox="0 0 24 24" aria-hidden="true">
           <rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/>
           <circle cx="12" cy="12" r="4.5"/>
           <circle class="is-solid" cx="17.5" cy="6.5" r="1.1"/>
         </svg>
       </a>
+
+      <a class="dock-action" href="https://wwwonderlan.etsy.com/uk"
+         target="_blank" rel="noopener"
+         data-label="Shop" aria-label="wwwonderlan shop on Etsy">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M16 10a4 4 0 0 1-8 0"/>
+          <path d="M3.103 6.034h17.794"/>
+          <path d="M3.4 5.467a2 2 0 0 0-.4 1.2V20a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6.667a2 2 0 0 0-.4-1.2l-2-2.667A2 2 0 0 0 17 2H7a2 2 0 0 0-1.6.8z"/>
+        </svg>
+      </a>
+
+      <button class="dock-action" id="theme-toggle" type="button"></button>
+
+      <button class="dock-action" id="scroll-top" type="button"
+              data-label="Back to Top" aria-label="Back to top">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="m5 12 7-7 7 7"/>
+          <path d="M12 19V5"/>
+        </svg>
+      </button>
     </div>
   </nav>
 
