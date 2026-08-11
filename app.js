@@ -122,6 +122,13 @@ function hide() {
   label.classList.remove("is-visible");
 }
 
+/* The theme toggle renames itself, possibly while its label is showing. */
+function refresh(control) {
+  if (active !== control) return;
+  label.textContent = control.dataset.label;
+  place(control);
+}
+
 /* Mouse only; touch is handled below, and letting both run would flash
    the label on every tap. */
 dock.addEventListener("pointerover", (event) => {
@@ -175,7 +182,7 @@ dock.addEventListener("touchend", endTouch);
 dock.addEventListener("touchcancel", endTouch);
 
 /* A long press is a read, not a tap — swallow the click it would
-   otherwise produce, so holding Instagram doesn't open it. */
+   otherwise produce, so holding Shop doesn't open it. */
 dock.addEventListener("click", (event) => {
   if (!longPressed) return;
   event.preventDefault();
@@ -186,3 +193,94 @@ dock.addEventListener("click", (event) => {
 // Anything that moves the dock invalidates the label's position.
 addEventListener("resize", () => active && place(active), { passive: true });
 addEventListener("scroll", () => active && place(active), { passive: true });
+
+/* ---------------------------------------------------------------
+   Theme
+   --------------------------------------------------------------- */
+
+const THEME_KEY = "wwwonderlan-theme";
+
+/* Must match --bg, so the browser's own chrome matches the page. */
+const THEME_BACKGROUNDS = { light: "#FFFFFF", dark: "#000000" };
+
+const THEME_ICONS = {
+  light: `<svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+    </svg>`,
+  dark: `<svg viewBox="0 0 24 24" aria-hidden="true">
+      <circle cx="12" cy="12" r="5"/>
+      <line x1="12" y1="1" x2="12" y2="3"/>
+      <line x1="12" y1="21" x2="12" y2="23"/>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+      <line x1="1" y1="12" x2="3" y2="12"/>
+      <line x1="21" y1="12" x2="23" y2="12"/>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+    </svg>`,
+};
+
+const themeToggle = document.getElementById("theme-toggle");
+
+function applyTheme(theme) {
+  document.documentElement.dataset.theme = theme;
+
+  themeToggle.innerHTML = THEME_ICONS[theme];
+  themeToggle.dataset.label = theme === "dark" ? "Light Mode" : "Dark Mode";
+  themeToggle.setAttribute("aria-label",
+    theme === "dark" ? "Switch to light mode" : "Switch to dark mode");
+  refresh(themeToggle);
+
+  document.getElementById("theme-color").setAttribute("content", THEME_BACKGROUNDS[theme]);
+
+  try {
+    localStorage.setItem(THEME_KEY, theme);
+  } catch {
+    /* Storage disabled: the theme holds for this session, unremembered. */
+  }
+}
+
+applyTheme(document.documentElement.dataset.theme);
+
+themeToggle.addEventListener("click", () =>
+  applyTheme(document.documentElement.dataset.theme === "dark" ? "light" : "dark"));
+
+/* ---------------------------------------------------------------
+   Scroll progress and back to top
+   --------------------------------------------------------------- */
+
+const progress = document.getElementById("scroll-progress");
+const progressFill = document.getElementById("scroll-progress-fill");
+
+let queued = false;
+
+function render() {
+  queued = false;
+
+  const scrollable = document.documentElement.scrollHeight - innerHeight;
+  const ratio = scrollable > 0 ? Math.min(1, Math.max(0, scrollY / scrollable)) : 0;
+
+  progressFill.style.transform = `scaleX(${ratio})`;
+  progress.setAttribute("aria-valuenow", String(Math.round(ratio * 100)));
+}
+
+/* Scroll fires far more often than the screen refreshes; coalescing into
+   one frame keeps this off the critical path. */
+function queueRender() {
+  if (queued) return;
+  queued = true;
+  requestAnimationFrame(render);
+}
+
+addEventListener("scroll", queueRender, { passive: true });
+addEventListener("resize", queueRender, { passive: true });
+
+/* The page changes height as posters load. */
+new ResizeObserver(queueRender).observe(document.body);
+
+render();
+
+document.getElementById("scroll-top").addEventListener("click", () => {
+  const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  scrollTo({ top: 0, behavior: reduced ? "auto" : "smooth" });
+});
