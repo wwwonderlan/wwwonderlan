@@ -65,11 +65,11 @@
      --dock-size is the only edit needed. */
   --dock-size: clamp(200px, 19.444vw, 280px);
   --dock-gap: calc(var(--dock-size) * 0.0571);          /* 16 */
-  --dock-pad-y: calc(var(--dock-size) * 0.0286);        /* 8 */
+  --dock-pad-y: var(--dock-gap);                        /* 16 */
   --dock-radius: calc(var(--dock-size) * 0.1);          /* 28 */
   --dock-logo-width: calc(var(--dock-size) * 0.6571);   /* 184 */
   --dock-menu-size: calc(var(--dock-size) * 0.1143);    /* 32 */
-  --dock-menu-line: calc(var(--dock-size) * 0.1357);    /* 38 */
+  --dock-menu-line: calc(var(--dock-size) * 0.1214);    /* 34 */
   --dock-foot-size: calc(var(--dock-size) * 0.05);      /* 14 */
   --dock-foot-line: calc(var(--dock-size) * 0.0643);    /* 18 */
   --dock-toggle-gap: calc(var(--dock-size) * 0.0286);   /* 8 */
@@ -337,8 +337,10 @@ a { text-decoration: none; }
 }
 
 /* Height follows its contents rather than being fixed, so collapsing the
-   logo slot shrinks the panel in step with it. At full height that lands
-   on the 280 square. */
+   logo slot shrinks the panel in step with it. Expanded, the parts sum to
+   exactly 280 — the square is a consequence of the contents, not a value
+   imposed on them, so any change to the type or gaps must be paid for
+   elsewhere in the budget. */
 .dock-panel {
   padding-block: var(--dock-pad-y);
   display: flex;
