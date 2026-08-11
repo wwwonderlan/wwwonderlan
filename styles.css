@@ -21,10 +21,26 @@
    --------------------------------------------------------------- */
 
 :root {
-  --bg: #ffffff;
+  color-scheme: light;
+  --bg: #FFFFFF;
   --ink: #000000;
+  --color-line: rgba(0, 0, 0, 0.1);
+  --color-accent: #007AFF;
+
+  /* Opacity-driven, like the portfolio: the alphas hold across themes and
+     only the base colour flips, so the greys keep their weight in both. */
   --muted-50: rgba(112, 112, 114, 0.5);
   --muted-30: rgba(112, 112, 114, 0.3);
+
+  /* Frosted glass: the fill is the page colour at partial opacity, so it
+     nearly vanishes over empty page and blooms over a poster. */
+  --glass-bg: rgba(255, 255, 255, 0.6);
+  --glass-backdrop: blur(20px) saturate(190%) brightness(1.05);
+  --glass-border: var(--color-line);
+  --glass-rim:
+      inset 0 1px 0 rgba(255, 255, 255, 0.7),
+      inset 0 -1px 1px rgba(255, 255, 255, 0.18);
+  --glass-shadow: var(--glass-rim), 0 8px 24px rgba(0, 0, 0, 0.06);
 
   /* 6.667vw resolves to 96px at 1440, floors at 24px on small screens */
   --page-x: clamp(24px, 6.667vw, 96px);
@@ -56,10 +72,17 @@
   --dock-action-gap: 8px;
   --dock-actions-inset: 5px;
   --dock-icon-size: 22px;
-  /* Page padding below the dock, so the last row clears it. */
-  --dock-clearance: calc(var(--dock-height) + var(--dock-bottom) + 24px);
+  --dock-progress-height: 5px;
+  --dock-progress-gap: 10px;
+  /* Page padding below the dock, counting the progress bar above it. */
+  --dock-clearance: calc(
+      var(--dock-height) +
+      var(--dock-progress-height) +
+      var(--dock-progress-gap) +
+      var(--dock-bottom) +
+      24px
+  );
 
-  --color-line: rgba(0, 0, 0, 0.1);
   --font-chrome-small: 12px;
   --line-height-chrome: 1.4;
 
@@ -67,16 +90,26 @@
   --ui-ease: ease;
   --chrome-ms: 600ms;
   --enter-ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
 
-  /* Frosted glass: the fill is the page colour at partial opacity, so it
-     nearly vanishes over empty page and blooms over a poster. */
-  --glass-bg: rgba(255, 255, 255, 0.6);
-  --glass-backdrop: blur(20px) saturate(190%) brightness(1.05);
-  --glass-border: var(--color-line);
+/* Only the values that actually differ; --glass-border resolves against
+   --color-line at use, so it needs no restating here. */
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  --bg: #000000;
+  --ink: #FFFFFF;
+  --color-line: rgba(255, 255, 255, 0.1);
+
+  --muted-50: rgba(255, 255, 255, 0.5);
+  --muted-30: rgba(255, 255, 255, 0.3);
+
+  --glass-bg: rgba(0, 0, 0, 0.55);
+  --glass-backdrop: blur(20px) saturate(190%) brightness(1.1);
   --glass-rim:
-      inset 0 1px 0 rgba(255, 255, 255, 0.7),
-      inset 0 -1px 1px rgba(255, 255, 255, 0.18);
-  --glass-shadow: var(--glass-rim), 0 8px 24px rgba(0, 0, 0, 0.06);
+      inset 0 1px 0 rgba(255, 255, 255, 0.14),
+      inset 0 -1px 1px rgba(255, 255, 255, 0.05);
+  --glass-shadow: var(--glass-rim), 0 8px 24px rgba(0, 0, 0, 0.35);
 }
 
 /* ---------------------------------------------------------------
@@ -93,15 +126,24 @@ body {
   color: var(--ink);
   font-family: "Helvetica Now Display", -apple-system, BlinkMacSystemFont, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
+  transition: color var(--ui-ms) var(--ui-ease), background-color var(--ui-ms) var(--ui-ease);
 }
 
 img { display: block; }
 
 a { text-decoration: none; }
 
+::selection {
+  background-color: var(--ink);
+  color: var(--bg);
+}
+
+/* The accent rather than the ink: a focus ring is the system speaking, not
+   the page, and it must stay legible against text of either colour. */
 :focus-visible {
-  outline: 2px solid var(--ink);
-  outline-offset: 4px;
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+  border-radius: 4px;
 }
 
 /* Three identical "Buy" links need distinguishing for screen readers */
@@ -127,9 +169,16 @@ a { text-decoration: none; }
    Header
    --------------------------------------------------------------- */
 
+/* Fills its band in the page's own colour, so posters scrolling up
+   dissolve into the page rather than sliding behind the logo. */
 .header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
   padding: var(--page-y) var(--page-x);
   text-align: center;
+  background-color: var(--bg);
+  transition: background-color var(--ui-ms) var(--ui-ease);
 }
 
 .header__home { display: inline-block; }
@@ -140,6 +189,10 @@ a { text-decoration: none; }
   height: auto;
   max-width: 100%;
 }
+
+/* Yellow mark is common to both; only the wordmark changes colour. */
+[data-theme="light"] .header__logo--dark,
+[data-theme="dark"] .header__logo--light { display: none; }
 
 /* ---------------------------------------------------------------
    Grid
@@ -248,7 +301,34 @@ a { text-decoration: none; }
   right: var(--page-x);
   bottom: var(--dock-bottom);
   z-index: 200;
+
+  /* Sized by the capsule, so the bar inherits its width however many
+     actions it holds. */
+  width: max-content;
+  display: flex;
+  flex-direction: column;
+  gap: var(--dock-progress-gap);
+
   animation: dock-enter var(--chrome-ms) var(--enter-ease) both;
+}
+
+.dock-progress {
+  height: var(--dock-progress-height);
+  border-radius: 999px;
+  background-color: var(--color-line);
+  overflow: hidden;
+}
+
+/* Scaled by app.js via transform. Quicker and flatter than the UI easing:
+   this tracks the scroll, and at 200ms it would visibly trail the page. */
+.dock-progress-fill {
+  width: 100%;
+  height: 100%;
+  background-color: var(--color-accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  will-change: transform;
+  transition: transform 0.15s ease-out;
 }
 
 @keyframes dock-enter {
@@ -302,6 +382,12 @@ a { text-decoration: none; }
 }
 
 .dock-action {
+  border: 0;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  cursor: pointer;
+
   width: var(--dock-action-size);
   height: var(--dock-action-size);
   display: flex;
