@@ -22,15 +22,13 @@
 
 :root {
   color-scheme: light;
+
   --bg: #FFFFFF;
-  --ink: #000000;
+  --ink: #0F1419;
+  --muted: #536471;
   --color-line: rgba(0, 0, 0, 0.1);
   --color-accent: #007AFF;
-
-  /* Opacity-driven, like the portfolio: the alphas hold across themes and
-     only the base colour flips, so the greys keep their weight in both. */
-  --muted-50: rgba(112, 112, 114, 0.5);
-  --muted-30: rgba(112, 112, 114, 0.3);
+  --color-active: #FAD604;   /* dark mode showing as engaged */
 
   /* Frosted glass: the fill is the page colour at partial opacity, so it
      nearly vanishes over empty page and blooms over a poster. */
@@ -49,7 +47,6 @@
   /* 1440 − (96 × 2) = 1248 content, minus 2 × 24px gap = 3 × 400 columns */
   --content-width: 1248px;
   --gap-col: 24px;
-
   /* Scales with viewport so stacked cards don't drift apart on mobile */
   --gap-row: clamp(32px, 4.444vw, 64px);
 
@@ -58,12 +55,10 @@
   --gap-details: 16px;
   --gap-text: 8px;
   --details-pad: 16px;
-  --buy-pad: 8px;
 
   --logo-width: 200px;
 
-  /* --- Dock ---------------------------------------------------
-     Ported from the portfolio: 48pt capsule, 44pt targets, 8pt gap,
+  /* Dock — from the portfolio: 48pt capsule, 44pt targets, 8pt gap,
      5pt inset, 22pt glyphs. Fixed at every width. */
   --edge-gap: 24px;
   --dock-height: 48px;
@@ -92,17 +87,15 @@
   --enter-ease: cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
-/* Only the values that actually differ; --glass-border resolves against
+/* Only the values that differ; --glass-border resolves against
    --color-line at use, so it needs no restating here. */
 [data-theme="dark"] {
   color-scheme: dark;
 
   --bg: #000000;
-  --ink: #FFFFFF;
+  --ink: #E7E9EA;
+  --muted: #71767B;
   --color-line: rgba(255, 255, 255, 0.1);
-
-  --muted-50: rgba(255, 255, 255, 0.5);
-  --muted-30: rgba(255, 255, 255, 0.3);
 
   --glass-bg: rgba(0, 0, 0, 0.55);
   --glass-backdrop: blur(20px) saturate(190%) brightness(1.1);
@@ -122,7 +115,7 @@
 
 body {
   margin: 0;
-  background: var(--bg);
+  background-color: var(--bg);
   color: var(--ink);
   font-family: "Helvetica Now Display", -apple-system, BlinkMacSystemFont, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -146,7 +139,6 @@ a { text-decoration: none; }
   border-radius: 4px;
 }
 
-/* Three identical "Buy" links need distinguishing for screen readers */
 .visually-hidden {
   position: absolute;
   width: 1px;
@@ -167,10 +159,11 @@ a { text-decoration: none; }
 
 /* ---------------------------------------------------------------
    Header
+
+   Fills its band in the page's own colour, so posters scrolling up
+   dissolve into the page rather than sliding behind the logo.
    --------------------------------------------------------------- */
 
-/* Fills its band in the page's own colour, so posters scrolling up
-   dissolve into the page rather than sliding behind the logo. */
 .header {
   position: sticky;
   top: 0;
@@ -190,7 +183,7 @@ a { text-decoration: none; }
   max-width: 100%;
 }
 
-/* Yellow mark is common to both; only the wordmark changes colour. */
+/* The yellow mark is common to both; only the wordmark changes colour. */
 [data-theme="light"] .header__logo--dark,
 [data-theme="dark"] .header__logo--light { display: none; }
 
@@ -255,36 +248,23 @@ a { text-decoration: none; }
   font-weight: 700;
 }
 
-.card__credits {
-  margin: 0;
+.card__credits,
+.card__buy {
   font-size: 14px;
   line-height: 18px;
   letter-spacing: -0.2px;
   font-weight: 500;
-  color: var(--muted-50);
+  color: var(--muted);
 }
+
+.card__credits { margin: 0; }
 
 .card__buy {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: var(--buy-pad);
-  border: 1px solid var(--muted-30);
-
-  text-align: center;
-  font-size: 14px;
-  line-height: 18px;
-  letter-spacing: -0.2px;
-  font-weight: 500;
-  color: var(--muted-30);
-
-  transition: color 120ms ease, border-color 120ms ease;
+  display: block;
+  transition: color var(--ui-ms) var(--ui-ease);
 }
 
-.card__buy:hover {
-  border-color: var(--ink);
-  color: var(--ink);
-}
+.card__buy:hover { color: var(--ink); }
 
 /* ---------------------------------------------------------------
    Dock
@@ -310,25 +290,6 @@ a { text-decoration: none; }
   gap: var(--dock-progress-gap);
 
   animation: dock-enter var(--chrome-ms) var(--enter-ease) both;
-}
-
-.dock-progress {
-  height: var(--dock-progress-height);
-  border-radius: 999px;
-  background-color: var(--color-line);
-  overflow: hidden;
-}
-
-/* Scaled by app.js via transform. Quicker and flatter than the UI easing:
-   this tracks the scroll, and at 200ms it would visibly trail the page. */
-.dock-progress-fill {
-  width: 100%;
-  height: 100%;
-  background-color: var(--color-accent);
-  transform: scaleX(0);
-  transform-origin: left;
-  will-change: transform;
-  transition: transform 0.15s ease-out;
 }
 
 @keyframes dock-enter {
@@ -365,7 +326,25 @@ a { text-decoration: none; }
   transform: translate(-50%, 0);
 }
 
-/* Sized by its contents: adding an action needs no change here. */
+.dock-progress {
+  height: var(--dock-progress-height);
+  border-radius: 999px;
+  background-color: var(--color-line);
+  overflow: hidden;
+}
+
+/* Scaled by app.js via transform. Quicker and flatter than the UI easing:
+   this tracks the scroll, and at 200ms it would visibly trail the page. */
+.dock-progress-fill {
+  width: 100%;
+  height: 100%;
+  background-color: var(--color-accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  will-change: transform;
+  transition: transform 0.15s ease-out;
+}
+
 .dock-actions {
   height: var(--dock-height);
   display: flex;
@@ -382,19 +361,17 @@ a { text-decoration: none; }
 }
 
 .dock-action {
-  border: 0;
-  appearance: none;
-  -webkit-appearance: none;
-  background: transparent;
-  cursor: pointer;
-
   width: var(--dock-action-size);
   height: var(--dock-action-size);
   display: flex;
   align-items: center;
   justify-content: center;
+  border: 0;
   border-radius: 50%;
+  appearance: none;
+  background: transparent;
   color: var(--ink);
+  cursor: pointer;
 
   transition-property: color, transform;
   transition-duration: var(--ui-ms);
@@ -404,6 +381,9 @@ a { text-decoration: none; }
 /* macOS-dock magnification: swells under the pointer, compresses on press. */
 .dock-action:hover { transform: scale(1.12); }
 .dock-action:active { transform: scale(0.94); }
+
+/* The toggle lights up while the theme it switches away from is engaged. */
+[data-theme="dark"] .dock-action--theme { color: var(--color-active); }
 
 /* One rule for every glyph, so weight and size cannot drift apart. */
 .dock-action svg {
@@ -433,7 +413,7 @@ a { text-decoration: none; }
   line-height: 18px;
   letter-spacing: -0.2px;
   font-weight: 500;
-  color: var(--muted-50);
+  color: var(--muted);
 }
 
 .fallback a { color: var(--ink); }
@@ -453,13 +433,12 @@ a { text-decoration: none; }
 
 /* Translucency is hard for some people to read. */
 @media (prefers-reduced-transparency: reduce) {
-  :root {
-    --glass-bg: #F1F1F1;
-    --glass-backdrop: none;
-  }
+  :root { --glass-bg: #F1F1F1; --glass-backdrop: none; }
+  [data-theme="dark"] { --glass-bg: #0A0A0A; }
 }
 
 /* Without backdrop-filter the fill goes near-opaque to stay legible. */
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
   :root { --glass-bg: #F1F1F1; }
+  [data-theme="dark"] { --glass-bg: #0A0A0A; }
 }
