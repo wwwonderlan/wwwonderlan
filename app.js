@@ -52,7 +52,7 @@ const POSTER_HEIGHT = 3000;
 
 /* Titles are ours, not user input — this exists so an ampersand or
    apostrophe in a film title can't break the markup. */
-const escape = (value) =>
+const escapeHTML = (value) =>
   String(value).replace(/[&<>"]/g, (character) =>
     ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[character]);
 
@@ -62,22 +62,22 @@ const buyLink = ({ url, slug }) =>
 const cardHTML = ({ title, director, country, year, distributor, image, ...rest }) => `
   <li class="card">
     <img class="card__poster"
-         src="${escape(image)}"
-         alt="${escape(title)} poster print"
+         src="${escapeHTML(image)}"
+         alt="${escapeHTML(title)} poster print"
          width="${POSTER_WIDTH}"
          height="${POSTER_HEIGHT}"
          decoding="async">
     <div class="card__details">
       <div class="card__text">
-        <h2 class="card__title">${escape(title)}</h2>
+        <h2 class="card__title">${escapeHTML(title)}</h2>
         <p class="card__credits">
-          ${escape(director)} · ${escape(country)} · ${year}<br>${escape(distributor)}
+          ${escapeHTML(director)} · ${escapeHTML(country)} · ${year}<br>${escapeHTML(distributor)}
         </p>
       </div>
       <a class="card__buy"
-         href="${escape(buyLink(rest))}"
+         href="${escapeHTML(buyLink(rest))}"
          target="_blank"
-         rel="noopener">Buy ${escape(title)} Poster →</a>
+         rel="noopener">Buy ${escapeHTML(title)} Poster →</a>
     </div>
   </li>`;
 
@@ -120,7 +120,6 @@ themeButtons.forEach((button) =>
 
 const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)");
 
-const progress = document.getElementById("scroll-progress");
 const progressFill = document.getElementById("scroll-progress-fill");
 
 let queued = false;
@@ -132,7 +131,6 @@ function render() {
   const ratio = scrollable > 0 ? Math.min(1, Math.max(0, scrollY / scrollable)) : 0;
 
   progressFill.style.transform = `scaleX(${ratio})`;
-  progress.setAttribute("aria-valuenow", String(Math.round(ratio * 100)));
 }
 
 /* Scroll fires far more often than the screen refreshes; coalescing into
