@@ -39,8 +39,8 @@
 
   <header class="header">
     <a class="header__home" href="/">
-      <img class="header__logo header__logo--light" src="wwwonderlan-black.png" alt="wwwonderlan" width="200" height="57">
-      <img class="header__logo header__logo--dark" src="wwwonderlan-white.png" alt="wwwonderlan" width="200" height="57">
+      <img class="header__logo is-light-only" src="wwwonderlan-black.png" alt="wwwonderlan" width="200" height="57">
+      <img class="header__logo is-dark-only" src="wwwonderlan-white.png" alt="wwwonderlan" width="200" height="57">
     </a>
   </header>
 
@@ -58,45 +58,30 @@
     </noscript>
   </main>
 
-  <nav class="dock" aria-label="Site actions">
-    <span class="dock-label" id="dock-label" aria-hidden="true"></span>
-
+  <nav class="dock" aria-label="Menu">
     <div class="dock-progress" id="scroll-progress"
          role="progressbar" aria-label="Page scrolled"
          aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
       <div class="dock-progress-fill" id="scroll-progress-fill"></div>
     </div>
 
-    <div class="dock-actions">
-      <a class="dock-action" href="https://instagram.com/wwwonderlan"
-         target="_blank" rel="noopener"
-         data-label="Instagram" aria-label="wwwonderlan on Instagram">
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/>
-          <circle cx="12" cy="12" r="4.5"/>
-          <circle class="is-solid" cx="17.5" cy="6.5" r="1.1"/>
-        </svg>
-      </a>
+    <div class="dock-panel">
+      <img class="dock-logo is-light-only" src="wwwonderlan-black.png" alt="wwwonderlan">
+      <img class="dock-logo is-dark-only" src="wwwonderlan-white.png" alt="wwwonderlan">
 
-      <a class="dock-action" href="https://wwwonderlan.etsy.com/uk"
-         target="_blank" rel="noopener"
-         data-label="Shop" aria-label="wwwonderlan shop on Etsy">
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M16 10a4 4 0 0 1-8 0"/>
-          <path d="M3.103 6.034h17.794"/>
-          <path d="M3.4 5.467a2 2 0 0 0-.4 1.2V20a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6.667a2 2 0 0 0-.4-1.2l-2-2.667A2 2 0 0 0 17 2H7a2 2 0 0 0-1.6.8z"/>
-        </svg>
-      </a>
+      <ul class="dock-menu">
+        <li><a href="https://wwwonderlan.etsy.com/uk" target="_blank" rel="noopener">Shop</a></li>
+        <li><a href="#details">Details</a></li>
+        <li><a href="https://instagram.com/wwwonderlan" target="_blank" rel="noopener">Instagram</a></li>
+      </ul>
 
-      <button class="dock-action dock-action--theme" id="theme-toggle" type="button"></button>
-
-      <button class="dock-action" id="scroll-top" type="button"
-              data-label="Back to Top" aria-label="Back to top">
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <path d="m5 12 7-7 7 7"/>
-          <path d="M12 19V5"/>
-        </svg>
-      </button>
+      <div class="dock-footer">
+        <div class="dock-toggle">
+          <button class="dock-theme" type="button" data-set-theme="light">Light</button>
+          <button class="dock-theme" type="button" data-set-theme="dark">Dark</button>
+        </div>
+        <p class="dock-copyright">© 2026 wwwonderlan</p>
+      </div>
     </div>
   </nav>
 
