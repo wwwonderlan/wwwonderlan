@@ -37,7 +37,12 @@
 
 <div class="frame">
 
-  <header class="header"></header>
+  <header class="header" id="header">
+    <a href="/" aria-label="wwwonderlan, back to top">
+      <img class="header__logo is-light-only" src="wwwonderlan-black.png" alt="wwwonderlan" width="200" height="57">
+      <img class="header__logo is-dark-only" src="wwwonderlan-white.png" alt="wwwonderlan" width="200" height="57">
+    </a>
+  </header>
 
   <main>
     <h1 class="visually-hidden">Film poster prints</h1>
@@ -54,7 +59,7 @@
   </main>
 
   <div class="dock-rail">
-    <nav class="dock" aria-label="Menu">
+    <nav class="dock is-collapsed" id="dock" aria-label="Menu">
       <div class="dock-progress" id="scroll-progress"
            role="progressbar" aria-label="Page scrolled"
            aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
@@ -62,8 +67,12 @@
       </div>
 
       <div class="dock-panel">
-        <img class="dock-logo is-light-only" src="wwwonderlan-black.png" alt="wwwonderlan">
-        <img class="dock-logo is-dark-only" src="wwwonderlan-white.png" alt="wwwonderlan">
+        <div class="dock-logo-slot">
+          <div>
+            <img class="dock-logo is-light-only" src="wwwonderlan-black.png" alt="" aria-hidden="true">
+            <img class="dock-logo is-dark-only" src="wwwonderlan-white.png" alt="" aria-hidden="true">
+          </div>
+        </div>
 
         <ul class="dock-menu">
           <li><a href="https://wwwonderlan.etsy.com/uk" target="_blank" rel="noopener">Shop</a></li>
