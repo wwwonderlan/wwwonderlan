@@ -262,20 +262,33 @@ a { text-decoration: none; }
    Dock
    --------------------------------------------------------------- */
 
-/* Tracks the grid's right edge rather than the window's. Past 1440 the
-   grid stops growing, and a panel pinned to the viewport would drift off
-   the posters onto bare page — where a backdrop filter has nothing to
-   work on and the glass reads as a flat square. */
-.dock {
+/* A fixed rail matching the grid's own box, so the panel lands on the
+   third column's right edge at every width. Measured off the layout
+   rather than the viewport: 100vw counts the scrollbar and would push
+   the panel inward by its width on desktop. */
+.dock-rail {
   position: fixed;
-  right: max(var(--page-x), calc((100vw - var(--content-width)) / 2));
+  right: 0;
   bottom: var(--dock-bottom);
+  left: 0;
   z-index: 200;
 
+  display: flex;
+  justify-content: flex-end;
+  max-width: calc(var(--content-width) + var(--page-x) * 2);
+  margin: 0 auto;
+  padding: 0 var(--page-x);
+
+  /* The rail spans the page; only the panel itself is clickable. */
+  pointer-events: none;
+}
+
+.dock {
   width: var(--dock-size);
   display: flex;
   flex-direction: column;
   gap: var(--dock-progress-gap);
+  pointer-events: auto;
 
   animation: dock-enter var(--chrome-ms) var(--enter-ease) both;
 }
