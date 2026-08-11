@@ -65,8 +65,7 @@
      whole panel — type included — scales as one object. Changing
      --dock-size is the only edit needed. */
   --dock-size: clamp(200px, 19.444vw, 280px);
-  --dock-pad: calc(var(--dock-size) * 0.0571);          /* 16 */
-  --dock-gap: var(--dock-pad);                          /* 16 */
+  --dock-gap: calc(var(--dock-size) * 0.0571);          /* 16 */
   --dock-radius: calc(var(--dock-size) * 0.1);          /* 28 */
   --dock-logo-width: calc(var(--dock-size) * 0.6571);   /* 184 */
   --dock-menu-size: calc(var(--dock-size) * 0.1143);    /* 32 */
@@ -263,9 +262,13 @@ a { text-decoration: none; }
    Dock
    --------------------------------------------------------------- */
 
+/* Tracks the grid's right edge rather than the window's. Past 1440 the
+   grid stops growing, and a panel pinned to the viewport would drift off
+   the posters onto bare page — where a backdrop filter has nothing to
+   work on and the glass reads as a flat square. */
 .dock {
   position: fixed;
-  right: var(--page-x);
+  right: max(var(--page-x), calc((100vw - var(--content-width)) / 2));
   bottom: var(--dock-bottom);
   z-index: 200;
 
@@ -301,14 +304,17 @@ a { text-decoration: none; }
   transition: transform 0.15s ease-out;
 }
 
+/* No padding: the square is sized to its contents plus the gaps, and
+   centring on both axes does the rest. */
 .dock-panel {
   height: var(--dock-size);
   display: flex;
   flex-direction: column;
+  align-items: center;
   justify-content: center;
   gap: var(--dock-gap);
-  padding: var(--dock-pad);
   border-radius: var(--dock-radius);
+  text-align: center;
 
   background-color: var(--glass-bg);
   backdrop-filter: var(--glass-backdrop);
