@@ -43,9 +43,8 @@
   --page-x: clamp(24px, 6.667vw, 96px);
   --page-y: clamp(20px, 2.222vw, 32px);
 
-  /* Empty for now: holds the posters off the top of the page. 121px at
-     1440 — the height the logo and its padding used to occupy. */
   --header-height: clamp(64px, 8.403vw, 121px);
+  --logo-width: 200px;
 
   /* 1440 − (96 × 2) = 1248 content, minus 2 × 24px gap = 3 × 400 columns */
   --content-width: 1248px;
@@ -66,6 +65,7 @@
      --dock-size is the only edit needed. */
   --dock-size: clamp(200px, 19.444vw, 280px);
   --dock-gap: calc(var(--dock-size) * 0.0571);          /* 16 */
+  --dock-pad-y: calc(var(--dock-size) * 0.0286);        /* 8 */
   --dock-radius: calc(var(--dock-size) * 0.1);          /* 28 */
   --dock-logo-width: calc(var(--dock-size) * 0.6571);   /* 184 */
   --dock-menu-size: calc(var(--dock-size) * 0.1143);    /* 32 */
@@ -166,9 +166,25 @@ a { text-decoration: none; }
    Header
    --------------------------------------------------------------- */
 
-/* Deliberately empty. Not sticky: an empty bar pinned to the top would
-   mask the posters scrolling under it for no gain. */
-.header { height: var(--header-height); }
+/* Not sticky: the logo hands off to the dock on scroll rather than
+   following the page down. */
+.header {
+  height: var(--header-height);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 var(--page-x);
+}
+
+.header__logo {
+  width: var(--logo-width);
+  height: auto;
+  max-width: 100%;
+  transition: opacity var(--ui-ms) var(--ui-ease);
+}
+
+/* Only one mark shows at a time: whichever the scroll position calls for. */
+.header.is-handed-off .header__logo { opacity: 0; }
 
 /* ---------------------------------------------------------------
    Theme pairing
@@ -320,10 +336,11 @@ a { text-decoration: none; }
   transition: transform 0.15s ease-out;
 }
 
-/* No padding: the square is sized to its contents plus the gaps, and
-   centring on both axes does the rest. */
+/* Height follows its contents rather than being fixed, so collapsing the
+   logo slot shrinks the panel in step with it. At full height that lands
+   on the 280 square. */
 .dock-panel {
-  height: var(--dock-size);
+  padding-block: var(--dock-pad-y);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -337,6 +354,26 @@ a { text-decoration: none; }
   -webkit-backdrop-filter: var(--glass-backdrop);
   border: 1px solid var(--glass-border);
   box-shadow: var(--glass-shadow);
+}
+
+/* A 0fr row collapses to nothing while still transitioning, which a
+   height of auto cannot do. The negative margin retracts the panel's own
+   gap at the same rate, so the space closes completely. */
+.dock-logo-slot {
+  display: grid;
+  grid-template-rows: 1fr;
+  transition:
+      grid-template-rows var(--chrome-ms) var(--enter-ease),
+      margin-bottom var(--chrome-ms) var(--enter-ease),
+      opacity var(--ui-ms) var(--ui-ease);
+}
+
+.dock-logo-slot > * { min-height: 0; overflow: hidden; }
+
+.dock.is-collapsed .dock-logo-slot {
+  grid-template-rows: 0fr;
+  margin-bottom: calc(var(--dock-gap) * -1);
+  opacity: 0;
 }
 
 /* Width alone drives the mark, so the panel tolerates whichever
