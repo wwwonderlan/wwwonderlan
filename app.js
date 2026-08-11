@@ -98,7 +98,7 @@ function applyTheme(theme) {
   document.documentElement.dataset.theme = theme;
   document.getElementById("theme-color").setAttribute("content", THEME_BACKGROUNDS[theme]);
 
-  // Pressed marks the theme already in use, which is the one that recedes.
+  // Pressed marks the theme in use; the other dims to muted.
   themeButtons.forEach((button) =>
     button.setAttribute("aria-pressed", String(button.dataset.setTheme === theme)));
 
@@ -115,7 +115,7 @@ themeButtons.forEach((button) =>
   button.addEventListener("click", () => applyTheme(button.dataset.setTheme)));
 
 /* ---------------------------------------------------------------
-   Scroll progress
+   Scroll progress and back to top
    --------------------------------------------------------------- */
 
 const progress = document.getElementById("scroll-progress");
@@ -148,3 +148,8 @@ addEventListener("resize", queueRender, { passive: true });
 new ResizeObserver(queueRender).observe(document.body);
 
 render();
+
+document.getElementById("scroll-top").addEventListener("click", () => {
+  const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  scrollTo({ top: 0, behavior: reduced ? "auto" : "smooth" });
+});
