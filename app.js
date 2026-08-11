@@ -118,6 +118,8 @@ themeButtons.forEach((button) =>
    Scroll progress and back to top
    --------------------------------------------------------------- */
 
+const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)");
+
 const progress = document.getElementById("scroll-progress");
 const progressFill = document.getElementById("scroll-progress-fill");
 
@@ -149,7 +151,5 @@ new ResizeObserver(queueRender).observe(document.body);
 
 render();
 
-document.getElementById("scroll-top").addEventListener("click", () => {
-  const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
-  scrollTo({ top: 0, behavior: reduced ? "auto" : "smooth" });
-});
+document.getElementById("scroll-top").addEventListener("click", () =>
+  scrollTo({ top: 0, behavior: reducedMotion.matches ? "auto" : "smooth" }));
