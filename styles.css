@@ -43,6 +43,10 @@
   --page-x: clamp(24px, 6.667vw, 96px);
   --page-y: clamp(20px, 2.222vw, 32px);
 
+  /* Empty for now: holds the posters off the top of the page. 121px at
+     1440 — the height the logo and its padding used to occupy. */
+  --header-height: clamp(64px, 8.403vw, 121px);
+
   /* 1440 − (96 × 2) = 1248 content, minus 2 × 24px gap = 3 × 400 columns */
   --content-width: 1248px;
   --gap-col: 24px;
@@ -69,7 +73,6 @@
   --dock-menu-line: calc(var(--dock-size) * 0.1357);    /* 38 */
   --dock-foot-size: calc(var(--dock-size) * 0.05);      /* 14 */
   --dock-foot-line: calc(var(--dock-size) * 0.0643);    /* 18 */
-  --dock-foot-gap: calc(var(--dock-size) * 0.0143);     /* 4 */
   --dock-toggle-gap: calc(var(--dock-size) * 0.0286);   /* 8 */
   --dock-icon-size: var(--dock-foot-line);              /* 18 */
 
@@ -162,7 +165,18 @@ a { text-decoration: none; }
   padding-bottom: calc(var(--page-y) + var(--dock-clearance));
 }
 
-/* Only the dock panel pairs logos now, but the utility is theme-wide. */
+/* ---------------------------------------------------------------
+   Header
+   --------------------------------------------------------------- */
+
+/* Deliberately empty. Not sticky: an empty bar pinned to the top would
+   mask the posters scrolling under it for no gain. */
+.header { height: var(--header-height); }
+
+/* ---------------------------------------------------------------
+   Theme pairing
+   --------------------------------------------------------------- */
+
 [data-theme="light"] .is-dark-only,
 [data-theme="dark"] .is-light-only { display: none; }
 
@@ -327,12 +341,6 @@ a { text-decoration: none; }
 }
 
 .dock-menu a:hover { color: var(--muted); }
-
-.dock-footer {
-  display: flex;
-  flex-direction: column;
-  gap: var(--dock-foot-gap);
-}
 
 .dock-controls {
   display: flex;
