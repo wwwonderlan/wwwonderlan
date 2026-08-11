@@ -313,12 +313,16 @@ a { text-decoration: none; }
   flex-direction: column;
   gap: var(--dock-progress-gap);
   pointer-events: auto;
+}
 
-  /* Opacity only, deliberately. A transform on this element — even
-     translateY(0) left behind by a filled animation — would make it a
-     backdrop root, and the panel inside would have nothing but empty
-     space to sample. Chrome enforces that; Safari does not, which is
-     why the glass survived on iOS and died on desktop. */
+/* Nothing may animate on this element or the rail above it. Any animation
+   with a fill mode leaves a stacking context behind, which Chrome treats
+   as a backdrop root — the panel would then blur the inside of its own
+   parent and render as a flat fill. Safari does not enforce this, so the
+   fault appears only in Chrome. The entrance therefore runs on the panel
+   and the bar themselves, which are the last elements in the chain. */
+.dock-panel,
+.dock-progress {
   animation: dock-enter var(--chrome-ms) var(--enter-ease) both;
 }
 
