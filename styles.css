@@ -45,6 +45,38 @@
   --buy-pad: 8px;
 
   --logo-width: 200px;
+
+  /* --- Dock ---------------------------------------------------
+     Ported from the portfolio: 48pt capsule, 44pt targets, 8pt gap,
+     5pt inset, 22pt glyphs. Fixed at every width. */
+  --edge-gap: 24px;
+  --dock-height: 48px;
+  --dock-bottom: calc(var(--edge-gap) + env(safe-area-inset-bottom, 0px));
+  --dock-action-size: 44px;
+  --dock-action-gap: 8px;
+  --dock-actions-inset: 5px;
+  --dock-icon-size: 22px;
+  /* Page padding below the dock, so the last row clears it. */
+  --dock-clearance: calc(var(--dock-height) + var(--dock-bottom) + 24px);
+
+  --color-line: rgba(0, 0, 0, 0.1);
+  --font-chrome-small: 12px;
+  --line-height-chrome: 1.4;
+
+  --ui-ms: 200ms;
+  --ui-ease: ease;
+  --chrome-ms: 600ms;
+  --enter-ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+
+  /* Frosted glass: the fill is the page colour at partial opacity, so it
+     nearly vanishes over empty page and blooms over a poster. */
+  --glass-bg: rgba(255, 255, 255, 0.6);
+  --glass-backdrop: blur(20px) saturate(190%) brightness(1.05);
+  --glass-border: var(--color-line);
+  --glass-rim:
+      inset 0 1px 0 rgba(255, 255, 255, 0.7),
+      inset 0 -1px 1px rgba(255, 255, 255, 0.18);
+  --glass-shadow: var(--glass-rim), 0 8px 24px rgba(0, 0, 0, 0.06);
 }
 
 /* ---------------------------------------------------------------
@@ -87,7 +119,8 @@ a { text-decoration: none; }
    --------------------------------------------------------------- */
 
 .frame {
-  padding-block: var(--page-y);
+  padding-top: var(--page-y);
+  padding-bottom: calc(var(--page-y) + var(--dock-clearance));
 }
 
 /* ---------------------------------------------------------------
@@ -201,6 +234,110 @@ a { text-decoration: none; }
 }
 
 /* ---------------------------------------------------------------
+   Dock
+   --------------------------------------------------------------- */
+
+.dock {
+  /* A long press names a control; without this iOS raises its own
+     callout menu and selects text instead. */
+  -webkit-touch-callout: none;
+  user-select: none;
+  -webkit-user-select: none;
+
+  position: fixed;
+  right: var(--page-x);
+  bottom: var(--dock-bottom);
+  z-index: 200;
+  animation: dock-enter var(--chrome-ms) var(--enter-ease) both;
+}
+
+@keyframes dock-enter {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Names the control under the pointer. Absolute, so it never affects
+   layout; app.js centres it. */
+.dock-label {
+  position: absolute;
+  bottom: calc(100% + 10px);
+  left: 0;
+  padding: 5px 12px;
+  border-radius: 999px;
+  white-space: nowrap;
+  font-size: var(--font-chrome-small);
+  line-height: var(--line-height-chrome);
+  letter-spacing: -0.2px;
+  color: var(--ink);
+  background-color: var(--glass-bg);
+  backdrop-filter: var(--glass-backdrop);
+  -webkit-backdrop-filter: var(--glass-backdrop);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  opacity: 0;
+  transform: translate(-50%, 4px);
+  pointer-events: none;
+  transition: opacity var(--ui-ms) var(--ui-ease), transform var(--ui-ms) var(--ui-ease);
+}
+
+.dock-label.is-visible {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+/* Sized by its contents: adding an action needs no change here. */
+.dock-actions {
+  height: var(--dock-height);
+  display: flex;
+  align-items: center;
+  gap: var(--dock-action-gap);
+  padding: 0 var(--dock-actions-inset);
+  border-radius: 999px;
+
+  background-color: var(--glass-bg);
+  backdrop-filter: var(--glass-backdrop);
+  -webkit-backdrop-filter: var(--glass-backdrop);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+}
+
+.dock-action {
+  width: var(--dock-action-size);
+  height: var(--dock-action-size);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  color: var(--ink);
+
+  transition-property: color, transform;
+  transition-duration: var(--ui-ms);
+  transition-timing-function: var(--ui-ease);
+}
+
+/* macOS-dock magnification: swells under the pointer, compresses on press. */
+.dock-action:hover { transform: scale(1.12); }
+.dock-action:active { transform: scale(0.94); }
+
+/* One rule for every glyph, so weight and size cannot drift apart. */
+.dock-action svg {
+  width: var(--dock-icon-size);
+  height: var(--dock-icon-size);
+  display: block;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;   /* SF-regular weight at 22px */
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* The Instagram viewfinder dot is solid, not an outline. */
+.dock-action svg .is-solid {
+  fill: currentColor;
+  stroke: none;
+}
+
+/* ---------------------------------------------------------------
    Fallback
    --------------------------------------------------------------- */
 
@@ -214,3 +351,29 @@ a { text-decoration: none; }
 }
 
 .fallback a { color: var(--ink); }
+
+/* ---------------------------------------------------------------
+   Preferences
+   --------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
+
+/* Translucency is hard for some people to read. */
+@media (prefers-reduced-transparency: reduce) {
+  :root {
+    --glass-bg: #F1F1F1;
+    --glass-backdrop: none;
+  }
+}
+
+/* Without backdrop-filter the fill goes near-opaque to stay legible. */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  :root { --glass-bg: #F1F1F1; }
+}
