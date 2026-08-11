@@ -28,7 +28,6 @@
   --muted: #536471;
   --color-line: rgba(0, 0, 0, 0.1);
   --color-accent: #007AFF;
-  --color-active: #FAD604;   /* dark mode showing as engaged */
 
   /* Frosted glass: the fill is the page colour at partial opacity, so it
      nearly vanishes over empty page and blooms over a poster. */
@@ -58,28 +57,35 @@
 
   --logo-width: 200px;
 
-  /* Dock — from the portfolio: 48pt capsule, 44pt targets, 8pt gap,
-     5pt inset, 22pt glyphs. Fixed at every width. */
+  /* Dock panel
+
+     Every value below is its 1440px measurement divided by 280, so the
+     whole panel — type included — scales as one object. Changing
+     --dock-size is the only edit needed. */
+  --dock-size: clamp(200px, 19.444vw, 280px);
+  --dock-pad: calc(var(--dock-size) * 0.0571);          /* 16 */
+  --dock-gap: var(--dock-pad);                          /* 16 */
+  --dock-radius: calc(var(--dock-size) * 0.1);          /* 28 */
+  --dock-logo-width: calc(var(--dock-size) * 0.6571);   /* 184 */
+  --dock-menu-size: calc(var(--dock-size) * 0.1143);    /* 32 */
+  --dock-menu-line: calc(var(--dock-size) * 0.1357);    /* 38 */
+  --dock-foot-size: calc(var(--dock-size) * 0.05);      /* 14 */
+  --dock-foot-line: calc(var(--dock-size) * 0.0643);    /* 18 */
+  --dock-foot-gap: calc(var(--dock-size) * 0.0143);     /* 4 */
+  --dock-toggle-gap: calc(var(--dock-size) * 0.0286);   /* 8 */
+
   --edge-gap: 24px;
-  --dock-height: 48px;
   --dock-bottom: calc(var(--edge-gap) + env(safe-area-inset-bottom, 0px));
-  --dock-action-size: 44px;
-  --dock-action-gap: 8px;
-  --dock-actions-inset: 5px;
-  --dock-icon-size: 22px;
   --dock-progress-height: 5px;
   --dock-progress-gap: 10px;
-  /* Page padding below the dock, counting the progress bar above it. */
+  /* Page padding below the panel, counting the progress bar above it. */
   --dock-clearance: calc(
-      var(--dock-height) +
+      var(--dock-size) +
       var(--dock-progress-height) +
       var(--dock-progress-gap) +
       var(--dock-bottom) +
       24px
   );
-
-  --font-chrome-small: 12px;
-  --line-height-chrome: 1.4;
 
   --ui-ms: 200ms;
   --ui-ease: ease;
@@ -183,9 +189,10 @@ a { text-decoration: none; }
   max-width: 100%;
 }
 
-/* The yellow mark is common to both; only the wordmark changes colour. */
-[data-theme="light"] .header__logo--dark,
-[data-theme="dark"] .header__logo--light { display: none; }
+/* The yellow mark is common to both; only the wordmark changes colour.
+   Shared by the header and the dock panel. */
+[data-theme="light"] .is-dark-only,
+[data-theme="dark"] .is-light-only { display: none; }
 
 /* ---------------------------------------------------------------
    Grid
@@ -271,20 +278,12 @@ a { text-decoration: none; }
    --------------------------------------------------------------- */
 
 .dock {
-  /* A long press names a control; without this iOS raises its own
-     callout menu and selects text instead. */
-  -webkit-touch-callout: none;
-  user-select: none;
-  -webkit-user-select: none;
-
   position: fixed;
   right: var(--page-x);
   bottom: var(--dock-bottom);
   z-index: 200;
 
-  /* Sized by the capsule, so the bar inherits its width however many
-     actions it holds. */
-  width: max-content;
+  width: var(--dock-size);
   display: flex;
   flex-direction: column;
   gap: var(--dock-progress-gap);
@@ -295,35 +294,6 @@ a { text-decoration: none; }
 @keyframes dock-enter {
   from { opacity: 0; transform: translateY(12px); }
   to   { opacity: 1; transform: translateY(0); }
-}
-
-/* Names the control under the pointer. Absolute, so it never affects
-   layout; app.js centres it. */
-.dock-label {
-  position: absolute;
-  bottom: calc(100% + 10px);
-  left: 0;
-  padding: 5px 12px;
-  border-radius: 999px;
-  white-space: nowrap;
-  font-size: var(--font-chrome-small);
-  line-height: var(--line-height-chrome);
-  letter-spacing: -0.2px;
-  color: var(--ink);
-  background-color: var(--glass-bg);
-  backdrop-filter: var(--glass-backdrop);
-  -webkit-backdrop-filter: var(--glass-backdrop);
-  border: 1px solid var(--glass-border);
-  box-shadow: var(--glass-shadow);
-  opacity: 0;
-  transform: translate(-50%, 4px);
-  pointer-events: none;
-  transition: opacity var(--ui-ms) var(--ui-ease), transform var(--ui-ms) var(--ui-ease);
-}
-
-.dock-label.is-visible {
-  opacity: 1;
-  transform: translate(-50%, 0);
 }
 
 .dock-progress {
@@ -345,13 +315,14 @@ a { text-decoration: none; }
   transition: transform 0.15s ease-out;
 }
 
-.dock-actions {
-  height: var(--dock-height);
+.dock-panel {
+  height: var(--dock-size);
   display: flex;
-  align-items: center;
-  gap: var(--dock-action-gap);
-  padding: 0 var(--dock-actions-inset);
-  border-radius: 999px;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--dock-gap);
+  padding: var(--dock-pad);
+  border-radius: var(--dock-radius);
 
   background-color: var(--glass-bg);
   backdrop-filter: var(--glass-backdrop);
@@ -360,47 +331,72 @@ a { text-decoration: none; }
   box-shadow: var(--glass-shadow);
 }
 
-.dock-action {
-  width: var(--dock-action-size);
-  height: var(--dock-action-size);
+/* Width alone drives the mark, so the panel tolerates whichever
+   proportions the file has. */
+.dock-logo {
+  width: var(--dock-logo-width);
+  height: auto;
+}
+
+.dock-menu {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.dock-menu a {
+  display: block;
+  font-size: var(--dock-menu-size);
+  line-height: var(--dock-menu-line);
+  letter-spacing: -0.2px;
+  font-weight: 700;
+  color: var(--ink);
+  transition: color var(--ui-ms) var(--ui-ease);
+}
+
+.dock-menu a:hover { color: var(--muted); }
+
+.dock-footer {
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
+  gap: var(--dock-foot-gap);
+}
+
+.dock-toggle {
+  display: flex;
+  gap: var(--dock-toggle-gap);
+}
+
+/* The theme you are not in reads as the action; the one you are in
+   recedes. */
+.dock-theme {
   border: 0;
-  border-radius: 50%;
+  padding: 0;
   appearance: none;
   background: transparent;
-  color: var(--ink);
   cursor: pointer;
 
-  transition-property: color, transform;
-  transition-duration: var(--ui-ms);
-  transition-timing-function: var(--ui-ease);
+  font-family: inherit;
+  font-size: var(--dock-foot-size);
+  line-height: var(--dock-foot-line);
+  letter-spacing: -0.2px;
+  font-weight: 500;
+  color: var(--ink);
+  transition: color var(--ui-ms) var(--ui-ease);
 }
 
-/* macOS-dock magnification: swells under the pointer, compresses on press. */
-.dock-action:hover { transform: scale(1.12); }
-.dock-action:active { transform: scale(0.94); }
-
-/* The toggle lights up while the theme it switches away from is engaged. */
-[data-theme="dark"] .dock-action--theme { color: var(--color-active); }
-
-/* One rule for every glyph, so weight and size cannot drift apart. */
-.dock-action svg {
-  width: var(--dock-icon-size);
-  height: var(--dock-icon-size);
-  display: block;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.8;   /* SF-regular weight at 22px */
-  stroke-linecap: round;
-  stroke-linejoin: round;
+.dock-theme[aria-pressed="true"] {
+  color: color-mix(in srgb, var(--muted) 50%, transparent);
+  cursor: default;
 }
 
-/* The Instagram viewfinder dot is solid, not an outline. */
-.dock-action svg .is-solid {
-  fill: currentColor;
-  stroke: none;
+.dock-copyright {
+  margin: 0;
+  font-size: var(--dock-foot-size);
+  line-height: var(--dock-foot-line);
+  letter-spacing: -0.2px;
+  font-weight: 500;
+  color: var(--ink);
 }
 
 /* ---------------------------------------------------------------
