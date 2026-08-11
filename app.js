@@ -153,3 +153,19 @@ render();
 
 document.getElementById("scroll-top").addEventListener("click", () =>
   scrollTo({ top: 0, behavior: reducedMotion.matches ? "auto" : "smooth" }));
+
+/* ---------------------------------------------------------------
+   Logo handoff
+
+   The mark lives in the header at rest and in the dock once the header
+   has scrolled away. Observing the header itself rather than watching
+   scroll offsets keeps this correct at any header height.
+   --------------------------------------------------------------- */
+
+const header = document.getElementById("header");
+const dock = document.getElementById("dock");
+
+new IntersectionObserver(([entry]) => {
+  header.classList.toggle("is-handed-off", !entry.isIntersecting);
+  dock.classList.toggle("is-collapsed", entry.isIntersecting);
+}).observe(header);
