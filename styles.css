@@ -55,8 +55,6 @@
   --gap-text: 8px;
   --details-pad: 16px;
 
-  --logo-width: 200px;
-
   /* Dock panel
 
      Every value below is its 1440px measurement divided by 280, so the
@@ -73,6 +71,7 @@
   --dock-foot-line: calc(var(--dock-size) * 0.0643);    /* 18 */
   --dock-foot-gap: calc(var(--dock-size) * 0.0143);     /* 4 */
   --dock-toggle-gap: calc(var(--dock-size) * 0.0286);   /* 8 */
+  --dock-icon-size: var(--dock-foot-line);              /* 18 */
 
   --edge-gap: 24px;
   --dock-bottom: calc(var(--edge-gap) + env(safe-area-inset-bottom, 0px));
@@ -163,34 +162,7 @@ a { text-decoration: none; }
   padding-bottom: calc(var(--page-y) + var(--dock-clearance));
 }
 
-/* ---------------------------------------------------------------
-   Header
-
-   Fills its band in the page's own colour, so posters scrolling up
-   dissolve into the page rather than sliding behind the logo.
-   --------------------------------------------------------------- */
-
-.header {
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  padding: var(--page-y) var(--page-x);
-  text-align: center;
-  background-color: var(--bg);
-  transition: background-color var(--ui-ms) var(--ui-ease);
-}
-
-.header__home { display: inline-block; }
-
-/* height: auto keeps the ratio if the logo is ever narrower than 200px */
-.header__logo {
-  width: var(--logo-width);
-  height: auto;
-  max-width: 100%;
-}
-
-/* The yellow mark is common to both; only the wordmark changes colour.
-   Shared by the header and the dock panel. */
+/* Only the dock panel pairs logos now, but the utility is theme-wide. */
 [data-theme="light"] .is-dark-only,
 [data-theme="dark"] .is-light-only { display: none; }
 
@@ -362,32 +334,35 @@ a { text-decoration: none; }
   gap: var(--dock-foot-gap);
 }
 
-.dock-toggle {
+.dock-controls {
   display: flex;
+  align-items: center;
   gap: var(--dock-toggle-gap);
 }
 
-/* The theme you are not in reads as the action; the one you are in
-   recedes. */
-.dock-theme {
+.dock-control {
+  display: flex;
   border: 0;
   padding: 0;
   appearance: none;
   background: transparent;
-  cursor: pointer;
-
-  font-family: inherit;
-  font-size: var(--dock-foot-size);
-  line-height: var(--dock-foot-line);
-  letter-spacing: -0.2px;
-  font-weight: 500;
   color: var(--ink);
+  cursor: pointer;
   transition: color var(--ui-ms) var(--ui-ease);
 }
 
-.dock-theme[aria-pressed="true"] {
-  color: color-mix(in srgb, var(--muted) 50%, transparent);
-  cursor: default;
+/* Both themes stay legible; the one in use is simply brighter. */
+.dock-control[aria-pressed="false"] { color: var(--muted); }
+
+.dock-control svg {
+  width: var(--dock-icon-size);
+  height: var(--dock-icon-size);
+  display: block;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;   /* SF-regular weight, as the portfolio dock */
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 .dock-copyright {
