@@ -2,15 +2,17 @@
    Posters
 
    Add a listing by appending an object. Nothing else changes.
-   Credits and button label are composed from these fields.
+   Credits read "Director · Country · Year" over the distributor;
+   the button label is composed from the title.
    --------------------------------------------------------------- */
 
 const posters = [
   {
     slug: "fallen-angels",
     title: "Fallen Angels",
-    year: 1995,
     director: "Wong Kar Wai",
+    country: "Hong Kong",
+    year: 1995,
     distributor: "Block 2 Distribution",
     image: "https://pub-01259ba9a4fe4eccabe8b5baf85baa7a.r2.dev/fallen-angels.jpg",
     url: "https://wwwonderlan.etsy.com/uk/listing/4310610506/fallen-angels-movie-poster-print-wong",
@@ -18,8 +20,9 @@ const posters = [
   {
     slug: "taipei-story",
     title: "Taipei Story",
-    year: 1985,
     director: "Edward Yang",
+    country: "Taiwan",
+    year: 1985,
     distributor: "Evergreen Film Company",
     image: "https://pub-01259ba9a4fe4eccabe8b5baf85baa7a.r2.dev/taipei-story.jpg",
     url: "https://wwwonderlan.etsy.com/uk/listing/4331048372/taipei-story-movie-poster-print-edward",
@@ -27,8 +30,9 @@ const posters = [
   {
     slug: "millennium-mambo",
     title: "Millennium Mambo",
-    year: 2001,
     director: "Hou Hsiao-hsien",
+    country: "Taiwan",
+    year: 2001,
     distributor: "3H Productions",
     image: "https://pub-01259ba9a4fe4eccabe8b5baf85baa7a.r2.dev/millennium-mambo.jpg",
     url: "https://wwwonderlan.etsy.com/uk/listing/4337108727/millennium-mambo-movie-poster-print-hou",
@@ -55,7 +59,7 @@ const escape = (value) =>
 const buyLink = ({ url, slug }) =>
   `${url}${url.includes("?") ? "&" : "?"}${UTM}&utm_content=${slug}`;
 
-const cardHTML = ({ title, year, director, distributor, image, ...rest }) => `
+const cardHTML = ({ title, director, country, year, distributor, image, ...rest }) => `
   <li class="card">
     <img class="card__poster"
          src="${escape(image)}"
@@ -67,13 +71,13 @@ const cardHTML = ({ title, year, director, distributor, image, ...rest }) => `
       <div class="card__text">
         <h2 class="card__title">${escape(title)}</h2>
         <p class="card__credits">
-          © ${year} ${escape(title)} / ${escape(director)}<br>${escape(distributor)}
+          ${escape(director)} · ${escape(country)} · ${year}<br>${escape(distributor)}
         </p>
       </div>
       <a class="card__buy"
          href="${escape(buyLink(rest))}"
          target="_blank"
-         rel="noopener">Buy ${escape(title)} Poster</a>
+         rel="noopener">Buy ${escape(title)} Poster →</a>
     </div>
   </li>`;
 
