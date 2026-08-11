@@ -180,11 +180,21 @@ a { text-decoration: none; }
   width: var(--logo-width);
   height: auto;
   max-width: 100%;
-  transition: opacity var(--ui-ms) var(--ui-ease);
 }
 
-/* Only one mark shows at a time: whichever the scroll position calls for. */
-.header.is-handed-off .header__logo { opacity: 0; }
+/* Only one mark shows at a time: whichever the scroll position calls for.
+   Hiding the link rather than just fading it keeps an invisible target
+   out of the tab order and off the cursor. */
+.header a {
+  transition:
+      opacity var(--ui-ms) var(--ui-ease),
+      visibility var(--ui-ms) var(--ui-ease);
+}
+
+.header.is-handed-off a {
+  opacity: 0;
+  visibility: hidden;
+}
 
 /* ---------------------------------------------------------------
    Theme pairing
