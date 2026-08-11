@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" id="theme-color" content="#FFFFFF">
+<meta name="theme-color" id="theme-color" content="#000000">
 
 <title>wwwonderlan — Film poster prints</title>
 <meta name="description" content="Film poster prints in maxi size. Fallen Angels, Taipei Story, Millennium Mambo.">
@@ -16,15 +16,15 @@
 <meta property="og:image" content="https://pub-01259ba9a4fe4eccabe8b5baf85baa7a.r2.dev/fallen-angels.jpg">
 <meta name="twitter:card" content="summary_large_image">
 
-<!-- Must run before first paint, or the wrong theme flashes. -->
+<!-- Must run before first paint, or the wrong theme flashes. Dark is the
+     default; only a previous choice moves it. -->
 <script>
 (() => {
   let stored;
   try { stored = localStorage.getItem("wwwonderlan-theme"); } catch {}
-  const theme = stored
-    || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
-  document.documentElement.dataset.theme = theme;
-  document.getElementById("theme-color")?.setAttribute("content", theme === "dark" ? "#000000" : "#FFFFFF");
+  if (stored !== "light") return;
+  document.documentElement.dataset.theme = "light";
+  document.getElementById("theme-color").setAttribute("content", "#FFFFFF");
 })();
 </script>
 
@@ -88,7 +88,7 @@
         </svg>
       </a>
 
-      <button class="dock-action" id="theme-toggle" type="button"></button>
+      <button class="dock-action dock-action--theme" id="theme-toggle" type="button"></button>
 
       <button class="dock-action" id="scroll-top" type="button"
               data-label="Back to Top" aria-label="Back to top">
