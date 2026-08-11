@@ -73,10 +73,9 @@
   --dock-foot-size: calc(var(--dock-size) * 0.05);      /* 14 */
   --dock-foot-line: calc(var(--dock-size) * 0.0643);    /* 18 */
   --dock-toggle-gap: calc(var(--dock-size) * 0.0286);   /* 8 */
-  --dock-icon-size: var(--dock-foot-line);              /* 18 */
+  --dock-icon-size: max(18px, var(--dock-foot-line));   /* 18, floored */
 
-  --edge-gap: 24px;
-  --dock-bottom: calc(var(--edge-gap) + env(safe-area-inset-bottom, 0px));
+  --dock-bottom: calc(24px + env(safe-area-inset-bottom, 0px));
   --dock-progress-height: 5px;
   --dock-progress-gap: 10px;
   /* Page padding below the panel, counting the progress bar above it. */
@@ -143,7 +142,6 @@ a { text-decoration: none; }
 :focus-visible {
   outline: 2px solid var(--color-accent);
   outline-offset: 2px;
-  border-radius: 4px;
 }
 
 .visually-hidden {
@@ -290,12 +288,17 @@ a { text-decoration: none; }
   gap: var(--dock-progress-gap);
   pointer-events: auto;
 
+  /* Opacity only, deliberately. A transform on this element — even
+     translateY(0) left behind by a filled animation — would make it a
+     backdrop root, and the panel inside would have nothing but empty
+     space to sample. Chrome enforces that; Safari does not, which is
+     why the glass survived on iOS and died on desktop. */
   animation: dock-enter var(--chrome-ms) var(--enter-ease) both;
 }
 
 @keyframes dock-enter {
-  from { opacity: 0; transform: translateY(12px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 
 .dock-progress {
@@ -368,6 +371,7 @@ a { text-decoration: none; }
 }
 
 .dock-control {
+  position: relative;
   display: flex;
   border: 0;
   padding: 0;
@@ -376,6 +380,15 @@ a { text-decoration: none; }
   color: var(--ink);
   cursor: pointer;
   transition: color var(--ui-ms) var(--ui-ease);
+}
+
+/* An 18px glyph is a poor target on a phone. This widens the tap area
+   without adding height, which would break the square. Horizontal inset
+   stops at half the gap so neighbouring targets can never overlap. */
+.dock-control::after {
+  content: "";
+  position: absolute;
+  inset: -12px calc(var(--dock-toggle-gap) / -2);
 }
 
 /* Both themes stay legible; the one in use is simply brighter. */
