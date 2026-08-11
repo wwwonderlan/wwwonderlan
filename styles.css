@@ -68,12 +68,26 @@
   --dock-pad-y: var(--dock-gap);                        /* 16 */
   --dock-radius: calc(var(--dock-size) * 0.1);          /* 28 */
   --dock-logo-width: calc(var(--dock-size) * 0.6571);   /* 184 */
+  --dock-logo-height: calc(var(--dock-logo-width) * 57 / 200);
   --dock-menu-size: calc(var(--dock-size) * 0.1143);    /* 32 */
-  --dock-menu-line: calc(var(--dock-size) * 0.1214);    /* 34 */
   --dock-foot-size: calc(var(--dock-size) * 0.05);      /* 14 */
   --dock-foot-line: calc(var(--dock-size) * 0.0643);    /* 18 */
   --dock-toggle-gap: calc(var(--dock-size) * 0.0286);   /* 8 */
   --dock-icon-size: max(18px, var(--dock-foot-line));   /* 18, floored */
+
+  /* The menu is the budget's remainder, not a fixed value: whatever the
+     square has left once the fixed parts and gaps are paid for, divided
+     across three lines. The panel is therefore exactly --dock-size at
+     every width, and stays so if any other value here changes. */
+  --dock-menu-line: calc(
+      (var(--dock-size)
+        - var(--dock-pad-y) * 2
+        - var(--dock-logo-height)
+        - var(--dock-icon-size)
+        - var(--dock-foot-line)
+        - var(--dock-gap) * 3
+      ) / 3
+  );
 
   --dock-bottom: calc(24px + env(safe-area-inset-bottom, 0px));
   --dock-progress-height: 5px;
@@ -392,11 +406,14 @@ a { text-decoration: none; }
   opacity: 0;
 }
 
-/* Width alone drives the mark, so the panel tolerates whichever
-   proportions the file has. */
+/* Boxed to the declared 200 × 57 ratio so the panel's height is known
+   before the file loads. object-fit means a file of different proportions
+   fits inside the box rather than stretching to it — the mark stays true
+   and the square stays exact either way. */
 .dock-logo {
   width: var(--dock-logo-width);
-  height: auto;
+  height: var(--dock-logo-height);
+  object-fit: contain;
 }
 
 .dock-menu {
