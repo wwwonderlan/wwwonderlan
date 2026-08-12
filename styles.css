@@ -559,15 +559,26 @@ a { text-decoration: none; }
 
 .details__content li::before { content: "• "; }
 
+/* Paired so the two scales can be compared directly — the diagrams share
+   a scale, which is only legible when they sit together. Basis without
+   grow: the blocks hold 160px where there is room and shrink together
+   where there is not, rather than stretching across the full measure. */
+.details__sizes {
+  display: flex;
+  gap: var(--gap-col);
+  margin-bottom: 18px;
+}
+
+.details__size { flex: 0 1 160px; }
+
+.details__size > :first-child { margin-top: 0; }
+
 /* Outlines take the muted grey and labels the ink, so both follow the
-   theme without a second copy of the artwork. Width is fixed rather than
-   fluid: the labels are real type and would fall out of step with the
-   body copy if the diagram scaled. */
+   theme without a second copy of the artwork. */
 .details__diagram {
-  width: 160px;
+  width: 100%;
   height: auto;
   display: block;
-  margin: 0 0 18px;
   color: var(--muted);
 }
 
