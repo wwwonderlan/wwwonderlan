@@ -569,9 +569,14 @@ a { text-decoration: none; }
   margin-bottom: 18px;
 }
 
-.details__size { flex: 0 1 160px; }
-
-.details__size > :first-child { margin-top: 0; }
+/* A column so the diagram can be pushed to the bottom: the lists differ
+   in length, and the outlines are bottom-anchored in their viewBox, so
+   they only line up if the two boxes end level. */
+.details__size {
+  flex: 0 1 160px;
+  display: flex;
+  flex-direction: column;
+}
 
 /* Outlines take the muted grey and labels the ink, so both follow the
    theme without a second copy of the artwork. */
@@ -579,6 +584,7 @@ a { text-decoration: none; }
   width: 100%;
   height: auto;
   display: block;
+  margin-top: auto;
   color: var(--muted);
 }
 
@@ -619,7 +625,6 @@ a { text-decoration: none; }
   position: fixed;
   top: calc(var(--page-y) * 2 + var(--header-height));
   right: var(--page-x);
-  z-index: 160;
 
   display: flex;
   border: 0;
