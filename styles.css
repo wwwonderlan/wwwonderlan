@@ -133,6 +133,10 @@
 *::before,
 *::after { box-sizing: border-box; }
 
+/* Reserved permanently, so locking scroll behind the overlay cannot
+   remove the scrollbar and shift the centred layout sideways. */
+html { scrollbar-gutter: stable; }
+
 body {
   margin: 0;
   background-color: var(--bg);
@@ -395,15 +399,19 @@ a { text-decoration: none; }
   transition:
       grid-template-rows var(--chrome-ms) var(--enter-ease),
       margin-bottom var(--chrome-ms) var(--enter-ease),
-      opacity var(--ui-ms) var(--ui-ease);
+      opacity var(--ui-ms) var(--ui-ease),
+      visibility var(--chrome-ms) var(--enter-ease);
 }
 
 .dock-logo-slot > * { min-height: 0; overflow: hidden; }
 
+/* Hidden rather than merely flat, so the home link inside leaves the tab
+   order while the header is carrying the mark. */
 .dock.is-collapsed .dock-logo-slot {
   grid-template-rows: 0fr;
   margin-bottom: calc(var(--dock-gap) * -1);
   opacity: 0;
+  visibility: hidden;
 }
 
 /* Boxed to the declared 200 × 57 ratio so the panel's height is known
@@ -422,8 +430,17 @@ a { text-decoration: none; }
   list-style: none;
 }
 
-.dock-menu a {
+.dock-menu a,
+.dock-menu button {
   display: block;
+  width: 100%;
+  border: 0;
+  padding: 0;
+  appearance: none;
+  background: transparent;
+  cursor: pointer;
+
+  font-family: inherit;
   font-size: var(--dock-menu-size);
   line-height: var(--dock-menu-line);
   letter-spacing: -0.2px;
@@ -432,7 +449,8 @@ a { text-decoration: none; }
   transition: color var(--ui-ms) var(--ui-ease);
 }
 
-.dock-menu a:hover { color: var(--muted); }
+.dock-menu a:hover,
+.dock-menu button:hover { color: var(--muted); }
 
 .dock-controls {
   display: flex;
@@ -482,6 +500,123 @@ a { text-decoration: none; }
   letter-spacing: -0.2px;
   font-weight: 500;
   color: var(--ink);
+}
+
+/* ---------------------------------------------------------------
+   Details
+   --------------------------------------------------------------- */
+
+/* Sits below the dock so the menu stays reachable, and above everything
+   else. Nothing may animate on this element's ancestors, so the entrance
+   runs on backdrop-filter itself — which is animatable, and dissolves the
+   page rather than fading a blurred sheet over it. */
+.details {
+  position: fixed;
+  inset: 0;
+  z-index: 150;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--page-y) var(--page-x);
+
+  background-color: transparent;
+  backdrop-filter: blur(0px);
+  -webkit-backdrop-filter: blur(0px);
+  transition:
+      backdrop-filter var(--chrome-ms) var(--enter-ease),
+      -webkit-backdrop-filter var(--chrome-ms) var(--enter-ease),
+      background-color var(--chrome-ms) var(--enter-ease);
+}
+
+.details.is-open {
+  background-color: var(--glass-bg);
+  backdrop-filter: var(--glass-backdrop);
+  -webkit-backdrop-filter: var(--glass-backdrop);
+}
+
+/* Clears the dock, which overlaps the lower right of the viewport. */
+.details__content {
+  max-width: 42ch;
+  max-height: 100%;
+  padding-bottom: var(--dock-clearance);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+
+  font-size: 14px;
+  line-height: 18px;
+  letter-spacing: -0.2px;
+  font-weight: 500;
+  color: var(--muted);
+
+  opacity: 0;
+  transition: opacity var(--ui-ms) var(--ui-ease);
+}
+
+.details.is-open .details__content { opacity: 1; }
+
+.details__content p { margin: 0 0 18px; }
+
+.details__content ul {
+  margin: 0 0 18px;
+  padding: 0;
+  list-style: none;
+}
+
+.details__content li::before {
+  content: "• ";
+}
+
+.details__lead,
+.details__heading {
+  color: var(--ink);
+}
+
+.details__lead {
+  font-size: 22px;
+  line-height: 26px;
+  font-weight: 700;
+}
+
+.details__heading {
+  margin-bottom: 0;
+  font-weight: 700;
+}
+
+.details__content a {
+  color: var(--ink);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.details__close {
+  position: absolute;
+  top: var(--page-y);
+  right: var(--page-x);
+
+  display: flex;
+  border: 0;
+  padding: 0;
+  appearance: none;
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+
+  opacity: 0;
+  transition: opacity var(--ui-ms) var(--ui-ease);
+}
+
+.details.is-open .details__close { opacity: 1; }
+
+.details__close svg {
+  width: var(--dock-icon-size);
+  height: var(--dock-icon-size);
+  display: block;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 /* ---------------------------------------------------------------
