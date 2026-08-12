@@ -43,7 +43,6 @@
   --page-x: clamp(24px, 6.667vw, 96px);
   --page-y: clamp(20px, 2.222vw, 32px);
 
-  --header-height: clamp(64px, 8.403vw, 121px);
   --logo-width: 200px;
 
   /* 1440 − (96 × 2) = 1248 content, minus 2 × 24px gap = 3 × 400 columns */
@@ -184,14 +183,15 @@ a { text-decoration: none; }
    Header
    --------------------------------------------------------------- */
 
-/* Not sticky: the logo hands off to the dock on scroll rather than
-   following the page down. */
+/* Height comes from the logo plus its padding rather than a fixed value:
+   a floor low enough for small screens would crop the mark against the
+   first row. Not sticky — the logo hands off to the dock on scroll
+   rather than following the page down. */
 .header {
-  height: var(--header-height);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0 var(--page-x);
+  padding: var(--page-y) var(--page-x);
 }
 
 .header__logo {
@@ -517,8 +517,6 @@ a { text-decoration: none; }
 
   display: flex;
   align-items: center;
-  justify-content: center;
-  padding: var(--page-y) var(--page-x);
 
   background-color: transparent;
   backdrop-filter: blur(0px);
@@ -529,17 +527,33 @@ a { text-decoration: none; }
       background-color var(--chrome-ms) var(--enter-ease);
 }
 
+/* Restated because .details sets display, which outranks the user agent's
+   own [hidden] rule — without this the overlay never leaves the page and
+   covers it invisibly. */
+.details[hidden] { display: none; }
+
 .details.is-open {
   background-color: var(--glass-bg);
   backdrop-filter: var(--glass-backdrop);
   -webkit-backdrop-filter: var(--glass-backdrop);
 }
 
-/* Clears the dock, which overlaps the lower right of the viewport. */
+/* The grid's box and column rhythm exactly, so the text lands on the same
+   edges as the posters behind it. Three columns also keep the measure
+   readable at a width that would otherwise run to unreadable line lengths.
+   Bottom padding clears the dock, which overlaps the last column. */
 .details__content {
-  max-width: 42ch;
+  width: 100%;
   max-height: 100%;
-  padding-bottom: var(--dock-clearance);
+  max-width: calc(var(--content-width) + var(--page-x) * 2);
+  margin: 0 auto;
+  padding: 0 var(--page-x) var(--dock-clearance);
+
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  align-content: center;
+  gap: 0 var(--gap-col);
+
   overflow-y: auto;
   overscroll-behavior: contain;
 
@@ -554,6 +568,18 @@ a { text-decoration: none; }
 }
 
 .details.is-open .details__content { opacity: 1; }
+
+@media (max-width: 900px) {
+  .details__content { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 600px) {
+  .details__content { grid-template-columns: 1fr; }
+}
+
+/* Each group is a column; the browser breaks nothing across them. */
+.details__group > :first-child { margin-top: 0; }
+.details__group > :last-child { margin-bottom: 0; }
 
 .details__content p { margin: 0 0 18px; }
 
