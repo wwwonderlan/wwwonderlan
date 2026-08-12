@@ -5,13 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" id="theme-color" content="#000000">
 
-<title>wwwonderlan — Film poster prints</title>
+<title>WWWONDERLAN — Film poster prints</title>
 <meta name="description" content="Film poster prints in maxi size. Fallen Angels, Taipei Story, Millennium Mambo.">
 <link rel="canonical" href="https://wwwonderlan.com/">
 
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://wwwonderlan.com/">
-<meta property="og:title" content="wwwonderlan — Film poster prints">
+<meta property="og:title" content="WWWONDERLAN — Film poster prints">
 <meta property="og:description" content="Film poster prints in maxi size. Fallen Angels, Taipei Story, Millennium Mambo.">
 <meta property="og:image" content="https://pub-01259ba9a4fe4eccabe8b5baf85baa7a.r2.dev/fallen-angels.jpg">
 <meta name="twitter:card" content="summary_large_image">
@@ -38,9 +38,9 @@
 <div class="frame">
 
   <header class="header" id="header">
-    <a href="/" aria-label="wwwonderlan home">
-      <img class="header__logo is-light-only" src="wwwonderlan-black.png" alt="wwwonderlan" width="200" height="57">
-      <img class="header__logo is-dark-only" src="wwwonderlan-white.png" alt="wwwonderlan" width="200" height="57">
+    <a href="/" aria-label="WWWONDERLAN home">
+      <img class="header__logo is-light-only" src="wwwonderlan-black.png" alt="WWWONDERLAN" width="200" height="57">
+      <img class="header__logo is-dark-only" src="wwwonderlan-white.png" alt="WWWONDERLAN" width="200" height="57">
     </a>
   </header>
 
@@ -58,6 +58,46 @@
     </noscript>
   </main>
 
+  <div class="details" id="details" role="dialog" aria-modal="true" aria-label="Details" hidden>
+    <div class="details__content">
+      <p class="details__lead">Curated film posters designed by WWWONDERLAN.</p>
+
+      <p>Available in five sizes.</p>
+
+      <p class="details__heading">Standard Sizes</p>
+      <ul>
+        <li>12×18″</li>
+        <li>20×30″</li>
+        <li>24×36″</li>
+      </ul>
+
+      <p class="details__heading">A-Series Sizes</p>
+      <ul>
+        <li>A2 (16.5″×23.3″)</li>
+        <li>A1 (23.3″×33.1″)</li>
+      </ul>
+
+      <p>All posters are made to order and printed on thick, museum-quality matte paper sourced from Japan.</p>
+
+      <p class="details__heading">Paper Specifications</p>
+      <ul>
+        <li>Paper thickness: 10.3 mil</li>
+        <li>Paper weight: 189 g/m²</li>
+        <li>Opacity: 94%</li>
+        <li>ISO brightness: 104%</li>
+      </ul>
+
+      <p>Production and delivery typically take 2–3 weeks. For any inquiries, please contact WWWONDERLAN by <a href="mailto:wwwonderlan@gmail.com">email</a>.</p>
+    </div>
+
+    <button class="details__close" type="button" id="details-close" aria-label="Close details">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M18 6 6 18"/>
+        <path d="m6 6 12 12"/>
+      </svg>
+    </button>
+  </div>
+
   <div class="dock-rail">
     <nav class="dock is-collapsed" id="dock" aria-label="Menu">
       <div class="dock-progress" aria-hidden="true">
@@ -67,14 +107,19 @@
       <div class="dock-panel">
         <div class="dock-logo-slot">
           <div>
-            <img class="dock-logo is-light-only" src="wwwonderlan-black.png" alt="" aria-hidden="true" width="200" height="57">
-            <img class="dock-logo is-dark-only" src="wwwonderlan-white.png" alt="" aria-hidden="true" width="200" height="57">
+            <a href="/" aria-label="WWWONDERLAN home">
+              <img class="dock-logo is-light-only" src="wwwonderlan-black.png" alt="" width="200" height="57">
+              <img class="dock-logo is-dark-only" src="wwwonderlan-white.png" alt="" width="200" height="57">
+            </a>
           </div>
         </div>
 
         <ul class="dock-menu">
           <li><a href="https://www.etsy.com/shop/WWWONDERLAN" target="_blank" rel="noopener">Shop</a></li>
-          <li><a href="#details">Details</a></li>
+          <li>
+            <button type="button" id="details-toggle"
+                    aria-expanded="false" aria-controls="details">Details</button>
+          </li>
           <li><a href="https://instagram.com/wwwonderlan" target="_blank" rel="noopener">Instagram</a></li>
         </ul>
 
@@ -110,7 +155,7 @@
           </button>
         </div>
 
-        <p class="dock-copyright">© 2026 wwwonderlan</p>
+        <p class="dock-copyright">© 2026 WWWONDERLAN</p>
       </div>
     </nav>
   </div>
