@@ -171,20 +171,23 @@ new IntersectionObserver(([entry]) => {
 /* ---------------------------------------------------------------
    Details
 
-   A blur over the page rather than a route. `hidden` is removed a frame
-   before the open class is added: an element revealed and transitioned in
-   the same frame has no previous state to transition from, and would
-   simply appear.
+   A panel over the page rather than a route. Visibility rather than the
+   hidden attribute, so it can transition and still leave the tab order
+   and the accessibility tree when closed.
    --------------------------------------------------------------- */
 
 const details = document.getElementById("details");
 const detailsToggle = document.getElementById("details-toggle");
 const page = document.querySelector("main");
 
-function openDetails() {
-  details.hidden = false;
-  requestAnimationFrame(() => details.classList.add("is-open"));
+let restoreScroll = 0;
 
+function openDetails() {
+  // The panel opens below the header, so the header has to be in view.
+  restoreScroll = scrollY;
+  scrollTo({ top: 0, behavior: "auto" });
+
+  details.classList.add("is-open");
   detailsToggle.setAttribute("aria-expanded", "true");
   document.body.style.overflow = "hidden";
   page.inert = true;                       // keeps tabbing out of the posters
@@ -198,23 +201,14 @@ function closeDetails() {
   document.body.style.overflow = "";
   page.inert = false;
 
+  scrollTo({ top: restoreScroll, behavior: "auto" });
   detailsToggle.focus();
-
-  // Withheld until the blur has cleared, or the panel would vanish outright.
-  details.addEventListener("transitionend", () => {
-    if (!details.classList.contains("is-open")) details.hidden = true;
-  }, { once: true });
 }
 
 detailsToggle.addEventListener("click", () =>
   details.classList.contains("is-open") ? closeDetails() : openDetails());
 
 document.getElementById("details-close").addEventListener("click", closeDetails);
-
-// Clicking the blur itself dismisses; clicking the text does not.
-details.addEventListener("click", (event) => {
-  if (event.target === details) closeDetails();
-});
 
 addEventListener("keydown", (event) => {
   if (event.key === "Escape" && details.classList.contains("is-open")) closeDetails();
