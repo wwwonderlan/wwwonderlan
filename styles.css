@@ -397,25 +397,25 @@ a { text-decoration: none; }
   box-shadow: var(--glass-shadow);
 }
 
-/* A 0fr row collapses to nothing while still transitioning, which a
-   height of auto cannot do. The negative margin retracts the panel's own
-   gap at the same rate, so the space closes completely. */
+/* A plain height transition, because the logo's height is a known token
+   rather than intrinsic. The grid 0fr-to-1fr technique would also work
+   but is unreliable in Safari, which is where the mark was intermittently
+   failing to arrive. The negative margin retracts the panel's own gap at
+   the same rate, so the space closes completely. */
 .dock-logo-slot {
-  display: grid;
-  grid-template-rows: 1fr;
+  height: var(--dock-logo-height);
+  overflow: hidden;
   transition:
-      grid-template-rows var(--chrome-ms) var(--enter-ease),
+      height var(--chrome-ms) var(--enter-ease),
       margin-bottom var(--chrome-ms) var(--enter-ease),
       opacity var(--ui-ms) var(--ui-ease),
       visibility var(--chrome-ms) var(--enter-ease);
 }
 
-.dock-logo-slot > * { min-height: 0; overflow: hidden; }
-
 /* Hidden rather than merely flat, so the home link inside leaves the tab
    order while the header is carrying the mark. */
 .dock.is-collapsed .dock-logo-slot {
-  grid-template-rows: 0fr;
+  height: 0;
   margin-bottom: calc(var(--dock-gap) * -1);
   opacity: 0;
   visibility: hidden;
