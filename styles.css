@@ -81,10 +81,14 @@
   --dock-toggle-gap: calc(var(--dock-size) * 0.0286);   /* 8 */
   --dock-icon-size: max(18px, var(--dock-foot-line));   /* 18, floored */
 
+  /* Menu items. Adding or removing one means changing this number and
+     nothing else — it drives both the gap count and the line height. */
+  --dock-menu-count: 3;
+
   /* The menu is the budget's remainder, not a fixed value: whatever the
      square has left once the fixed parts and gaps are paid for, divided
-     across three lines. The panel is therefore exactly --dock-size at
-     every width, and stays so if any other value here changes. */
+     across its lines. The panel is therefore exactly --dock-size at every
+     width, and stays so if any other value here changes. */
   --dock-menu-line: calc(
       (var(--dock-size)
         - var(--dock-pad-y) * 2
@@ -92,7 +96,7 @@
         - var(--dock-icon-size)
         - var(--dock-foot-line)
         - var(--dock-gap) * 3
-      ) / 3
+      ) / var(--dock-menu-count)
   );
 
   --dock-bottom: calc(24px + env(safe-area-inset-bottom, 0px));
@@ -142,6 +146,12 @@
 /* Reserved permanently, so locking scroll behind the overlay cannot
    remove the scrollbar and shift the centred layout sideways. */
 html { scrollbar-gutter: stable; }
+
+/* Both elements, because iOS Safari ignores the lock when it is set on
+   body alone. Applied as a class rather than from script, so no style
+   is written from JavaScript. */
+.is-locked,
+.is-locked body { overflow: hidden; }
 
 body {
   margin: 0;
@@ -437,10 +447,13 @@ a { text-decoration: none; }
   list-style: none;
 }
 
+/* No horizontal padding on the panel, so the inset lives here: a longer
+   menu word than "Instagram" would otherwise run to the glass edge. */
 .dock-menu a,
 .dock-menu button {
   display: block;
   width: 100%;
+  padding-inline: var(--dock-gap);
   border: 0;
   padding: 0;
   appearance: none;
