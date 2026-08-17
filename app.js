@@ -14,7 +14,7 @@ const posters = [
     country: "Hong Kong",
     year: 1995,
     distributor: "Block 2 Distribution",
-    image: "https://wwwonderlan.com/posters/fallen-angels-1280.png",
+    image: "https://cdn.wwwonderlan.com/posters/fallen-angels-1280.png",
     url: "https://wwwonderlan.etsy.com/uk/listing/4310610506/fallen-angels-movie-poster-print-wong",
   },
   {
@@ -24,7 +24,7 @@ const posters = [
     country: "Taiwan",
     year: 1985,
     distributor: "Evergreen Film Company",
-    image: "https://wwwonderlan.com/posters/taipei-story-1280.png",
+    image: "https://cdn.wwwonderlan.com/posters/taipei-story-1280.png",
     url: "https://wwwonderlan.etsy.com/uk/listing/4331048372/taipei-story-movie-poster-print-edward",
   },
   {
@@ -34,7 +34,7 @@ const posters = [
     country: "Taiwan",
     year: 2001,
     distributor: "3H Productions",
-    image: "https://wwwonderlan.com/posters/millennium-mambo-1280.png",
+    image: "https://cdn.wwwonderlan.com/posters/millennium-mambo-1280.png",
     url: "https://wwwonderlan.etsy.com/uk/listing/4337108727/millennium-mambo-movie-poster-print-hou",
   },
 ];
