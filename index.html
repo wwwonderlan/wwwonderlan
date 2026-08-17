@@ -13,7 +13,7 @@
 <meta property="og:url" content="https://wwwonderlan.com/">
 <meta property="og:title" content="WWWONDERLAN — Film poster prints">
 <meta property="og:description" content="Film poster prints in maxi size. Fallen Angels, Taipei Story, Millennium Mambo.">
-<meta property="og:image" content="https://wwwonderlan.com/posters/fallen-angels-1280.png">
+<meta property="og:image" content="https://cdn.wwwonderlan.com/posters/fallen-angels-1280.png">
 <meta name="twitter:card" content="summary_large_image">
 
 <!-- Must run before first paint, or the wrong theme flashes. Dark is the
@@ -28,6 +28,10 @@
 })();
 </script>
 
+<!-- Images and logos come from the bucket on its own subdomain, so the
+     connection is opened before the markup asks for them. -->
+<link rel="preconnect" href="https://cdn.wwwonderlan.com" crossorigin>
+
 <link rel="preload" href="Helvetica%20Now%20Display/Helvetica%20Now%20Display%20Bold.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="Helvetica%20Now%20Display/Helvetica%20Now%20Display%20Medium.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="styles.css">
@@ -39,8 +43,8 @@
 
   <header class="header" id="header">
     <a href="/" aria-label="WWWONDERLAN home">
-      <img class="header__logo is-light-only" src="https://wwwonderlan.com/assets/wwwonderlan-black.png" alt="WWWONDERLAN" width="200" height="57">
-      <img class="header__logo is-dark-only" src="https://wwwonderlan.com/assets/wwwonderlan-white.png" alt="WWWONDERLAN" width="200" height="57">
+      <img class="header__logo is-light-only" src="https://cdn.wwwonderlan.com/assets/wwwonderlan-black.png" alt="WWWONDERLAN" width="200" height="57">
+      <img class="header__logo is-dark-only" src="https://cdn.wwwonderlan.com/assets/wwwonderlan-white.png" alt="WWWONDERLAN" width="200" height="57">
     </a>
   </header>
 
@@ -133,8 +137,8 @@
         <div class="dock-logo-slot">
           <div>
             <a href="/" aria-label="WWWONDERLAN home">
-              <img class="dock-logo is-light-only" src="https://wwwonderlan.com/assets/wwwonderlan-black.png" alt="" width="200" height="57">
-              <img class="dock-logo is-dark-only" src="https://wwwonderlan.com/assets/wwwonderlan-white.png" alt="" width="200" height="57">
+              <img class="dock-logo is-light-only" src="https://cdn.wwwonderlan.com/assets/wwwonderlan-black.png" alt="" width="200" height="57">
+              <img class="dock-logo is-dark-only" src="https://cdn.wwwonderlan.com/assets/wwwonderlan-white.png" alt="" width="200" height="57">
             </a>
           </div>
         </div>
