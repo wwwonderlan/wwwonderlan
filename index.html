@@ -29,11 +29,21 @@
 </script>
 
 <!-- Images and logos come from the bucket on its own subdomain, so the
-     connection is opened before the markup asks for them. -->
-<link rel="preconnect" href="https://cdn.wwwonderlan.com" crossorigin>
+     connection opens before the markup asks for them. No crossorigin here:
+     images are fetched in plain mode, and a CORS connection cannot be
+     reused for them. Fonts are same-origin, so they need no preconnect. -->
+<link rel="preconnect" href="https://cdn.wwwonderlan.com">
 
 <link rel="preload" href="Helvetica%20Now%20Display/Helvetica%20Now%20Display%20Bold.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="Helvetica%20Now%20Display/Helvetica%20Now%20Display%20Medium.woff2" as="font" type="font/woff2" crossorigin>
+
+<!-- The posters are written by app.js, so the parser never sees them and
+     cannot start fetching until the script has run. These preloads put
+     the first row in flight during head parsing instead. Only the first
+     row: anything below the fold should wait its turn. -->
+<link rel="preload" as="image" fetchpriority="high" href="https://cdn.wwwonderlan.com/posters/fallen-angels-1280.png">
+<link rel="preload" as="image" fetchpriority="high" href="https://cdn.wwwonderlan.com/posters/taipei-story-1280.png">
+<link rel="preload" as="image" fetchpriority="high" href="https://cdn.wwwonderlan.com/posters/millennium-mambo-1280.png">
 <link rel="stylesheet" href="styles.css">
 </head>
 
@@ -135,12 +145,10 @@
 
       <div class="dock-panel">
         <div class="dock-logo-slot">
-          <div>
-            <a href="/" aria-label="WWWONDERLAN home">
-              <img class="dock-logo is-light-only" src="https://cdn.wwwonderlan.com/assets/wwwonderlan-black.png" alt="" width="200" height="57">
-              <img class="dock-logo is-dark-only" src="https://cdn.wwwonderlan.com/assets/wwwonderlan-white.png" alt="" width="200" height="57">
-            </a>
-          </div>
+          <a href="/" aria-label="WWWONDERLAN home">
+            <img class="dock-logo is-light-only" src="https://cdn.wwwonderlan.com/assets/wwwonderlan-black.png" alt="" width="200" height="57">
+            <img class="dock-logo is-dark-only" src="https://cdn.wwwonderlan.com/assets/wwwonderlan-white.png" alt="" width="200" height="57">
+          </a>
         </div>
 
         <ul class="dock-menu">
