@@ -14,7 +14,7 @@ const posters = [
     country: "Hong Kong",
     year: 1995,
     distributor: "Block 2 Distribution",
-    image: "https://pub-01259ba9a4fe4eccabe8b5baf85baa7a.r2.dev/fallen-angels.jpg",
+    image: "https://wwwonderlan.com/posters/fallen-angels-1280.png",
     url: "https://wwwonderlan.etsy.com/uk/listing/4310610506/fallen-angels-movie-poster-print-wong",
   },
   {
@@ -24,7 +24,7 @@ const posters = [
     country: "Taiwan",
     year: 1985,
     distributor: "Evergreen Film Company",
-    image: "https://pub-01259ba9a4fe4eccabe8b5baf85baa7a.r2.dev/taipei-story.jpg",
+    image: "https://wwwonderlan.com/posters/taipei-story-1280.png",
     url: "https://wwwonderlan.etsy.com/uk/listing/4331048372/taipei-story-movie-poster-print-edward",
   },
   {
@@ -34,7 +34,7 @@ const posters = [
     country: "Taiwan",
     year: 2001,
     distributor: "3H Productions",
-    image: "https://pub-01259ba9a4fe4eccabe8b5baf85baa7a.r2.dev/millennium-mambo.jpg",
+    image: "https://wwwonderlan.com/posters/millennium-mambo-1280.png",
     url: "https://wwwonderlan.etsy.com/uk/listing/4337108727/millennium-mambo-movie-poster-print-hou",
   },
 ];
@@ -45,10 +45,10 @@ const posters = [
 
 const UTM = "utm_source=wwwonderlan&utm_medium=site&utm_campaign=poster-grid";
 
-/* Intrinsic size of the source files. Reserves the right space
-   during load without constraining the rendered ratio. */
-const POSTER_WIDTH = 2000;
-const POSTER_HEIGHT = 3000;
+/* Intrinsic size of the source files. Reserves the right space during
+   load without constraining the rendered ratio. */
+const POSTER_WIDTH = 1280;
+const POSTER_HEIGHT = 1920;
 
 /* Titles are ours, not user input — this exists so an ampersand or
    apostrophe in a film title can't break the markup. */
