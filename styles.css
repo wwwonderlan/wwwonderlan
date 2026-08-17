@@ -1,17 +1,22 @@
 /* ---------------------------------------------------------------
    Fonts
+
+   Two faces, because the site uses two: Medium for body and controls,
+   Bold for titles and the menu. WOFF2 only — every browser that can run
+   this page supports it, so a TrueType fallback would never be fetched.
+   The %20 escapes are the spaces in the filenames.
    --------------------------------------------------------------- */
 
 @font-face {
   font-family: "Helvetica Now Display";
-  src: url("fonts/HelveticaNowDisplay-Medium.ttf") format("truetype");
+  src: url("Helvetica%20Now%20Display/Helvetica%20Now%20Display%20Medium.woff2") format("woff2");
   font-weight: 500;
   font-display: swap;
 }
 
 @font-face {
   font-family: "Helvetica Now Display";
-  src: url("fonts/HelveticaNowDisplay-Bold.ttf") format("truetype");
+  src: url("Helvetica%20Now%20Display/Helvetica%20Now%20Display%20Bold.woff2") format("woff2");
   font-weight: 700;
   font-display: swap;
 }
