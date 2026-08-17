@@ -4,6 +4,11 @@
    Add a listing by appending an object. Nothing else changes.
    Credits read "Director · Country · Year" over the distributor;
    the button label is composed from the title.
+
+   One coupling to know about: the first three image URLs are also
+   preloaded in index.html, because the parser cannot see images that a
+   script writes. Change one of those URLs and change it there too, or
+   the preload fetches nothing and the poster arrives late.
    --------------------------------------------------------------- */
 
 const posters = [
@@ -50,6 +55,10 @@ const UTM = "utm_source=wwwonderlan&utm_medium=site&utm_campaign=poster-grid";
 const POSTER_WIDTH = 1280;
 const POSTER_HEIGHT = 1920;
 
+/* The widest the grid ever goes. Everything past it is below the fold on
+   any screen, so it loads lazily and is not preloaded. */
+const FIRST_ROW = 3;
+
 /* Titles are ours, not user input — this exists so an ampersand or
    apostrophe in a film title can't break the markup. */
 const escapeHTML = (value) =>
@@ -59,19 +68,20 @@ const escapeHTML = (value) =>
 const buyLink = ({ url, slug }) =>
   `${url}${url.includes("?") ? "&" : "?"}${UTM}&utm_content=${slug}`;
 
-const cardHTML = ({ title, director, country, year, distributor, image, ...rest }) => `
+const cardHTML = ({ title, director, country, year, distributor, image, ...rest }, index) => `
   <li class="card">
     <img class="card__poster"
          src="${escapeHTML(image)}"
          alt="${escapeHTML(title)} poster print"
          width="${POSTER_WIDTH}"
          height="${POSTER_HEIGHT}"
+         loading="${index < FIRST_ROW ? "eager" : "lazy"}"
          decoding="async">
     <div class="card__details">
       <div class="card__text">
         <h2 class="card__title">${escapeHTML(title)}</h2>
         <p class="card__credits">
-          ${escapeHTML(director)} · ${escapeHTML(country)} · ${year}<br>${escapeHTML(distributor)}
+          ${escapeHTML(director)} · ${escapeHTML(country)} · ${escapeHTML(year)}<br>${escapeHTML(distributor)}
         </p>
       </div>
       <a class="card__buy"
@@ -189,7 +199,7 @@ function openDetails() {
 
   details.classList.add("is-open");
   detailsToggle.setAttribute("aria-expanded", "true");
-  document.body.style.overflow = "hidden";
+  document.documentElement.classList.add("is-locked");
   page.inert = true;                       // keeps tabbing out of the posters
 
   document.getElementById("details-close").focus();
@@ -198,7 +208,7 @@ function openDetails() {
 function closeDetails() {
   details.classList.remove("is-open");
   detailsToggle.setAttribute("aria-expanded", "false");
-  document.body.style.overflow = "";
+  document.documentElement.classList.remove("is-locked");
   page.inert = false;
 
   scrollTo({ top: restoreScroll, behavior: "auto" });
