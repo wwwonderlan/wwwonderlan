@@ -102,6 +102,36 @@ const posters = [
     image: "https://cdn.wwwonderlan.com/posters/heat-1280.png",
     url: "https://wwwonderlan.etsy.com/uk/listing/4480799792/heat-movie-poster-print-michael-mann",
   },
+  {
+    slug: "christiane-f",
+    title: "Christiane F.",
+    director: "Ulrich Edel",
+    country: "Germany",
+    year: 1981,
+    distributor: "Solaris Film / Maran Film",
+    image: "https://cdn.wwwonderlan.com/posters/christiane-f-1280.png",
+    url: "https://wwwonderlan.etsy.com/uk/listing/4499788239/christiane-f-1981-movie-poster-print-wir",
+  },
+  {
+    slug: "the-red-shoes",
+    title: "The Red Shoes",
+    director: "Powell and Pressburger",
+    country: "United Kingdom",
+    year: 1948,
+    distributor: "General Film Distributors",
+    image: "https://cdn.wwwonderlan.com/posters/the-red-shoes-1280.png",
+    url: "https://wwwonderlan.etsy.com/uk/listing/4522310080/the-red-shoes-1948-movie-poster-print",
+  },
+  {
+    slug: "fire-walk-with-me",
+    title: "Twin Peaks: Fire Walk With Me",
+    director: "David Lynch",
+    country: "United States",
+    year: 1992,
+    distributor: "New Line Cinema Corporation",
+    image: "https://cdn.wwwonderlan.com/posters/fire-walk-with-me-1280.png",
+    url: "https://wwwonderlan.etsy.com/uk/listing/4541437995/twin-peaks-fire-walk-with-me-1992-movie",
+  },
 ];
 
 /* ---------------------------------------------------------------
