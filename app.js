@@ -42,6 +42,36 @@ const posters = [
     image: "https://cdn.wwwonderlan.com/posters/millennium-mambo-1280.png",
     url: "https://wwwonderlan.etsy.com/uk/listing/4337108727/millennium-mambo-movie-poster-print-hou",
   },
+  {
+    slug: "blue-velvet",
+    title: "Blue Velvet",
+    director: "David Lynch",
+    country: "United States",
+    year: 1986,
+    distributor: "De Laurentiis Entertainment Group",
+    image: "https://cdn.wwwonderlan.com/posters/blue-velvet-1280.png",
+    url: "https://wwwonderlan.etsy.com/uk/listing/4357152684/blue-velvet-movie-poster-print-david",
+  },
+  {
+    slug: "a-clockwork-orange",
+    title: "A Clockwork Orange",
+    director: "Stanley Kubrick",
+    country: "United States",
+    year: 1971,
+    distributor: "Warner Bros.",
+    image: "https://cdn.wwwonderlan.com/posters/a-clockwork-orange-1280.png",
+    url: "https://wwwonderlan.etsy.com/uk/listing/4388658509/a-clockwork-orange-movie-poster-print",
+  },
+  {
+    slug: "rosemarys-baby",
+    title: "Rosemary's Baby",
+    director: "Roman Polanski",
+    country: "United States",
+    year: 1968,
+    distributor: "Paramount Pictures",
+    image: "https://cdn.wwwonderlan.com/posters/rosemarys-baby-1280.png",
+    url: "https://wwwonderlan.etsy.com/uk/listing/4404257444/rosemarys-baby-movie-poster-print-roman",
+  },
 ];
 
 /* ---------------------------------------------------------------
