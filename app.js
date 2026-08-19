@@ -104,7 +104,7 @@ const posters = [
   },
   {
     slug: "christiane-f",
-    title: "Christiane F.",
+    title: "Christiane F. Wir Kinder vom Bahnhof Zoo",
     director: "Ulrich Edel",
     country: "Germany",
     year: 1981,
