@@ -51,6 +51,16 @@
 <link rel="preload" as="image" fetchpriority="high" href="https://cdn.wwwonderlan.com/posters/taipei-story-1280.png">
 <link rel="preload" as="image" fetchpriority="high" href="https://cdn.wwwonderlan.com/posters/millennium-mambo-1280.png">
 <link rel="stylesheet" href="styles.css">
+
+<!-- Last in the head, and async, so it cannot compete with the fonts and
+     the first row of posters for the opening connections. -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-8BGK8BSWVF"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-8BGK8BSWVF');
+</script>
 </head>
 
 <body>
