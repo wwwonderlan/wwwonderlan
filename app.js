@@ -193,14 +193,24 @@ const THEME_KEY = "wwwonderlan-theme";
 const THEME_BACKGROUNDS = { light: "#FFFFFF", dark: "#000000" };
 
 const themeButtons = document.querySelectorAll("[data-set-theme]");
+const prefersLight = matchMedia("(prefers-color-scheme: light)");
 
-function applyTheme(theme) {
+const storedTheme = () => {
+  try { return localStorage.getItem(THEME_KEY); } catch { return null; }
+};
+
+/* Persisting only on an explicit choice is what keeps the device setting
+   live: writing on every load would leave a stored value behind after the
+   first visit, and the device would never be consulted again. */
+function applyTheme(theme, persist) {
   document.documentElement.dataset.theme = theme;
   document.getElementById("theme-color").setAttribute("content", THEME_BACKGROUNDS[theme]);
 
   // Pressed marks the theme in use; the other dims to muted.
   themeButtons.forEach((button) =>
     button.setAttribute("aria-pressed", String(button.dataset.setTheme === theme)));
+
+  if (!persist) return;
 
   try {
     localStorage.setItem(THEME_KEY, theme);
@@ -209,10 +219,16 @@ function applyTheme(theme) {
   }
 }
 
-applyTheme(document.documentElement.dataset.theme);
+applyTheme(document.documentElement.dataset.theme, false);
 
 themeButtons.forEach((button) =>
-  button.addEventListener("click", () => applyTheme(button.dataset.setTheme)));
+  button.addEventListener("click", () => applyTheme(button.dataset.setTheme, true)));
+
+// Follows the device while the page is open, unless a choice was made here.
+prefersLight.addEventListener("change", (event) => {
+  if (storedTheme()) return;
+  applyTheme(event.matches ? "light" : "dark", false);
+});
 
 /* ---------------------------------------------------------------
    Scroll progress and back to top
