@@ -531,12 +531,18 @@ a { text-decoration: none; }
   overscroll-behavior: contain;
   background-color: var(--bg);
 
+  /* The panel scrolls but shows no bar: a second bar inside the page
+     reads as a nested window rather than a layer over it. */
+  scrollbar-width: none;
+
   opacity: 0;
   visibility: hidden;
   transition:
       opacity var(--ui-ms) var(--ui-ease),
       visibility var(--ui-ms) var(--ui-ease);
 }
+
+.details::-webkit-scrollbar { display: none; }
 
 .details.is-open {
   opacity: 1;
