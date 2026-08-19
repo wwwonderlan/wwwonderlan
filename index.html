@@ -22,13 +22,16 @@
 <meta property="og:image:alt" content="WWWONDERLAN">
 <meta name="twitter:card" content="summary_large_image">
 
-<!-- Must run before first paint, or the wrong theme flashes. Dark is the
-     default; only a previous choice moves it. -->
+<!-- Must run before first paint, or the wrong theme flashes. A stored
+     choice wins; otherwise the device decides, and dark is the fallback
+     where it has no preference. -->
 <script>
 (() => {
   let stored;
   try { stored = localStorage.getItem("wwwonderlan-theme"); } catch {}
-  if (stored !== "light") return;
+  const theme = stored
+    || (matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark");
+  if (theme !== "light") return;
   document.documentElement.dataset.theme = "light";
   document.getElementById("theme-color").setAttribute("content", "#FFFFFF");
 })();
