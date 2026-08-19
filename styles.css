@@ -1,11 +1,3 @@
-/* ---------------------------------------------------------------
-   Fonts
-
-   Two faces, because the site uses two: Medium for body and controls,
-   Bold for titles and the menu. WOFF2 only — every browser that can run
-   this page supports it, so a TrueType fallback would never be fetched.
-   --------------------------------------------------------------- */
-
 @font-face {
   font-family: "Helvetica Now Display";
   src: url("HelveticaNowDisplay/HelveticaNowDisplayMedium.woff2") format("woff2");
@@ -33,8 +25,7 @@
   --color-line: rgba(0, 0, 0, 0.1);
   --color-accent: #007AFF;
 
-  /* Frosted glass: the fill is the page colour at partial opacity, so it
-     nearly vanishes over empty page and blooms over a poster. */
+  /* Frosted glass */
   --glass-bg: rgba(255, 255, 255, 0.6);
   --glass-backdrop: blur(20px) saturate(190%) brightness(1.05);
   --glass-border: var(--color-line);
