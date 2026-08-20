@@ -39,6 +39,21 @@
   --page-y: clamp(20px, 2.222vw, 32px);
 
   --logo-width: 200px;
+
+  /* Everything in an enlarged card that is not the poster: the details
+     block, the gap above it, and the slide's own padding. Subtracting it
+     from the viewport height leaves what the poster may occupy. */
+  --lightbox-chrome: calc(160px + var(--page-y) * 2);
+
+  /* Whichever runs out first — the viewport's width, a sensible ceiling,
+     or the height once the details block is paid for. Divided by 1.5
+     because the poster is 2:3, so its height is its width and a half.
+     dvh rather than vh: iOS reports vh as the address bar were absent. */
+  --lightbox-card: min(
+      86vw,
+      420px,
+      calc((100dvh - var(--lightbox-chrome)) / 1.5)
+  );
   --logo-height: calc(var(--logo-width) * 57 / 200);
   --header-height: calc(var(--logo-height) + var(--page-y) * 2);
 
@@ -259,6 +274,18 @@ a { text-decoration: none; }
   display: flex;
   flex-direction: column;
   gap: var(--gap-poster);
+}
+
+/* A bare wrapper: the poster is the affordance, so the button adds no
+   appearance of its own. */
+.card__open {
+  display: block;
+  width: 100%;
+  border: 0;
+  padding: 0;
+  appearance: none;
+  background: transparent;
+  cursor: zoom-in;
 }
 
 /* Height follows the file's own proportions — never cropped, never
@@ -635,10 +662,13 @@ a { text-decoration: none; }
   text-underline-offset: 2px;
 }
 
-.details__close {
+/* Shared by both overlays; only the vertical offset differs, because the
+   Details panel starts below the header and the enlarged view does not. */
+.overlay-close {
   position: fixed;
-  top: calc(var(--page-y) * 2 + var(--header-height));
+  top: var(--page-y);
   right: var(--page-x);
+  z-index: 1;
 
   display: flex;
   border: 0;
@@ -649,7 +679,10 @@ a { text-decoration: none; }
   cursor: pointer;
 }
 
-.details__close svg {
+.details__close { top: calc(var(--page-y) * 2 + var(--header-height)); }
+
+.overlay-close svg,
+.lightbox-step svg {
   width: var(--dock-icon-size);
   height: var(--dock-icon-size);
   display: block;
@@ -658,6 +691,91 @@ a { text-decoration: none; }
   stroke-width: 1.8;
   stroke-linecap: round;
   stroke-linejoin: round;
+}
+
+/* ---------------------------------------------------------------
+   Enlarged view
+   --------------------------------------------------------------- */
+
+/* Above the dock, so the whole page including the chrome sits behind the
+   glass. The entrance runs on backdrop-filter itself, which is animatable
+   — see the dock, where an animated ancestor killed the blur outright. */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+
+  background-color: transparent;
+  backdrop-filter: blur(0px);
+  -webkit-backdrop-filter: blur(0px);
+
+  visibility: hidden;
+  transition:
+      backdrop-filter var(--chrome-ms) var(--enter-ease),
+      -webkit-backdrop-filter var(--chrome-ms) var(--enter-ease),
+      background-color var(--chrome-ms) var(--enter-ease),
+      visibility var(--chrome-ms) var(--enter-ease);
+}
+
+.lightbox.is-open {
+  visibility: visible;
+  background-color: var(--glass-bg);
+  backdrop-filter: var(--glass-backdrop);
+  -webkit-backdrop-filter: var(--glass-backdrop);
+}
+
+/* Snapping does the swiping: native momentum on touch and trackpad, and
+   nothing to write. */
+.lightbox-track {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  overscroll-behavior: contain;
+  scrollbar-width: none;
+}
+
+.lightbox-track::-webkit-scrollbar { display: none; }
+
+.lightbox-slide {
+  flex: 0 0 100%;
+  scroll-snap-align: center;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--page-y) var(--page-x);
+}
+
+/* The card is the grid's card, only sized by the viewport instead of by
+   a column, so the two can never look like different objects. */
+.lightbox-slide .card { width: var(--lightbox-card); }
+
+.lightbox-step {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+
+  display: flex;
+  border: 0;
+  padding: 0;
+  appearance: none;
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.lightbox-step--prev { left: var(--page-x); }
+.lightbox-step--next { right: var(--page-x); }
+
+/* Touch swipes; only a mouse needs the arrows. */
+@media (pointer: coarse) {
+  .lightbox-step { display: none; }
 }
 
 /* ---------------------------------------------------------------
