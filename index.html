@@ -22,9 +22,7 @@
 <meta property="og:image:alt" content="WWWONDERLAN">
 <meta name="twitter:card" content="summary_large_image">
 
-<!-- Must run before first paint, or the wrong theme flashes. A stored
-     choice wins; otherwise the device decides, and dark is the fallback
-     where it has no preference. -->
+<!-- Before first paint, or the wrong theme flashes. -->
 <script>
 (() => {
   let stored;
@@ -37,26 +35,19 @@
 })();
 </script>
 
-<!-- Images and logos come from the bucket on its own subdomain, so the
-     connection opens before the markup asks for them. No crossorigin here:
-     images are fetched in plain mode, and a CORS connection cannot be
-     reused for them. Fonts are same-origin, so they need no preconnect. -->
+<!-- No crossorigin: images are fetched in plain mode and won't reuse a CORS connection. -->
 <link rel="preconnect" href="https://cdn.wwwonderlan.com">
 
 <link rel="preload" href="HelveticaNowDisplay/HelveticaNowDisplayBold.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="HelveticaNowDisplay/HelveticaNowDisplayMedium.woff2" as="font" type="font/woff2" crossorigin>
 
-<!-- The posters are written by app.js, so the parser never sees them and
-     cannot start fetching until the script has run. These preloads put
-     the first row in flight during head parsing instead. Only the first
-     row: anything below the fold should wait its turn. -->
+<!-- app.js writes the posters, so the parser can't find them. First row only. -->
 <link rel="preload" as="image" fetchpriority="high" href="https://cdn.wwwonderlan.com/posters/fallen-angels-1280.png">
 <link rel="preload" as="image" fetchpriority="high" href="https://cdn.wwwonderlan.com/posters/taipei-story-1280.png">
 <link rel="preload" as="image" fetchpriority="high" href="https://cdn.wwwonderlan.com/posters/millennium-mambo-1280.png">
 <link rel="stylesheet" href="styles.css">
 
-<!-- Last in the head, and async, so it cannot compete with the fonts and
-     the first row of posters for the opening connections. -->
+<!-- Last, so it doesn't compete with fonts and posters for connections. -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-8BGK8BSWVF"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -80,7 +71,7 @@
   <main>
     <h1 class="visually-hidden">Film poster prints</h1>
 
-    <!-- Populated from the posters array in app.js -->
+    <!-- Filled from the posters array in app.js -->
     <ul class="grid" id="grid"></ul>
 
     <noscript>
@@ -106,9 +97,7 @@
             <li>24×36″</li>
           </ul>
 
-          <!-- Nested to scale at 8 units per inch, shared with the A-series
-               diagram so the two can be compared directly. The list above
-               states the same sizes, so this is decorative to a reader. -->
+          <!-- 8 units per inch, same scale as the A-series below. -->
           <svg class="details__diagram" viewBox="0 0 194 290" aria-hidden="true">
             <rect x="1" y="1" width="192" height="288"/>
             <rect x="1" y="49" width="160" height="240"/>
@@ -148,30 +137,11 @@
       <p>Production and delivery typically take 2–3 weeks. For any inquiries, please contact WWWONDERLAN by <a href="mailto:wwwonderlan@gmail.com">email</a>.</p>
     </div>
 
-    <button class="overlay-close details__close" type="button" id="details-close" aria-label="Close details">
+    <button class="details__close" type="button" id="details-close" aria-label="Close details">
       <svg viewBox="0 0 24 24" aria-hidden="true">
         <path d="M18 6 6 18"/>
         <path d="m6 6 12 12"/>
       </svg>
-    </button>
-  </div>
-
-  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Poster">
-    <ul class="lightbox-track" id="lightbox-track"></ul>
-
-    <button class="overlay-close" type="button" id="lightbox-close" aria-label="Close">
-      <svg viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M18 6 6 18"/>
-        <path d="m6 6 12 12"/>
-      </svg>
-    </button>
-
-    <button class="lightbox-step lightbox-step--prev" type="button" id="lightbox-prev" aria-label="Previous poster">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
-    </button>
-
-    <button class="lightbox-step lightbox-step--next" type="button" id="lightbox-next" aria-label="Next poster">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
     </button>
   </div>
 
