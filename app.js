@@ -1,15 +1,6 @@
-/* ---------------------------------------------------------------
-   Posters
-
-   Add a listing by appending an object. Nothing else changes.
-   Credits read "Director · Country · Year" over the distributor;
-   the button label is composed from the title.
-
-   One coupling to know about: the first three image URLs are also
-   preloaded in index.html, because the parser cannot see images that a
-   script writes. Change one of those URLs and change it there too, or
-   the preload fetches nothing and the poster arrives late.
-   --------------------------------------------------------------- */
+/* Posters
+   Append an object to add a listing; nothing else changes.
+   The first three image URLs are also preloaded in index.html — keep them in sync. */
 
 const posters = [
   {
@@ -134,23 +125,18 @@ const posters = [
   },
 ];
 
-/* ---------------------------------------------------------------
-   Render
-   --------------------------------------------------------------- */
+/* Render */
 
 const UTM = "utm_source=wwwonderlan&utm_medium=site&utm_campaign=poster-grid";
 
-/* Intrinsic size of the source files. Reserves the right space during
-   load without constraining the rendered ratio. */
+/* Reserves space during load; doesn't constrain the rendered ratio. */
 const POSTER_WIDTH = 1280;
 const POSTER_HEIGHT = 1920;
 
-/* The widest the grid ever goes. Everything past it is below the fold on
-   any screen, so it loads lazily and is not preloaded. */
+/* Widest the grid goes. Past this is below the fold on any screen. */
 const FIRST_ROW = 3;
 
-/* Titles are ours, not user input — this exists so an ampersand or
-   apostrophe in a film title can't break the markup. */
+/* Not for untrusted input — just so an ampersand in a title can't break the markup. */
 const escapeHTML = (value) =>
   String(value).replace(/[&<>"]/g, (character) =>
     ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[character]);
@@ -158,59 +144,36 @@ const escapeHTML = (value) =>
 const buyLink = ({ url, slug }) =>
   `${url}${url.includes("?") ? "&" : "?"}${UTM}&utm_content=${slug}`;
 
-/* The poster and the details block are shared by the grid and the
-   enlarged view, so the two can never drift apart. Only the wrapper
-   differs: the grid makes the poster a button, the enlarged view does
-   not — it is already inside the thing that button opens. */
-const posterHTML = ({ title, image }, index) => `
-  <img class="card__poster"
-       src="${escapeHTML(image)}"
-       alt="${escapeHTML(title)} poster print"
-       width="${POSTER_WIDTH}"
-       height="${POSTER_HEIGHT}"
-       loading="${index < FIRST_ROW ? "eager" : "lazy"}"
-       decoding="async">`;
-
-const detailsHTML = ({ title, director, country, year, distributor, ...rest }) => `
-  <div class="card__details">
-    <div class="card__text">
-      <h2 class="card__title">${escapeHTML(title)}</h2>
-      <p class="card__credits">
-        ${escapeHTML(director)} · ${escapeHTML(country)} · ${escapeHTML(year)}<br>${escapeHTML(distributor)}
-      </p>
-    </div>
-    <a class="card__buy"
-       href="${escapeHTML(buyLink(rest))}"
-       target="_blank"
-       rel="noopener">Buy ${escapeHTML(title)} Poster →</a>
-  </div>`;
-
-const cardHTML = (poster, index) => `
+const cardHTML = ({ title, director, country, year, distributor, image, ...rest }, index) => `
   <li class="card">
-    <button class="card__open" type="button" data-index="${index}"
-            aria-label="View ${escapeHTML(poster.title)} enlarged">
-      ${posterHTML(poster, index)}
-    </button>
-    ${detailsHTML(poster)}
-  </li>`;
-
-const slideHTML = (poster, index) => `
-  <li class="lightbox-slide">
-    <div class="card">
-      ${posterHTML(poster, index)}
-      ${detailsHTML(poster)}
+    <img class="card__poster"
+         src="${escapeHTML(image)}"
+         alt="${escapeHTML(title)} poster print"
+         width="${POSTER_WIDTH}"
+         height="${POSTER_HEIGHT}"
+         loading="${index < FIRST_ROW ? "eager" : "lazy"}"
+         decoding="async">
+    <div class="card__details">
+      <div class="card__text">
+        <h2 class="card__title">${escapeHTML(title)}</h2>
+        <p class="card__credits">
+          ${escapeHTML(director)} · ${escapeHTML(country)} · ${escapeHTML(year)}<br>${escapeHTML(distributor)}
+        </p>
+      </div>
+      <a class="card__buy"
+         href="${escapeHTML(buyLink(rest))}"
+         target="_blank"
+         rel="noopener">Buy ${escapeHTML(title)} Poster →</a>
     </div>
   </li>`;
 
 document.getElementById("grid").innerHTML = posters.map(cardHTML).join("");
 
-/* ---------------------------------------------------------------
-   Theme
-   --------------------------------------------------------------- */
+/* Theme */
 
 const THEME_KEY = "wwwonderlan-theme";
 
-/* Must match --bg, so the browser's own chrome matches the page. */
+/* Must match --bg. */
 const THEME_BACKGROUNDS = { light: "#FFFFFF", dark: "#000000" };
 
 const themeButtons = document.querySelectorAll("[data-set-theme]");
@@ -220,14 +183,13 @@ const storedTheme = () => {
   try { return localStorage.getItem(THEME_KEY); } catch { return null; }
 };
 
-/* Persisting only on an explicit choice is what keeps the device setting
-   live: writing on every load would leave a stored value behind after the
-   first visit, and the device would never be consulted again. */
+/* Only persist on an explicit choice — storing on load would freeze out the
+   device setting after the first visit. */
 function applyTheme(theme, persist) {
   document.documentElement.dataset.theme = theme;
   document.getElementById("theme-color").setAttribute("content", THEME_BACKGROUNDS[theme]);
 
-  // Pressed marks the theme in use; the other dims to muted.
+  /* Pressed marks the theme in use; the other dims. */
   themeButtons.forEach((button) =>
     button.setAttribute("aria-pressed", String(button.dataset.setTheme === theme)));
 
@@ -236,7 +198,7 @@ function applyTheme(theme, persist) {
   try {
     localStorage.setItem(THEME_KEY, theme);
   } catch {
-    /* Storage disabled: the theme holds for this session, unremembered. */
+    /* Storage disabled; theme holds for this session only. */
   }
 }
 
@@ -245,15 +207,13 @@ applyTheme(document.documentElement.dataset.theme, false);
 themeButtons.forEach((button) =>
   button.addEventListener("click", () => applyTheme(button.dataset.setTheme, true)));
 
-// Follows the device while the page is open, unless a choice was made here.
+/* Follows the device unless a choice was made here. */
 prefersLight.addEventListener("change", (event) => {
   if (storedTheme()) return;
   applyTheme(event.matches ? "light" : "dark", false);
 });
 
-/* ---------------------------------------------------------------
-   Scroll progress and back to top
-   --------------------------------------------------------------- */
+/* Scroll progress and back to top */
 
 const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)");
 
@@ -270,8 +230,7 @@ function render() {
   progressFill.style.transform = `scaleX(${ratio})`;
 }
 
-/* Scroll fires far more often than the screen refreshes; coalescing into
-   one frame keeps this off the critical path. */
+/* Scroll fires far more often than the screen refreshes. */
 function queueRender() {
   if (queued) return;
   queued = true;
@@ -281,7 +240,7 @@ function queueRender() {
 addEventListener("scroll", queueRender, { passive: true });
 addEventListener("resize", queueRender, { passive: true });
 
-/* The page changes height as posters load. */
+/* Page height changes as posters load. */
 new ResizeObserver(queueRender).observe(document.body);
 
 render();
@@ -289,13 +248,8 @@ render();
 document.getElementById("scroll-top").addEventListener("click", () =>
   scrollTo({ top: 0, behavior: reducedMotion.matches ? "auto" : "smooth" }));
 
-/* ---------------------------------------------------------------
-   Logo handoff
-
-   The mark lives in the header at rest and in the dock once the header
-   has scrolled away. Observing the header itself rather than watching
-   scroll offsets keeps this correct at any header height.
-   --------------------------------------------------------------- */
+/* Logo handoff — header to dock. Observing the header rather than a scroll
+   offset keeps it right at any header height. */
 
 const header = document.getElementById("header");
 const dock = document.getElementById("dock");
@@ -305,13 +259,8 @@ new IntersectionObserver(([entry]) => {
   dock.classList.toggle("is-collapsed", entry.isIntersecting);
 }).observe(header);
 
-/* ---------------------------------------------------------------
-   Details
-
-   A panel over the page rather than a route. Visibility rather than the
-   hidden attribute, so it can transition and still leave the tab order
-   and the accessibility tree when closed.
-   --------------------------------------------------------------- */
+/* Details — visibility rather than [hidden], so it can transition and still
+   leave the tab order when closed. */
 
 const details = document.getElementById("details");
 const detailsToggle = document.getElementById("details-toggle");
@@ -320,14 +269,14 @@ const page = document.querySelector("main");
 let restoreScroll = 0;
 
 function openDetails() {
-  // The panel opens below the header, so the header has to be in view.
+  /* Opens below the header, so the header has to be in view. */
   restoreScroll = scrollY;
   scrollTo({ top: 0, behavior: "auto" });
 
   details.classList.add("is-open");
   detailsToggle.setAttribute("aria-expanded", "true");
   document.documentElement.classList.add("is-locked");
-  page.inert = true;                       // keeps tabbing out of the posters
+  page.inert = true;
 
   document.getElementById("details-close").focus();
 }
@@ -350,87 +299,3 @@ document.getElementById("details-close").addEventListener("click", closeDetails)
 addEventListener("keydown", (event) => {
   if (event.key === "Escape" && details.classList.contains("is-open")) closeDetails();
 });
-
-/* ---------------------------------------------------------------
-   Enlarged view
-
-   The grid blurs behind a horizontal track of the same cards, one per
-   screen. Scroll snapping does the swiping: it gives native momentum on
-   touch and trackpad for none of the cost of tracking pointers, and the
-   arrows exist for anyone on a mouse.
-
-   Nothing above .lightbox animates, and the entrance runs on its own
-   backdrop-filter rather than on a parent, for the reason recorded in
-   the dock's stylesheet: an animated ancestor becomes a backdrop root
-   and the glass would blur nothing.
-   --------------------------------------------------------------- */
-
-const lightbox = document.getElementById("lightbox");
-const track = document.getElementById("lightbox-track");
-
-let trackBuilt = false;
-
-const slideIndex = () => Math.round(track.scrollLeft / track.clientWidth);
-
-function goToSlide(index, smooth) {
-  track.scrollTo({
-    left: index * track.clientWidth,
-    behavior: smooth && !reducedMotion.matches ? "smooth" : "auto",
-  });
-}
-
-function openLightbox(index) {
-  // Built on first use only: nobody who never opens it pays for the markup.
-  if (!trackBuilt) {
-    track.innerHTML = posters.map(slideHTML).join("");
-    trackBuilt = true;
-  }
-
-  lightbox.classList.add("is-open");
-  document.documentElement.classList.add("is-locked");
-  page.inert = true;
-
-  goToSlide(index, false);
-  document.getElementById("lightbox-close").focus();
-}
-
-function closeLightbox() {
-  lightbox.classList.remove("is-open");
-  document.documentElement.classList.remove("is-locked");
-  page.inert = false;
-
-  // Back to the poster that opened it, rather than the top of the grid.
-  document.querySelector(`.card__open[data-index="${slideIndex()}"]`)?.focus();
-}
-
-const isOpen = () => lightbox.classList.contains("is-open");
-
-document.getElementById("grid").addEventListener("click", (event) => {
-  const opener = event.target.closest(".card__open");
-  if (opener) openLightbox(Number(opener.dataset.index));
-});
-
-document.getElementById("lightbox-close").addEventListener("click", closeLightbox);
-
-document.getElementById("lightbox-prev").addEventListener("click", () =>
-  goToSlide(Math.max(0, slideIndex() - 1), true));
-
-document.getElementById("lightbox-next").addEventListener("click", () =>
-  goToSlide(Math.min(posters.length - 1, slideIndex() + 1), true));
-
-// Clicking the glass around a card dismisses; clicking the card does not.
-lightbox.addEventListener("click", (event) => {
-  if (event.target.classList.contains("lightbox-slide")) closeLightbox();
-});
-
-addEventListener("keydown", (event) => {
-  if (!isOpen()) return;
-
-  if (event.key === "Escape") closeLightbox();
-  if (event.key === "ArrowLeft") goToSlide(Math.max(0, slideIndex() - 1), true);
-  if (event.key === "ArrowRight") goToSlide(Math.min(posters.length - 1, slideIndex() + 1), true);
-});
-
-/* Slide width is a share of the viewport, so a rotation would leave the
-   track parked between two cards. */
-addEventListener("resize", () => isOpen() && goToSlide(slideIndex(), false), { passive: true });
