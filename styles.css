@@ -603,19 +603,6 @@ a { text-decoration: none; }
   stroke-linejoin: round;
 }
 
-/* Fallback */
-
-.fallback {
-  padding: 0 var(--page-x);
-  font-size: 14px;
-  line-height: 18px;
-  letter-spacing: -0.2px;
-  font-weight: 500;
-  color: var(--muted);
-}
-
-.fallback a { color: var(--ink); }
-
 /* Preferences */
 
 @media (prefers-reduced-motion: reduce) {
