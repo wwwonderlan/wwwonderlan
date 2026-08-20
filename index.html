@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" id="theme-color" content="#000000">
 
-<title>WWWONDERLAN</title>
+<title>WWWONDERLAN — Film Poster Prints</title>
 <meta name="description" content="Curated film posters designed by WWWONDERLAN">
 <link rel="canonical" href="https://wwwonderlan.com/">
 
@@ -41,10 +41,6 @@
 <link rel="preload" href="HelveticaNowDisplay/HelveticaNowDisplayBold.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="HelveticaNowDisplay/HelveticaNowDisplayMedium.woff2" as="font" type="font/woff2" crossorigin>
 
-<!-- app.js writes the posters, so the parser can't find them. First row only. -->
-<link rel="preload" as="image" fetchpriority="high" href="https://cdn.wwwonderlan.com/posters/fallen-angels-1280.png">
-<link rel="preload" as="image" fetchpriority="high" href="https://cdn.wwwonderlan.com/posters/taipei-story-1280.png">
-<link rel="preload" as="image" fetchpriority="high" href="https://cdn.wwwonderlan.com/posters/millennium-mambo-1280.png">
 <link rel="stylesheet" href="styles.css">
 
 <!-- Last, so it doesn't compete with fonts and posters for connections. -->
@@ -71,8 +67,167 @@
   <main>
     <h1 class="visually-hidden">Film poster prints</h1>
 
-    <!-- Filled from the posters array in app.js -->
-    <ul class="grid" id="grid"></ul>
+    <!-- New poster: copy any card below and change six things —
+         the image URL, the title (three times: alt, heading, Buy label),
+         the credits line, and the Etsy link. Keep utm_content matching the
+         image filename, or the click won't be attributed. Newest first. -->
+    <ul class="grid">
+      <li class="card">
+        <img class="card__poster" src="https://cdn.wwwonderlan.com/posters/fallen-angels-1280.png"
+             alt="Fallen Angels poster print" width="1280" height="1920"
+             fetchpriority="high" decoding="async">
+        <div class="card__details">
+          <div class="card__text">
+            <h2 class="card__title">Fallen Angels</h2>
+            <p class="card__credits">Wong Kar-Wai · Hong Kong · 1995<br>Block 2 Distribution</p>
+          </div>
+          <a class="card__buy" href="https://wwwonderlan.etsy.com/uk/listing/4310610506/fallen-angels-movie-poster-print-wong?utm_source=wwwonderlan&amp;utm_medium=site&amp;utm_campaign=poster-grid&amp;utm_content=fallen-angels" target="_blank" rel="noopener">Buy Fallen Angels Poster →</a>
+        </div>
+      </li>
+
+      <li class="card">
+        <img class="card__poster" src="https://cdn.wwwonderlan.com/posters/taipei-story-1280.png"
+             alt="Taipei Story poster print" width="1280" height="1920"
+             fetchpriority="high" decoding="async">
+        <div class="card__details">
+          <div class="card__text">
+            <h2 class="card__title">Taipei Story</h2>
+            <p class="card__credits">Edward Yang · Taiwan · 1985<br>Evergreen Film Company</p>
+          </div>
+          <a class="card__buy" href="https://wwwonderlan.etsy.com/uk/listing/4331048372/taipei-story-movie-poster-print-edward?utm_source=wwwonderlan&amp;utm_medium=site&amp;utm_campaign=poster-grid&amp;utm_content=taipei-story" target="_blank" rel="noopener">Buy Taipei Story Poster →</a>
+        </div>
+      </li>
+
+      <li class="card">
+        <img class="card__poster" src="https://cdn.wwwonderlan.com/posters/millennium-mambo-1280.png"
+             alt="Millennium Mambo poster print" width="1280" height="1920"
+             fetchpriority="high" decoding="async">
+        <div class="card__details">
+          <div class="card__text">
+            <h2 class="card__title">Millennium Mambo</h2>
+            <p class="card__credits">Hou Hsiao-Hsien · Taiwan · 2001<br>3H Productions</p>
+          </div>
+          <a class="card__buy" href="https://wwwonderlan.etsy.com/uk/listing/4337108727/millennium-mambo-movie-poster-print-hou?utm_source=wwwonderlan&amp;utm_medium=site&amp;utm_campaign=poster-grid&amp;utm_content=millennium-mambo" target="_blank" rel="noopener">Buy Millennium Mambo Poster →</a>
+        </div>
+      </li>
+
+      <li class="card">
+        <img class="card__poster" src="https://cdn.wwwonderlan.com/posters/blue-velvet-1280.png"
+             alt="Blue Velvet poster print" width="1280" height="1920"
+             loading="lazy" decoding="async">
+        <div class="card__details">
+          <div class="card__text">
+            <h2 class="card__title">Blue Velvet</h2>
+            <p class="card__credits">David Lynch · United States · 1986<br>De Laurentiis Entertainment Group</p>
+          </div>
+          <a class="card__buy" href="https://wwwonderlan.etsy.com/uk/listing/4357152684/blue-velvet-movie-poster-print-david?utm_source=wwwonderlan&amp;utm_medium=site&amp;utm_campaign=poster-grid&amp;utm_content=blue-velvet" target="_blank" rel="noopener">Buy Blue Velvet Poster →</a>
+        </div>
+      </li>
+
+      <li class="card">
+        <img class="card__poster" src="https://cdn.wwwonderlan.com/posters/a-clockwork-orange-1280.png"
+             alt="A Clockwork Orange poster print" width="1280" height="1920"
+             loading="lazy" decoding="async">
+        <div class="card__details">
+          <div class="card__text">
+            <h2 class="card__title">A Clockwork Orange</h2>
+            <p class="card__credits">Stanley Kubrick · United States · 1971<br>Warner Bros.</p>
+          </div>
+          <a class="card__buy" href="https://wwwonderlan.etsy.com/uk/listing/4388658509/a-clockwork-orange-movie-poster-print?utm_source=wwwonderlan&amp;utm_medium=site&amp;utm_campaign=poster-grid&amp;utm_content=a-clockwork-orange" target="_blank" rel="noopener">Buy A Clockwork Orange Poster →</a>
+        </div>
+      </li>
+
+      <li class="card">
+        <img class="card__poster" src="https://cdn.wwwonderlan.com/posters/rosemarys-baby-1280.png"
+             alt="Rosemary's Baby poster print" width="1280" height="1920"
+             loading="lazy" decoding="async">
+        <div class="card__details">
+          <div class="card__text">
+            <h2 class="card__title">Rosemary's Baby</h2>
+            <p class="card__credits">Roman Polanski · United States · 1968<br>Paramount Pictures</p>
+          </div>
+          <a class="card__buy" href="https://wwwonderlan.etsy.com/uk/listing/4404257444/rosemarys-baby-movie-poster-print-roman?utm_source=wwwonderlan&amp;utm_medium=site&amp;utm_campaign=poster-grid&amp;utm_content=rosemarys-baby" target="_blank" rel="noopener">Buy Rosemary's Baby Poster →</a>
+        </div>
+      </li>
+
+      <li class="card">
+        <img class="card__poster" src="https://cdn.wwwonderlan.com/posters/audition-1280.png"
+             alt="Audition poster print" width="1280" height="1920"
+             loading="lazy" decoding="async">
+        <div class="card__details">
+          <div class="card__text">
+            <h2 class="card__title">Audition</h2>
+            <p class="card__credits">Takashi Miike · Japan · 1999<br>Omega Project</p>
+          </div>
+          <a class="card__buy" href="https://wwwonderlan.etsy.com/uk/listing/4435662082/audition-movie-poster-print-takashi?utm_source=wwwonderlan&amp;utm_medium=site&amp;utm_campaign=poster-grid&amp;utm_content=audition" target="_blank" rel="noopener">Buy Audition Poster →</a>
+        </div>
+      </li>
+
+      <li class="card">
+        <img class="card__poster" src="https://cdn.wwwonderlan.com/posters/chungking-express-1280.png"
+             alt="Chungking Express poster print" width="1280" height="1920"
+             loading="lazy" decoding="async">
+        <div class="card__details">
+          <div class="card__text">
+            <h2 class="card__title">Chungking Express</h2>
+            <p class="card__credits">Wong Kar-Wai · Hong Kong · 1994<br>Jet Tone Production Co.</p>
+          </div>
+          <a class="card__buy" href="https://wwwonderlan.etsy.com/uk/listing/4463074853/chungking-express-1994-movie-poster?utm_source=wwwonderlan&amp;utm_medium=site&amp;utm_campaign=poster-grid&amp;utm_content=chungking-express" target="_blank" rel="noopener">Buy Chungking Express Poster →</a>
+        </div>
+      </li>
+
+      <li class="card">
+        <img class="card__poster" src="https://cdn.wwwonderlan.com/posters/heat-1280.png"
+             alt="Heat poster print" width="1280" height="1920"
+             loading="lazy" decoding="async">
+        <div class="card__details">
+          <div class="card__text">
+            <h2 class="card__title">Heat</h2>
+            <p class="card__credits">Michael Mann · United States · 1995<br>Warner Bros.</p>
+          </div>
+          <a class="card__buy" href="https://wwwonderlan.etsy.com/uk/listing/4480799792/heat-movie-poster-print-michael-mann?utm_source=wwwonderlan&amp;utm_medium=site&amp;utm_campaign=poster-grid&amp;utm_content=heat" target="_blank" rel="noopener">Buy Heat Poster →</a>
+        </div>
+      </li>
+
+      <li class="card">
+        <img class="card__poster" src="https://cdn.wwwonderlan.com/posters/christiane-f-1280.png"
+             alt="Christiane F. Wir Kinder vom Bahnhof Zoo poster print" width="1280" height="1920"
+             loading="lazy" decoding="async">
+        <div class="card__details">
+          <div class="card__text">
+            <h2 class="card__title">Christiane F. Wir Kinder vom Bahnhof Zoo</h2>
+            <p class="card__credits">Ulrich Edel · Germany · 1981<br>Solaris Film / Maran Film</p>
+          </div>
+          <a class="card__buy" href="https://wwwonderlan.etsy.com/uk/listing/4499788239/christiane-f-1981-movie-poster-print-wir?utm_source=wwwonderlan&amp;utm_medium=site&amp;utm_campaign=poster-grid&amp;utm_content=christiane-f" target="_blank" rel="noopener">Buy Christiane F. Wir Kinder vom Bahnhof Zoo Poster →</a>
+        </div>
+      </li>
+
+      <li class="card">
+        <img class="card__poster" src="https://cdn.wwwonderlan.com/posters/the-red-shoes-1280.png"
+             alt="The Red Shoes poster print" width="1280" height="1920"
+             loading="lazy" decoding="async">
+        <div class="card__details">
+          <div class="card__text">
+            <h2 class="card__title">The Red Shoes</h2>
+            <p class="card__credits">Powell and Pressburger · United Kingdom · 1948<br>General Film Distributors</p>
+          </div>
+          <a class="card__buy" href="https://wwwonderlan.etsy.com/uk/listing/4522310080/the-red-shoes-1948-movie-poster-print?utm_source=wwwonderlan&amp;utm_medium=site&amp;utm_campaign=poster-grid&amp;utm_content=the-red-shoes" target="_blank" rel="noopener">Buy The Red Shoes Poster →</a>
+        </div>
+      </li>
+
+      <li class="card">
+        <img class="card__poster" src="https://cdn.wwwonderlan.com/posters/fire-walk-with-me-1280.png"
+             alt="Twin Peaks: Fire Walk With Me poster print" width="1280" height="1920"
+             loading="lazy" decoding="async">
+        <div class="card__details">
+          <div class="card__text">
+            <h2 class="card__title">Twin Peaks: Fire Walk With Me</h2>
+            <p class="card__credits">David Lynch · United States · 1992<br>New Line Cinema Corporation</p>
+          </div>
+          <a class="card__buy" href="https://wwwonderlan.etsy.com/uk/listing/4541437995/twin-peaks-fire-walk-with-me-1992-movie?utm_source=wwwonderlan&amp;utm_medium=site&amp;utm_campaign=poster-grid&amp;utm_content=fire-walk-with-me" target="_blank" rel="noopener">Buy Twin Peaks: Fire Walk With Me Poster →</a>
+        </div>
+      </li>
+    </ul>
 
     <noscript>
       <p class="fallback">
