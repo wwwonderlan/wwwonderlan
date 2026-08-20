@@ -12,9 +12,7 @@
   font-display: swap;
 }
 
-/* ---------------------------------------------------------------
-   Tokens
-   --------------------------------------------------------------- */
+/* Tokens */
 
 :root {
   color-scheme: light;
@@ -34,46 +32,29 @@
       inset 0 -1px 1px rgba(255, 255, 255, 0.18);
   --glass-shadow: var(--glass-rim), 0 8px 24px rgba(0, 0, 0, 0.06);
 
-  /* 6.667vw resolves to 96px at 1440, floors at 24px on small screens */
+  /* 96px at 1440, floors at 24px */
   --page-x: clamp(24px, 6.667vw, 96px);
   --page-y: clamp(20px, 2.222vw, 32px);
 
   --logo-width: 200px;
 
-  /* Everything in an enlarged card that is not the poster: the details
-     block, the gap above it, and the slide's own padding. Subtracting it
-     from the viewport height leaves what the poster may occupy. */
-  --lightbox-chrome: calc(160px + var(--page-y) * 2);
-
-  /* Whichever runs out first — the viewport's width, a sensible ceiling,
-     or the height once the details block is paid for. Divided by 1.5
-     because the poster is 2:3, so its height is its width and a half.
-     dvh rather than vh: iOS reports vh as the address bar were absent. */
-  --lightbox-card: min(
-      86vw,
-      420px,
-      calc((100dvh - var(--lightbox-chrome)) / 1.5)
-  );
   --logo-height: calc(var(--logo-width) * 57 / 200);
   --header-height: calc(var(--logo-height) + var(--page-y) * 2);
 
-  /* 1440 − (96 × 2) = 1248 content, minus 2 × 24px gap = 3 × 400 columns */
+  /* 1248 content = 3 × 400 columns + 2 × 24px gap */
   --content-width: 1248px;
   --gap-col: 24px;
-  /* Scales with viewport so stacked cards don't drift apart on mobile */
+  /* Scales down so stacked cards don't drift apart on mobile */
   --gap-row: clamp(32px, 4.444vw, 64px);
 
-  /* Card internals are type-relative, so they stay fixed */
+  /* Type-relative, so fixed */
   --gap-poster: 8px;
   --gap-details: 16px;
   --gap-text: 8px;
   --details-pad: 16px;
 
-  /* Dock panel
-
-     Every value below is its 1440px measurement divided by 280, so the
-     whole panel — type included — scales as one object. Changing
-     --dock-size is the only edit needed. */
+  /* Dock panel. Every value below is its 1440px measurement over 280, so the
+     whole panel scales as one object. --dock-size is the only edit needed. */
   --dock-size: clamp(200px, 19.444vw, 280px);
   --dock-gap: calc(var(--dock-size) * 0.0571);          /* 16 */
   --dock-pad-y: var(--dock-gap);                        /* 16 */
@@ -86,14 +67,11 @@
   --dock-toggle-gap: calc(var(--dock-size) * 0.0286);   /* 8 */
   --dock-icon-size: max(18px, var(--dock-foot-line));   /* 18, floored */
 
-  /* Menu items. Adding or removing one means changing this number and
-     nothing else — it drives both the gap count and the line height. */
+  /* Change this alone to add or remove a menu item. */
   --dock-menu-count: 3;
 
-  /* The menu is the budget's remainder, not a fixed value: whatever the
-     square has left once the fixed parts and gaps are paid for, divided
-     across its lines. The panel is therefore exactly --dock-size at every
-     width, and stays so if any other value here changes. */
+  /* The remainder of the height budget, so the panel is exactly --dock-size
+     at every width whatever else changes. */
   --dock-menu-line: calc(
       (var(--dock-size)
         - var(--dock-pad-y) * 2
@@ -107,7 +85,7 @@
   --dock-bottom: calc(24px + env(safe-area-inset-bottom, 0px));
   --dock-progress-height: 5px;
   --dock-progress-gap: 10px;
-  /* Page padding below the panel, counting the progress bar above it. */
+  /* Clears the panel and its progress bar. */
   --dock-clearance: calc(
       var(--dock-size) +
       var(--dock-progress-height) +
@@ -122,8 +100,7 @@
   --enter-ease: cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
-/* Only the values that differ; --glass-border resolves against
-   --color-line at use, so it needs no restating here. */
+/* Only what differs. --glass-border resolves against --color-line at use. */
 [data-theme="dark"] {
   color-scheme: dark;
 
@@ -140,21 +117,16 @@
   --glass-shadow: var(--glass-rim), 0 8px 24px rgba(0, 0, 0, 0.35);
 }
 
-/* ---------------------------------------------------------------
-   Base
-   --------------------------------------------------------------- */
+/* Base */
 
 *,
 *::before,
 *::after { box-sizing: border-box; }
 
-/* Reserved permanently, so locking scroll behind the overlay cannot
-   remove the scrollbar and shift the centred layout sideways. */
+/* Reserved permanently: locking scroll must not shift the centred layout. */
 html { scrollbar-gutter: stable; }
 
-/* Both elements, because iOS Safari ignores the lock when it is set on
-   body alone. Applied as a class rather than from script, so no style
-   is written from JavaScript. */
+/* Both elements — iOS ignores the lock on body alone. */
 .is-locked,
 .is-locked body { overflow: hidden; }
 
@@ -176,8 +148,7 @@ a { text-decoration: none; }
   color: var(--bg);
 }
 
-/* The accent rather than the ink: a focus ring is the system speaking, not
-   the page, and it must stay legible against text of either colour. */
+/* Accent, not ink: must stay legible against text of either colour. */
 :focus-visible {
   outline: 2px solid var(--color-accent);
   outline-offset: 2px;
@@ -192,22 +163,17 @@ a { text-decoration: none; }
   white-space: nowrap;
 }
 
-/* ---------------------------------------------------------------
-   Frame
-   --------------------------------------------------------------- */
+/* Frame */
 
 .frame {
   padding-top: var(--page-y);
   padding-bottom: calc(var(--page-y) + var(--dock-clearance));
 }
 
-/* ---------------------------------------------------------------
-   Header
-   --------------------------------------------------------------- */
+/* Header */
 
-/* Height is derived from the logo rather than guessed, so the Details
-   overlay can clear it to the pixel. Not sticky — the logo hands off to
-   the dock on scroll rather than following the page down. */
+/* Derived from the logo so Details can clear it to the pixel. Not sticky —
+   the logo hands off to the dock instead. */
 .header {
   height: var(--header-height);
   display: flex;
@@ -222,9 +188,7 @@ a { text-decoration: none; }
   object-fit: contain;
 }
 
-/* Only one mark shows at a time: whichever the scroll position calls for.
-   Hiding the link rather than just fading it keeps an invisible target
-   out of the tab order and off the cursor. */
+/* Hidden, not just faded — an invisible link would still be tabbable. */
 .header a {
   transition:
       opacity var(--ui-ms) var(--ui-ease),
@@ -236,16 +200,12 @@ a { text-decoration: none; }
   visibility: hidden;
 }
 
-/* ---------------------------------------------------------------
-   Theme pairing
-   --------------------------------------------------------------- */
+/* Theme pairing */
 
 [data-theme="light"] .is-dark-only,
 [data-theme="dark"] .is-light-only { display: none; }
 
-/* ---------------------------------------------------------------
-   Grid
-   --------------------------------------------------------------- */
+/* Grid */
 
 .grid {
   display: grid;
@@ -266,9 +226,7 @@ a { text-decoration: none; }
   .grid { grid-template-columns: 1fr; }
 }
 
-/* ---------------------------------------------------------------
-   Card
-   --------------------------------------------------------------- */
+/* Card */
 
 .card {
   display: flex;
@@ -276,20 +234,7 @@ a { text-decoration: none; }
   gap: var(--gap-poster);
 }
 
-/* A bare wrapper: the poster is the affordance, so the button adds no
-   appearance of its own. */
-.card__open {
-  display: block;
-  width: 100%;
-  border: 0;
-  padding: 0;
-  appearance: none;
-  background: transparent;
-  cursor: zoom-in;
-}
-
-/* Height follows the file's own proportions — never cropped, never
-   forced to a ratio. Column width is the only thing driving size. */
+/* Never cropped: column width is the only thing driving size. */
 .card__poster {
   width: 100%;
   height: auto;
@@ -334,14 +279,10 @@ a { text-decoration: none; }
 
 .card__buy:hover { color: var(--ink); }
 
-/* ---------------------------------------------------------------
-   Dock
-   --------------------------------------------------------------- */
+/* Dock */
 
-/* A fixed rail matching the grid's own box, so the panel lands on the
-   third column's right edge at every width. Measured off the layout
-   rather than the viewport: 100vw counts the scrollbar and would push
-   the panel inward by its width on desktop. */
+/* Matches the grid's box so the panel lands on the last column's edge.
+   Not 100vw — that counts the scrollbar and pushes the panel inward. */
 .dock-rail {
   position: fixed;
   right: 0;
@@ -355,7 +296,7 @@ a { text-decoration: none; }
   margin: 0 auto;
   padding: 0 var(--page-x);
 
-  /* The rail spans the page; only the panel itself is clickable. */
+  /* Rail spans the page; only the panel is clickable. */
   pointer-events: none;
 }
 
@@ -367,12 +308,10 @@ a { text-decoration: none; }
   pointer-events: auto;
 }
 
-/* Nothing may animate on this element or the rail above it. Any animation
-   with a fill mode leaves a stacking context behind, which Chrome treats
-   as a backdrop root — the panel would then blur the inside of its own
-   parent and render as a flat fill. Safari does not enforce this, so the
-   fault appears only in Chrome. The entrance therefore runs on the panel
-   and the bar themselves, which are the last elements in the chain. */
+/* Never animate .dock or .dock-rail. An animation with a fill mode leaves a
+   stacking context, which Chrome treats as a backdrop root — the panel then
+   blurs the inside of its parent and renders flat. Safari doesn't enforce it,
+   so the fault shows in Chrome only. */
 .dock-panel,
 .dock-progress {
   animation: dock-enter var(--chrome-ms) var(--enter-ease) both;
@@ -390,23 +329,18 @@ a { text-decoration: none; }
   overflow: hidden;
 }
 
-/* Scaled by app.js via transform. Quicker and flatter than the UI easing:
-   this tracks the scroll, and at 200ms it would visibly trail the page. */
+/* Faster than --ui-ms: at 200ms this visibly trails the scroll. */
 .dock-progress-fill {
   width: 100%;
   height: 100%;
   background-color: var(--color-accent);
   transform: scaleX(0);
   transform-origin: left;
-  will-change: transform;
   transition: transform 0.15s ease-out;
 }
 
-/* Height follows its contents rather than being fixed, so collapsing the
-   logo slot shrinks the panel in step with it. Expanded, the parts sum to
-   exactly 280 — the square is a consequence of the contents, not a value
-   imposed on them, so any change to the type or gaps must be paid for
-   elsewhere in the budget. */
+/* Height follows its contents so the logo can collapse it. The parts sum to
+   exactly --dock-size — change one and pay for it elsewhere in the budget. */
 .dock-panel {
   padding-block: var(--dock-pad-y);
   display: flex;
@@ -424,11 +358,8 @@ a { text-decoration: none; }
   box-shadow: var(--glass-shadow);
 }
 
-/* A plain height transition, because the logo's height is a known token
-   rather than intrinsic. The grid 0fr-to-1fr technique would also work
-   but is unreliable in Safari, which is where the mark was intermittently
-   failing to arrive. The negative margin retracts the panel's own gap at
-   the same rate, so the space closes completely. */
+/* Plain height, not the grid 0fr technique — that's unreliable in Safari.
+   The negative margin retracts the panel's gap at the same rate. */
 .dock-logo-slot {
   height: var(--dock-logo-height);
   overflow: hidden;
@@ -439,8 +370,7 @@ a { text-decoration: none; }
       visibility var(--chrome-ms) var(--enter-ease);
 }
 
-/* Hidden rather than merely flat, so the home link inside leaves the tab
-   order while the header is carrying the mark. */
+/* Hidden, not just flat — the link inside must leave the tab order. */
 .dock.is-collapsed .dock-logo-slot {
   height: 0;
   margin-bottom: calc(var(--dock-gap) * -1);
@@ -448,10 +378,8 @@ a { text-decoration: none; }
   visibility: hidden;
 }
 
-/* Boxed to the declared 200 × 57 ratio so the panel's height is known
-   before the file loads. object-fit means a file of different proportions
-   fits inside the box rather than stretching to it — the mark stays true
-   and the square stays exact either way. */
+/* Boxed to 200 × 57 so the panel's height is known before the file lands.
+   contain means odd proportions letterbox rather than stretch. */
 .dock-logo {
   width: var(--dock-logo-width);
   height: var(--dock-logo-height);
@@ -464,8 +392,7 @@ a { text-decoration: none; }
   list-style: none;
 }
 
-/* No horizontal padding on the panel, so the inset lives here: a longer
-   menu word than "Instagram" would otherwise run to the glass edge. */
+/* The panel has none, so a long menu word would reach the glass edge. */
 .dock-menu a,
 .dock-menu button {
   display: block;
@@ -507,16 +434,15 @@ a { text-decoration: none; }
   transition: color var(--ui-ms) var(--ui-ease);
 }
 
-/* An 18px glyph is a poor target on a phone. This widens the tap area
-   without adding height, which would break the square. Horizontal inset
-   stops at half the gap so neighbouring targets can never overlap. */
+/* Widens the tap area without adding height, which would break the square.
+   Half the gap horizontally, so neighbours can't overlap. */
 .dock-control::after {
   content: "";
   position: absolute;
   inset: -12px calc(var(--dock-toggle-gap) / -2);
 }
 
-/* Both themes stay legible; the one in use is simply brighter. */
+/* Both stay legible; the one in use is brighter. */
 .dock-control[aria-pressed="false"] { color: var(--muted); }
 
 .dock-control svg {
@@ -525,7 +451,7 @@ a { text-decoration: none; }
   display: block;
   fill: none;
   stroke: currentColor;
-  stroke-width: 1.8;   /* SF-regular weight, as the portfolio dock */
+  stroke-width: 1.8;
   stroke-linecap: round;
   stroke-linejoin: round;
 }
@@ -539,13 +465,10 @@ a { text-decoration: none; }
   color: var(--ink);
 }
 
-/* ---------------------------------------------------------------
-   Details
-   --------------------------------------------------------------- */
+/* Details */
 
-/* Opens below the header, so the logo stays visible while reading. Solid
-   rather than glass: a blur behind body copy costs more legibility than
-   it buys. Sits under the dock, which stays reachable to close it. */
+/* Opens below the header so the logo stays visible. Solid, not glass —
+   a blur behind body copy costs more than it buys. */
 .details {
   position: fixed;
   top: calc(var(--page-y) + var(--header-height));
@@ -558,8 +481,7 @@ a { text-decoration: none; }
   overscroll-behavior: contain;
   background-color: var(--bg);
 
-  /* The panel scrolls but shows no bar: a second bar inside the page
-     reads as a nested window rather than a layer over it. */
+  /* A second scrollbar reads as a nested window. */
   scrollbar-width: none;
 
   opacity: 0;
@@ -576,8 +498,7 @@ a { text-decoration: none; }
   visibility: visible;
 }
 
-/* The grid's box exactly, so the text sits on the same edges as the
-   posters. Bottom padding clears the dock, which overlaps the last of it. */
+/* The grid's box exactly, so the text lands on the posters' edges. */
 .details__content {
   max-width: calc(var(--content-width) + var(--page-x) * 2);
   margin: 0 auto;
@@ -600,27 +521,22 @@ a { text-decoration: none; }
 
 .details__content li::before { content: "• "; }
 
-/* Paired so the two scales can be compared directly — the diagrams share
-   a scale, which is only legible when they sit together. Basis without
-   grow: the blocks hold 160px where there is room and shrink together
-   where there is not, rather than stretching across the full measure. */
+/* Paired so the shared scale can be read across both diagrams. */
 .details__sizes {
   display: flex;
   gap: var(--gap-col);
   margin-bottom: 18px;
 }
 
-/* A column so the diagram can be pushed to the bottom: the lists differ
-   in length, and the outlines are bottom-anchored in their viewBox, so
-   they only line up if the two boxes end level. */
+/* Column so the diagram sits at the bottom: the lists differ in length and
+   the outlines are bottom-anchored, so the boxes must end level. */
 .details__size {
   flex: 0 1 160px;
   display: flex;
   flex-direction: column;
 }
 
-/* Outlines take the muted grey and labels the ink, so both follow the
-   theme without a second copy of the artwork. */
+/* currentColor, so one copy of the artwork serves both themes. */
 .details__diagram {
   width: 100%;
   height: auto;
@@ -662,13 +578,10 @@ a { text-decoration: none; }
   text-underline-offset: 2px;
 }
 
-/* Shared by both overlays; only the vertical offset differs, because the
-   Details panel starts below the header and the enlarged view does not. */
-.overlay-close {
+.details__close {
   position: fixed;
-  top: var(--page-y);
+  top: calc(var(--page-y) * 2 + var(--header-height));
   right: var(--page-x);
-  z-index: 1;
 
   display: flex;
   border: 0;
@@ -679,10 +592,7 @@ a { text-decoration: none; }
   cursor: pointer;
 }
 
-.details__close { top: calc(var(--page-y) * 2 + var(--header-height)); }
-
-.overlay-close svg,
-.lightbox-step svg {
+.details__close svg {
   width: var(--dock-icon-size);
   height: var(--dock-icon-size);
   display: block;
@@ -693,94 +603,7 @@ a { text-decoration: none; }
   stroke-linejoin: round;
 }
 
-/* ---------------------------------------------------------------
-   Enlarged view
-   --------------------------------------------------------------- */
-
-/* Above the dock, so the whole page including the chrome sits behind the
-   glass. The entrance runs on backdrop-filter itself, which is animatable
-   — see the dock, where an animated ancestor killed the blur outright. */
-.lightbox {
-  position: fixed;
-  inset: 0;
-  z-index: 300;
-
-  background-color: transparent;
-  backdrop-filter: blur(0px);
-  -webkit-backdrop-filter: blur(0px);
-
-  visibility: hidden;
-  transition:
-      backdrop-filter var(--chrome-ms) var(--enter-ease),
-      -webkit-backdrop-filter var(--chrome-ms) var(--enter-ease),
-      background-color var(--chrome-ms) var(--enter-ease),
-      visibility var(--chrome-ms) var(--enter-ease);
-}
-
-.lightbox.is-open {
-  visibility: visible;
-  background-color: var(--glass-bg);
-  backdrop-filter: var(--glass-backdrop);
-  -webkit-backdrop-filter: var(--glass-backdrop);
-}
-
-/* Snapping does the swiping: native momentum on touch and trackpad, and
-   nothing to write. */
-.lightbox-track {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-
-  display: flex;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  overscroll-behavior: contain;
-  scrollbar-width: none;
-}
-
-.lightbox-track::-webkit-scrollbar { display: none; }
-
-.lightbox-slide {
-  flex: 0 0 100%;
-  scroll-snap-align: center;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: var(--page-y) var(--page-x);
-}
-
-/* The card is the grid's card, only sized by the viewport instead of by
-   a column, so the two can never look like different objects. */
-.lightbox-slide .card { width: var(--lightbox-card); }
-
-.lightbox-step {
-  position: fixed;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 1;
-
-  display: flex;
-  border: 0;
-  padding: 0;
-  appearance: none;
-  background: transparent;
-  color: var(--ink);
-  cursor: pointer;
-}
-
-.lightbox-step--prev { left: var(--page-x); }
-.lightbox-step--next { right: var(--page-x); }
-
-/* Touch swipes; only a mouse needs the arrows. */
-@media (pointer: coarse) {
-  .lightbox-step { display: none; }
-}
-
-/* ---------------------------------------------------------------
-   Fallback
-   --------------------------------------------------------------- */
+/* Fallback */
 
 .fallback {
   padding: 0 var(--page-x);
@@ -793,9 +616,7 @@ a { text-decoration: none; }
 
 .fallback a { color: var(--ink); }
 
-/* ---------------------------------------------------------------
-   Preferences
-   --------------------------------------------------------------- */
+/* Preferences */
 
 @media (prefers-reduced-motion: reduce) {
   *,
@@ -812,7 +633,7 @@ a { text-decoration: none; }
   [data-theme="dark"] { --glass-bg: #0A0A0A; }
 }
 
-/* Without backdrop-filter the fill goes near-opaque to stay legible. */
+/* No blur available, so the fill goes near-opaque. */
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
   :root { --glass-bg: #F1F1F1; }
   [data-theme="dark"] { --glass-bg: #0A0A0A; }
