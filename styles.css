@@ -284,15 +284,16 @@ a { text-decoration: none; }
 
 .card__meta {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   gap: var(--gap-inline);
   font-weight: 500;
 }
 
 .card__meta p { margin: 0; }
 
+/* Never shrinks: a long meta line must wrap rather than squash the icon. */
 .card__rating {
+  flex: none;
   width: var(--rating-size);
   height: var(--rating-size);
 }
