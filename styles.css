@@ -51,7 +51,8 @@
   --gap-poster: 8px;
   --gap-card: 8px;
   --avatar-size: 40px;
-  --rating-size: 20px;
+  /* Must equal the meta line-height, or an inline icon grows the line box. */
+  --rating-size: 18px;
   --details-pad: 16px;
 
   /* Dock panel. Every value below is its 1440px measurement over 280, so the
@@ -292,19 +293,19 @@ a { text-decoration: none; }
 }
 
 .card__meta {
-  display: flex;
-  align-items: center;
-  gap: var(--gap-card);
+  margin: 0;
   font-weight: 500;
 }
 
-.card__meta p { margin: 0; }
-
-/* Never shrinks: a long meta line must wrap rather than squash the icon. */
+/* Inline, so the badge flows with the sentence and wraps with it rather
+   than sitting in its own column. Aligned top and sized to the line-height,
+   which keeps it inside the 18px line box. */
 .card__rating {
-  flex: none;
+  display: inline-block;
+  vertical-align: top;
   width: var(--rating-size);
   height: var(--rating-size);
+  margin-inline-start: var(--gap-card);
 }
 
 .card__buy {
