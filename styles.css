@@ -51,7 +51,6 @@
   --gap-poster: 8px;
   --gap-card: 8px;
   --avatar-size: 40px;
-  /* Must equal the meta line-height, or an inline icon grows the line box. */
   --rating-size: 18px;
   --details-pad: 16px;
 
@@ -297,15 +296,15 @@ a { text-decoration: none; }
   font-weight: 500;
 }
 
-/* Inline, so the badge flows with the sentence and wraps with it rather
-   than sitting in its own column. Aligned top and sized to the line-height,
-   which keeps it inside the 18px line box. */
+/* Inline, so the badge flows with the sentence and wraps with it. The gap
+   is the source whitespace, not a margin — a margin would survive the line
+   break and indent the badge when it wraps. Sized to the line-height so it
+   can't grow the line box. */
 .card__rating {
   display: inline-block;
   vertical-align: top;
   width: var(--rating-size);
   height: var(--rating-size);
-  margin-inline-start: var(--gap-card);
 }
 
 .card__buy {
