@@ -43,11 +43,14 @@
 
   /* 1248 content = 3 × 400 columns + 2 × 24px gap */
   --content-width: 1248px;
+
+  /* One 8-point ladder, tightest to widest. Spacing between cards is twice
+     the widest gap inside one, which is what keeps a title reading as part
+     of its own poster. */
+  --gap-card: 8px;
+  --gap-poster: 16px;
   --gap-col: 24px;
-  /* Plus the details block's 16px bottom padding, this is the separation
-     between cards. It must stay clear of the 24px poster-to-title gap, or
-     a title reads as loose from its own poster. */
-  --gap-row: clamp(24px, 4.444vw, 64px);
+  --gap-row: 32px;
 
   /* Two sizes carry the whole site. Legibility is absolute, so neither
      scales with the viewport — the layout reflows around them instead. */
@@ -56,12 +59,9 @@
   --type-heading: 20px;
   --line-heading: 24px;
 
-  /* Type-relative, so fixed */
-  --gap-card: 8px;
   --avatar-size: 40px;
   /* Matches the line it sits on, so an inline badge can't grow the line box. */
   --rating-size: var(--line-body);
-  --details-pad: 16px;
 
   /* Dock panel. Every value below is its 1440px measurement over 280, so the
      whole panel scales as one object. --dock-size is the only edit needed. */
@@ -242,7 +242,7 @@ a { text-decoration: none; }
 .card {
   display: flex;
   flex-direction: column;
-  gap: var(--gap-card);
+  gap: var(--gap-poster);
 }
 
 /* Never cropped: column width is the only thing driving size. */
@@ -255,7 +255,6 @@ a { text-decoration: none; }
   display: flex;
   flex-direction: column;
   gap: var(--gap-card);
-  padding-block: var(--details-pad);
 }
 
 .card__title {
