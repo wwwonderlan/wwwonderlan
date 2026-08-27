@@ -44,8 +44,10 @@
   /* 1248 content = 3 × 400 columns + 2 × 24px gap */
   --content-width: 1248px;
   --gap-col: 24px;
-  /* Scales down so stacked cards don't drift apart on mobile */
-  --gap-row: clamp(32px, 4.444vw, 64px);
+  /* Plus the details block's 16px bottom padding, this is the separation
+     between cards. It must stay clear of the 24px poster-to-title gap, or
+     a title reads as loose from its own poster. */
+  --gap-row: clamp(24px, 4.444vw, 64px);
 
   /* Two sizes carry the whole site. Legibility is absolute, so neither
      scales with the viewport — the layout reflows around them instead. */
