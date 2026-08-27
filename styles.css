@@ -257,7 +257,7 @@ a { text-decoration: none; }
   font-weight: 700;
 }
 
-.card__director,
+.card__name,
 .card__meta,
 .card__buy {
   font-size: 14px;
@@ -266,11 +266,22 @@ a { text-decoration: none; }
   color: var(--ink);
 }
 
+/* Top-aligned rather than centred: the meta line wraps in a narrow column,
+   and centring would drift the portrait down the block when it does. */
 .card__director {
-  margin: 0;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: var(--gap-inline);
+}
+
+.card__text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-inline);
+}
+
+.card__name {
+  margin: 0;
   font-weight: 700;
 }
 
