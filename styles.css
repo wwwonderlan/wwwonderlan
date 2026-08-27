@@ -49,8 +49,7 @@
 
   /* Type-relative, so fixed */
   --gap-poster: 8px;
-  --gap-details: 16px;
-  --gap-inline: 8px;
+  --gap-card: 8px;
   --avatar-size: 40px;
   --rating-size: 20px;
   --details-pad: 16px;
@@ -245,7 +244,7 @@ a { text-decoration: none; }
 .card__details {
   display: flex;
   flex-direction: column;
-  gap: var(--gap-details);
+  gap: var(--gap-card);
   padding-block: var(--details-pad);
 }
 
@@ -271,13 +270,14 @@ a { text-decoration: none; }
 .card__director {
   display: flex;
   align-items: flex-start;
-  gap: var(--gap-inline);
+  gap: var(--gap-card);
+  padding-block: var(--gap-card);
 }
 
 .card__text {
   display: flex;
   flex-direction: column;
-  gap: var(--gap-inline);
+  gap: var(--gap-card);
 }
 
 .card__name {
@@ -296,7 +296,7 @@ a { text-decoration: none; }
 .card__meta {
   display: flex;
   align-items: center;
-  gap: var(--gap-inline);
+  gap: var(--gap-card);
   font-weight: 500;
 }
 
