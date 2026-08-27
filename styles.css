@@ -50,7 +50,9 @@
   /* Type-relative, so fixed */
   --gap-poster: 8px;
   --gap-details: 16px;
-  --gap-text: 8px;
+  --gap-inline: 8px;
+  --avatar-size: 40px;
+  --rating-size: 20px;
   --details-pad: 16px;
 
   /* Dock panel. Every value below is its 1440px measurement over 280, so the
@@ -247,12 +249,6 @@ a { text-decoration: none; }
   padding-block: var(--details-pad);
 }
 
-.card__text {
-  display: flex;
-  flex-direction: column;
-  gap: var(--gap-text);
-}
-
 .card__title {
   margin: 0;
   font-size: 22px;
@@ -261,23 +257,53 @@ a { text-decoration: none; }
   font-weight: 700;
 }
 
-.card__credits,
+.card__director,
+.card__meta,
 .card__buy {
   font-size: 14px;
   line-height: 18px;
   letter-spacing: -0.2px;
-  font-weight: 500;
-  color: var(--muted);
+  color: var(--ink);
 }
 
-.card__credits { margin: 0; }
+.card__director {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--gap-inline);
+  font-weight: 700;
+}
+
+.card__avatar {
+  flex: none;
+  width: var(--avatar-size);
+  height: var(--avatar-size);
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.card__meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--gap-inline);
+  font-weight: 500;
+}
+
+.card__meta p { margin: 0; }
+
+.card__rating {
+  width: var(--rating-size);
+  height: var(--rating-size);
+}
 
 .card__buy {
   display: block;
+  font-weight: 700;
   transition: color var(--ui-ms) var(--ui-ease);
 }
 
-.card__buy:hover { color: var(--ink); }
+.card__buy:hover { color: var(--muted); }
 
 /* Dock */
 
