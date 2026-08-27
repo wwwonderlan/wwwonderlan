@@ -47,10 +47,18 @@
   /* Scales down so stacked cards don't drift apart on mobile */
   --gap-row: clamp(32px, 4.444vw, 64px);
 
+  /* Two sizes carry the whole site. Legibility is absolute, so neither
+     scales with the viewport — the layout reflows around them instead. */
+  --type-body: 14px;
+  --line-body: 18px;
+  --type-heading: 20px;
+  --line-heading: 24px;
+
   /* Type-relative, so fixed */
   --gap-card: 8px;
   --avatar-size: 40px;
-  --rating-size: 18px;
+  /* Matches the line it sits on, so an inline badge can't grow the line box. */
+  --rating-size: var(--line-body);
   --details-pad: 16px;
 
   /* Dock panel. Every value below is its 1440px measurement over 280, so the
@@ -135,6 +143,7 @@ body {
   background-color: var(--bg);
   color: var(--ink);
   font-family: "Helvetica Now Display", -apple-system, BlinkMacSystemFont, Helvetica, Arial, sans-serif;
+  letter-spacing: -0.2px;
   -webkit-font-smoothing: antialiased;
   transition: color var(--ui-ms) var(--ui-ease), background-color var(--ui-ms) var(--ui-ease);
 }
@@ -249,18 +258,16 @@ a { text-decoration: none; }
 
 .card__title {
   margin: 0;
-  font-size: 22px;
-  line-height: 26px;
-  letter-spacing: -0.2px;
+  font-size: var(--type-heading);
+  line-height: var(--line-heading);
   font-weight: 700;
 }
 
 .card__name,
 .card__meta,
 .card__buy {
-  font-size: 14px;
-  line-height: 18px;
-  letter-spacing: -0.2px;
+  font-size: var(--type-body);
+  line-height: var(--line-body);
   color: var(--ink);
 }
 
@@ -444,7 +451,6 @@ a { text-decoration: none; }
   font-family: inherit;
   font-size: var(--dock-menu-size);
   line-height: var(--dock-menu-line);
-  letter-spacing: -0.2px;
   font-weight: 700;
   color: var(--ink);
   transition: color var(--ui-ms) var(--ui-ease);
@@ -497,7 +503,6 @@ a { text-decoration: none; }
   margin: 0;
   font-size: var(--dock-foot-size);
   line-height: var(--dock-foot-line);
-  letter-spacing: -0.2px;
   font-weight: 500;
   color: var(--ink);
 }
@@ -541,9 +546,8 @@ a { text-decoration: none; }
   margin: 0 auto;
   padding: var(--page-y) var(--page-x) var(--dock-clearance);
 
-  font-size: 14px;
-  line-height: 18px;
-  letter-spacing: -0.2px;
+  font-size: var(--type-body);
+  line-height: var(--line-body);
   font-weight: 500;
   color: var(--muted);
 }
@@ -592,15 +596,14 @@ a { text-decoration: none; }
   fill: var(--ink);
   font-size: 16px;
   font-weight: 500;
-  letter-spacing: -0.2px;
 }
 
 .details__lead,
 .details__heading { color: var(--ink); }
 
 .details__lead {
-  font-size: 22px;
-  line-height: 26px;
+  font-size: var(--type-heading);
+  line-height: var(--line-heading);
   font-weight: 700;
 }
 
