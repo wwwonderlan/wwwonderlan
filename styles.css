@@ -291,18 +291,21 @@ a { text-decoration: none; }
   object-fit: cover;
 }
 
+/* Flex so the badge can drop to its own line flush left: column-gap applies
+   only between items on a line, so a wrapped badge carries no indent. A
+   margin would survive the break and indent it. */
 .card__meta {
   margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  column-gap: var(--gap-card);
   font-weight: 500;
 }
 
-/* Inline, so the badge flows with the sentence and wraps with it. The gap
-   is the source whitespace, not a margin — a margin would survive the line
-   break and indent the badge when it wraps. Sized to the line-height so it
-   can't grow the line box. */
+/* Never shrinks: the text wraps first, then the badge drops below it. */
 .card__rating {
-  display: inline-block;
-  vertical-align: top;
+  flex: none;
   width: var(--rating-size);
   height: var(--rating-size);
 }
