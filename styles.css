@@ -48,7 +48,6 @@
   --gap-row: clamp(32px, 4.444vw, 64px);
 
   /* Type-relative, so fixed */
-  --gap-poster: 8px;
   --gap-card: 8px;
   --avatar-size: 40px;
   --rating-size: 18px;
@@ -232,7 +231,7 @@ a { text-decoration: none; }
 .card {
   display: flex;
   flex-direction: column;
-  gap: var(--gap-poster);
+  gap: var(--gap-card);
 }
 
 /* Never cropped: column width is the only thing driving size. */
@@ -272,11 +271,10 @@ a { text-decoration: none; }
   padding-block: var(--gap-card);
 }
 
-/* No gap: the name's line box sits straight on the meta row. */
-.card__text {
-  display: flex;
-  flex-direction: column;
-}
+/* Flex items refuse to shrink below their content by default, which lets a
+   long meta line push past the card. Stacking needs no rule — two block
+   paragraphs with no margin already sit flush. */
+.card__text { min-width: 0; }
 
 .card__name {
   margin: 0;
