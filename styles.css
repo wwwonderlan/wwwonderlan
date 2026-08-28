@@ -62,6 +62,9 @@
   --avatar-size: 40px;
   /* Matches the line it sits on, so an inline badge can't grow the line box. */
   --rating-size: var(--line-body);
+  /* Padding twice plus one line of type. Known, so the dock CTA can
+     collapse to nothing on a transition. */
+  --dock-buy-height: calc(var(--gap-poster) * 2 + var(--line-body));
 
   /* Dock panel. Every value below is its 1440px measurement over 280, so the
      whole panel scales as one object. --dock-size is the only edit needed. */
@@ -353,6 +356,49 @@ a { text-decoration: none; }
   pointer-events: auto;
 }
 
+/* Mobile only: on desktop the page CTA is always in view. Collapses on the
+   same height-and-fade as the logo slot, so the dock has one behaviour for
+   things entering and leaving it. Hidden at the foot of the page, where the
+   real Buy link is already on screen. */
+.dock-buy {
+  display: none;
+  height: var(--dock-buy-height);
+  overflow: hidden;
+
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+
+  font-size: var(--type-body);
+  line-height: var(--line-body);
+  font-weight: 700;
+  color: var(--ink);
+
+  background-color: var(--glass-bg);
+  backdrop-filter: var(--glass-backdrop);
+  -webkit-backdrop-filter: var(--glass-backdrop);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+
+  transition:
+      height var(--chrome-ms) var(--enter-ease),
+      margin-bottom var(--chrome-ms) var(--enter-ease),
+      opacity var(--ui-ms) var(--ui-ease),
+      visibility var(--chrome-ms) var(--enter-ease);
+}
+
+@media (max-width: 600px) {
+  .dock-buy { display: flex; }
+}
+
+.dock-buy.is-collapsed {
+  height: 0;
+  margin-bottom: calc(var(--dock-progress-gap) * -1);
+  opacity: 0;
+  visibility: hidden;
+  border-width: 0;
+}
+
 /* Never animate .dock or .dock-rail. An animation with a fill mode leaves a
    stacking context, which Chrome treats as a backdrop root — the panel then
    blurs the inside of its parent and renders flat. Safari doesn't enforce it,
@@ -558,7 +604,13 @@ a { text-decoration: none; }
 .meta__field {
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   gap: var(--gap-card);
+}
+
+.meta__rating {
+  width: var(--rating-size);
+  height: var(--rating-size);
 }
 
 .meta__label,
@@ -600,10 +652,36 @@ a { text-decoration: none; }
   list-style: none;
 }
 
+/* One swipeable row: wrapping five members into ragged lines reads worse
+   than a rail you can push. Bleeds to the page edge so the last member is
+   visibly cut, which is what signals there is more. */
+@media (max-width: 600px) {
+  .cast__list {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+
+    margin-inline: calc(var(--page-x) * -1);
+    padding-inline: var(--page-x);
+  }
+
+  .cast__list::-webkit-scrollbar { display: none; }
+
+  .cast__member {
+    flex: none;
+    width: 88px;
+    scroll-snap-align: start;
+  }
+}
+
 .cast__member {
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: var(--gap-card);
+  text-align: center;
 }
 
 .cast__avatar {
