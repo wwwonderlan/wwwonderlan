@@ -16,7 +16,7 @@ const storedTheme = () => {
    device setting after the first visit. */
 function applyTheme(theme, persist) {
   document.documentElement.dataset.theme = theme;
-  document.getElementById("theme-color").setAttribute("content", THEME_BACKGROUNDS[theme]);
+  document.getElementById("theme-color")?.setAttribute("content", THEME_BACKGROUNDS[theme]);
 
   /* Pressed marks the theme in use; the other dims. */
   themeButtons.forEach((button) =>
@@ -47,11 +47,13 @@ prefersLight.addEventListener("change", (event) => {
 const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)");
 
 const progressFill = document.getElementById("scroll-progress-fill");
+const scrollTop = document.getElementById("scroll-top");
 
 let queued = false;
 
 function render() {
   queued = false;
+  if (!progressFill) return;
 
   const scrollable = document.documentElement.scrollHeight - innerHeight;
   const ratio = scrollable > 0 ? Math.min(1, Math.max(0, scrollY / scrollable)) : 0;
@@ -66,15 +68,17 @@ function queueRender() {
   requestAnimationFrame(render);
 }
 
-addEventListener("scroll", queueRender, { passive: true });
-addEventListener("resize", queueRender, { passive: true });
+if (progressFill) {
+  addEventListener("scroll", queueRender, { passive: true });
+  addEventListener("resize", queueRender, { passive: true });
 
-/* Page height changes as posters load. */
-new ResizeObserver(queueRender).observe(document.body);
+  /* Page height changes as posters load. */
+  new ResizeObserver(queueRender).observe(document.body);
 
-render();
+  render();
+}
 
-document.getElementById("scroll-top").addEventListener("click", () =>
+scrollTop?.addEventListener("click", () =>
   scrollTo({ top: 0, behavior: reducedMotion.matches ? "auto" : "smooth" }));
 
 /* Logo handoff — header to dock. Observing the header rather than a scroll
@@ -83,10 +87,12 @@ document.getElementById("scroll-top").addEventListener("click", () =>
 const header = document.getElementById("header");
 const dock = document.getElementById("dock");
 
-new IntersectionObserver(([entry]) => {
-  header.classList.toggle("is-handed-off", !entry.isIntersecting);
-  dock.classList.toggle("is-collapsed", entry.isIntersecting);
-}).observe(header);
+if (header && dock) {
+  new IntersectionObserver(([entry]) => {
+    header.classList.toggle("is-handed-off", !entry.isIntersecting);
+    dock.classList.toggle("is-collapsed", entry.isIntersecting);
+  }).observe(header);
+}
 
 /* Details — visibility rather than [hidden], so it can transition and still
    leave the tab order when closed. */
@@ -120,11 +126,11 @@ function closeDetails() {
   detailsToggle.focus();
 }
 
-detailsToggle.addEventListener("click", () =>
+detailsToggle?.addEventListener("click", () =>
   details.classList.contains("is-open") ? closeDetails() : openDetails());
 
-document.getElementById("details-close").addEventListener("click", closeDetails);
+document.getElementById("details-close")?.addEventListener("click", closeDetails);
 
 addEventListener("keydown", (event) => {
-  if (event.key === "Escape" && details.classList.contains("is-open")) closeDetails();
+  if (event.key === "Escape" && details?.classList.contains("is-open")) closeDetails();
 });
