@@ -48,6 +48,10 @@ const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)");
 
 const progressFill = document.getElementById("scroll-progress-fill");
 const scrollTop = document.getElementById("scroll-top");
+const dockBuy = document.getElementById("dock-buy");
+
+/* Far enough down that the page's own Buy link is on screen. */
+const CTA_END = 0.97;
 
 let queued = false;
 
@@ -59,6 +63,7 @@ function render() {
   const ratio = scrollable > 0 ? Math.min(1, Math.max(0, scrollY / scrollable)) : 0;
 
   progressFill.style.transform = `scaleX(${ratio})`;
+  dockBuy?.classList.toggle("is-collapsed", ratio >= CTA_END);
 }
 
 /* Scroll fires far more often than the screen refreshes. */
