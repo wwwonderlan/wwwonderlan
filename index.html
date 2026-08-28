@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" id="theme-color" content="#000000">
+
+<title>WWWONDERLAN — Film Poster Prints</title>
+<meta name="description" content="Curated film posters designed by WWWONDERLAN">
+<link rel="canonical" href="https://wwwonderlan.com/">
+
+<link rel="icon" type="image/png" href="https://cdn.wwwonderlan.com/assets/favicon.png">
+<link rel="apple-touch-icon" href="https://cdn.wwwonderlan.com/assets/favicon.png">
+
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://wwwonderlan.com/">
+<meta property="og:title" content="WWWONDERLAN">
+<meta property="og:description" content="Curated film posters designed by WWWONDERLAN">
+<meta property="og:image" content="https://cdn.wwwonderlan.com/assets/og-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="WWWONDERLAN">
+<meta name="twitter:card" content="summary_large_image">
+
+<!-- Before first paint, or the wrong theme flashes. -->
+<script>
+(() => {
+  let stored;
+  try { stored = localStorage.getItem("wwwonderlan-theme"); } catch {}
+  const theme = stored
+    || (matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark");
+  if (theme !== "light") return;
+  document.documentElement.dataset.theme = "light";
+  document.getElementById("theme-color").setAttribute("content", "#FFFFFF");
+})();
+</script>
+
+<!-- No crossorigin: images are fetched in plain mode and won't reuse a CORS connection. -->
+<link rel="preconnect" href="https://cdn.wwwonderlan.com">
+
+<link rel="preload" href="HelveticaNowDisplay/HelveticaNowDisplayBold.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="HelveticaNowDisplay/HelveticaNowDisplayMedium.woff2" as="font" type="font/woff2" crossorigin>
+
+<link rel="stylesheet" href="styles.css">
+
+<!-- Last, so it doesn't compete with fonts and posters for connections. -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-8BGK8BSWVF"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-8BGK8BSWVF');
+</script>
+</head>
+
+<body>
+
+<div class="frame">
+
+  <header class="header" id="header">
+    <a href="/" aria-label="WWWONDERLAN home">
+      <img class="header__logo is-light-only" src="https://cdn.wwwonderlan.com/assets/wwwonderlan-black.png" alt="WWWONDERLAN" width="200" height="57">
+      <img class="header__logo is-dark-only" src="https://cdn.wwwonderlan.com/assets/wwwonderlan-white.png" alt="WWWONDERLAN" width="200" height="57">
+    </a>
+  </header>
+
+  <main>
+    <h1 class="visually-hidden">Film poster prints</h1>
+
+    <!-- New poster: copy any card below and change six things —
+         the image URL, the title (three times: alt, heading, Buy label),
+         the credits line, and the Etsy link. Keep utm_content matching the
+         image filename, or the click won't be attributed. Newest first. -->
+    <ul class="grid">
+      <li class="card">
+        <img class="card__poster" src="https://cdn.wwwonderlan.com/posters/fallen-angels-1280.webp"
+             alt="Fallen Angels poster print" width="1280" height="1920"
+             fetchpriority="high" decoding="async">
+        <div class="card__details">
+          <h2 class="card__title">Fallen Angels</h2>
+
+          <div class="card__director">
+            <img class="card__avatar" src="https://cdn.wwwonderlan.com/assets/directors/wong-kar-wai.webp"
+                 alt="" width="40" height="40" decoding="async">
+            <div class="card__text">
+              <p class="card__name">Wong Kar-Wai</p>
+              <p class="card__meta">
+                <span>1995 ‧ Hong Kong ‧ Crime/Romance</span>
+                <img class="card__rating" src="https://cdn.wwwonderlan.com/assets/ratings/15.svg"
+                     alt="Rated 15" width="18" height="18" decoding="async">
+              </p>
+            </div>
+          </div>
+
+          <a class="card__buy" href="https://wwwonderlan.etsy.com/uk/listing/4310610506/fallen-angels-movie-poster-print-wong?utm_source=wwwonderlan&amp;utm_medium=site&amp;utm_campaign=poster-grid&amp;utm_content=fallen-angels" target="_blank" rel="noopener">Buy Fallen Angels Poster →</a>
+        </div>
+      </li>
+
+      <li class="card">
+        <img class="card__poster" src="https://cdn.wwwonderlan.com/posters/taipei-story-1280.webp"
+             alt="Taipei Story poster print" width="1280" height="1920"
+             fetchpriority="high" decoding="async">
+        <div class="card__details">
+          <h2 class="card__title">Taipei Story</h2>
+
+          <div class="card__director">
+            <img class="card__avatar" src="https://cdn.wwwonderlan.com/assets/directors/edward-yang.webp"
+                 alt="" width="40" height="40" decoding="async">
+            <div class="card__text">
+              <p class="card__name">Edward Yang</p>
+              <p class="card__meta">
+                <span>1985 ‧ Taiwan ‧ Drama/Melodrama</span>
+                <img class="card__rating" src="https://cdn.wwwonderlan.com/assets/ratings/12.svg"
+                     alt="Rated 12" width="18" height="18" decoding="async">
+              </p>
+            </div>
+          </div>
+
+          <a class="card__buy" href="https://wwwonderlan.etsy.com/uk/listing/4331048372/taipei-story-movie-poster-print-edward?utm_source=wwwonderlan&amp;utm_medium=site&amp;utm_campaign=poster-grid&amp;utm_content=taipei-story" target="_blank" rel="noopener">Buy Taipei Story Poster →</a>
+        </div>
+      </li>
+
+      <li class="card">
+        <img class="card__poster" src="https://cdn.wwwonderlan.com/posters/millennium-mambo-1280.webp"
+             alt="Millennium Mambo poster print" width="1280" height="1920"
+             fetchpriority="high" decoding="async">
+        <div class="card__details">
+          <h2 class="card__title">Millennium Mambo</h2>
+
+          <div class="card__director">
+            <img class="card__avatar" src="https://cdn.wwwonderlan.com/assets/directors/hou-hsiao-hsien.webp"
+                 alt="" width="40" height="40" decoding="async">
+            <div class="card__text">
+              <p class="card__name">Hou Hsiao-Hsien</p>
+              <p class="card__meta">
+                <span>2001 ‧ Taiwan ‧ Romance/Drama</span>
+                <img class="card__rating" src="https://cdn.wwwonderlan.com/assets/ratings/15.svg"
+                     alt="Rated 15" width="18" height="18" decoding="async">
+              </p>
+            </div>
+          </div>
+
+          <a class="card__buy" href="https://wwwonderlan.etsy.com/uk/listing/4337108727/millennium-mambo-movie-poster-print-hou?utm_source=wwwonderlan&amp;utm_medium=site&amp;utm_campaign=poster-grid&amp;utm_content=millennium-mambo" target="_blank" rel="noopener">Buy Millennium Mambo Poster →</a>
+        </div>
+      </li>
+
+      <li class="card">
+        <img class="card__poster" src="https://cdn.wwwonderlan.com/posters/blue-velvet-1280.webp"
+             alt="Blue Velvet poster print" width="1280" height="1920"
+             loading="lazy" decoding="async">
+        <div class="card__details">
+          <h2 class="card__title">Blue Velvet</h2>
+
+          <div class="card__director">
+            <img class="card__avatar" src="https://cdn.wwwonderlan.com/assets/directors/david-lynch.webp"
+                 alt="" width="40" height="40" decoding="async" loading="lazy">
+            <div class="card__text">
+              <p class="card__name">David Lynch</p>
+              <p class="card__meta">
+                <span>1986 ‧ United States ‧ Mystery/Crime</span>
+                <img class="card__rating" src="https://cdn.wwwonderlan.com/assets/ratings/18.svg"
+                     alt="Rated 18" width="18" height="18" decoding="async" loading="lazy">
+              </p>
+            </div>
+          </div>
+
+          <a class="card__buy" href="https://wwwonderlan.etsy.com/uk/listing/4357152684/blue-velvet-movie-poster-print-david?utm_source=wwwonderlan&amp;utm_medium=site&amp;utm_campaign=poster-grid&amp;utm_content=blue-velvet" target="_blank" rel="noopener">Buy Blue Velvet Poster →</a>
+        </div>
+      </li>
+
+      <li class="card">
+        <img class="card__poster" src="https://cdn.wwwonderlan.com/posters/a-clockwork-orange-1280.webp"
+             alt="A Clockwork Orange poster print" width="1280" height="1920"
+             loading="lazy" decoding="async">
+        <div class="card__details">
+          <h2 class="card__title">A Clockwork Orange</h2>
+
+          <div class="card__director">
+            <img class="card__avatar" src="https://cdn.wwwonderlan.com/assets/directors/stanley-kubrick.webp"
+                 alt="" width="40" height="40" decoding="async" loading="lazy">
+            <div class="card__text">
+              <p class="card__name">Stanley Kubrick</p>
+              <p class="card__meta">
+                <span>1971 ‧ United Kingdom ‧ Crime/Sci-fi</span>
+                <img class="card__rating" src="https://cdn.wwwonderlan.com/assets/ratings/18.svg"
+                     alt="Rated 18" width="18" height="18" decoding="async" loading="lazy">
+              </p>
+            </div>
+          </div>
+
+          <a class="card__buy" href="https://wwwonderlan.etsy.com/uk/listing/4388658509/a-clockwork-orange-movie-poster-print?utm_source=wwwonderlan&amp;utm_medium=site&amp;utm_campaign=poster-grid&amp;utm_content=a-clockwork-orange" target="_blank" rel="noopener">Buy A Clockwork Orange Poster →</a>
+        </div>
+      </li>
+
+      <li class="card">
+        <img class="card__poster" src="https://cdn.wwwonderlan.com/posters/rosemarys-baby-1280.webp"
+             alt="Rosemary's Baby poster print" width="1280" height="1920"
+             loading="lazy" decoding="async">
+        <div class="card__details">
+          <h2 class="card__title">Rosemary's Baby</h2>
+
+          <div class="card__director">
+            <img class="card__avatar" src="https://cdn.wwwonderlan.com/assets/directors/roman-polanski.webp"
+                 alt="" width="40" height="40" decoding="async" loading="lazy">
+            <div class="card__text">
+              <p class="card__name">Roman Polanski</p>
+              <p class="card__meta">
+                <span>1968 ‧ United States ‧ Horror/Drama</span>
+                <img class="card__rating" src="https://cdn.wwwonderlan.com/assets/ratings/18.svg"
+                     alt="Rated 18" width="18" height="18" decoding="async" loading="lazy">
+              </p>
+            </div>
+          </div>
+
+          <a class="card__buy" href="https://wwwonderlan.etsy.com/uk/listing/4404257444/rosemarys-baby-movie-poster-print-roman?utm_source=wwwonderlan&amp;utm_medium=site&amp;utm_campaign=poster-grid&amp;utm_content=rosemarys-baby" target="_blank" rel="noopener">Buy Rosemary's Baby Poster →</a>
+        </div>
+      </li>
+
+      <li class="card">
+        <img class="card__poster" src="https://cdn.wwwonderlan.com/posters/audition-1280.webp"
+             alt="Audition poster print" width="1280" height="1920"
+             loading="lazy" decoding="async">
+        <div class="card__details">
+          <h2 class="card__title">Audition</h2>
+
+          <div class="card__director">
+            <img class="card__avatar" src="https://cdn.wwwonderlan.com/assets/directors/takashi-miike.webp"
+                 alt="" width="40" height="40" decoding="async" loading="lazy">
+            <div class="card__text">
+              <p class="card__name">Takashi Miike</p>
+              <p class="card__meta">
+                <span>1999 ‧ Japan ‧ Horror/Mystery</span>
+                <img class="card__rating" src="https://cdn.wwwonderlan.com/assets/ratings/18.svg"
+                     alt="Rated 18" width="18" height="18" decoding="async" loading="lazy">
+              </p>
+            </div>
+          </div>
+
+          <a class="card__buy" href="https://wwwonderlan.etsy.com/uk/listing/4435662082/audition-movie-poster-print-takashi?utm_source=wwwonderlan&amp;utm_medium=site&amp;utm_campaign=poster-grid&amp;utm_content=audition" target="_blank" rel="noopener">Buy Audition Poster →</a>
+        </div>
+      </li>
+
+      <li class="card">
+        <img class="card__poster" src="https://cdn.wwwonderlan.com/posters/chungking-express-1280.webp"
+             alt="Chungking Express poster print" width="1280" height="1920"
+             loading="lazy" decoding="async">
+        <div class="card__details">
+          <h2 class="card__title">Chungking Express</h2>
+
+          <div class="card__director">
+            <img class="card__avatar" src="https://cdn.wwwonderlan.com/assets/directors/wong-kar-wai.webp"
+                 alt="" width="40" height="40" decoding="async" loading="lazy">
+            <div class="card__text">
+              <p class="card__name">Wong Kar-Wai</p>
+              <p class="card__meta">
+                <span>1994 ‧ Hong Kong ‧ Romance/Crime</span>
+                <img class="card__rating" src="https://cdn.wwwonderlan.com/assets/ratings/12.svg"
+                     alt="Rated 12" width="18" height="18" decoding="async" loading="lazy">
+              </p>
+            </div>
+          </div>
+
+          <a class="card__buy" href="https://wwwonderlan.etsy.com/uk/listing/4463074853/chungking-express-1994-movie-poster?utm_source=wwwonderlan&amp;utm_medium=site&amp;utm_campaign=poster-grid&amp;utm_content=chungking-express" target="_blank" rel="noopener">Buy Chungking Express Poster →</a>
+        </div>
+      </li>
+
+      <li class="card">
+        <img class="card__poster" src="https://cdn.wwwonderlan.com/posters/heat-1280.webp"
+             alt="Heat poster print" width="1280" height="1920"
+             loading="lazy" decoding="async">
+        <div class="card__details">
+          <h2 class="card__title">Heat</h2>
+
+          <div class="card__director">
+            <img class="card__avatar" src="https://cdn.wwwonderlan.com/assets/directors/michael-mann.webp"
+                 alt="" width="40" height="40" decoding="async" loading="lazy">
+            <div class="card__text">
+              <p class="card__name">Michael Mann</p>
+              <p class="card__meta">
+                <span>1995 ‧ United States ‧ Thriller/Crime</span>
+                <img class="card__rating" src="https://cdn.wwwonderlan.com/assets/ratings/15.svg"
+                     alt="Rated 15" width="18" height="18" decoding="async" loading="lazy">
+              </p>
+            </div>
+          </div>
+
+          <a class="card__buy" href="https://wwwonderlan.etsy.com/uk/listing/4480799792/heat-movie-poster-print-michael-mann?utm_source=wwwonderlan&amp;utm_medium=site&amp;utm_campaign=poster-grid&amp;utm_content=heat" target="_blank" rel="noopener">Buy Heat Poster →</a>
+        </div>
+      </li>
+
+      <li class="card">
+        <img class="card__poster" src="https://cdn.wwwonderlan.com/posters/christiane-f-1280.webp"
+             alt="Christiane F. Wir Kinder vom Bahnhof Zoo poster print" width="1280" height="1920"
+             loading="lazy" decoding="async">
+        <div class="card__details">
+          <h2 class="card__title">Christiane F. Wir Kinder vom Bahnhof Zoo</h2>
+
+          <div class="card__director">
+            <img class="card__avatar" src="https://cdn.wwwonderlan.com/assets/directors/ulrich-edel.webp"
+                 alt="" width="40" height="40" decoding="async" loading="lazy">
+            <div class="card__text">
+              <p class="card__name">Ulrich Edel</p>
+              <p class="card__meta">
+                <span>1981 ‧ Germany ‧ Drama/Indie</span>
+                <img class="card__rating" src="https://cdn.wwwonderlan.com/assets/ratings/18.svg"
+                     alt="Rated 18" width="18" height="18" decoding="async" loading="lazy">
+              </p>
+            </div>
+          </div>
+
+          <a class="card__buy" href="https://wwwonderlan.etsy.com/uk/listing/4499788239/christiane-f-1981-movie-poster-print-wir?utm_source=wwwonderlan&amp;utm_medium=site&amp;utm_campaign=poster-grid&amp;utm_content=christiane-f" target="_blank" rel="noopener">Buy Christiane F. Wir Kinder vom Bahnhof Zoo Poster →</a>
+        </div>
+      </li>
+
+      <li class="card">
+        <img class="card__poster" src="https://cdn.wwwonderlan.com/posters/the-red-shoes-1280.webp"
+             alt="The Red Shoes poster print" width="1280" height="1920"
+             loading="lazy" decoding="async">
+        <div class="card__details">
+          <h2 class="card__title">The Red Shoes</h2>
+
+          <div class="card__director">
+            <img class="card__avatar" src="https://cdn.wwwonderlan.com/assets/directors/pressburger-powell.webp"
+                 alt="" width="40" height="40" decoding="async" loading="lazy">
+            <div class="card__text">
+              <p class="card__name">Powell and Pressburger</p>
+              <p class="card__meta">
+                <span>1948 ‧ United Kingdom ‧ Romance/Musical</span>
+                <img class="card__rating" src="https://cdn.wwwonderlan.com/assets/ratings/u.svg"
+                     alt="Rated U" width="18" height="18" decoding="async" loading="lazy">
+              </p>
+            </div>
+          </div>
+
+          <a class="card__buy" href="https://wwwonderlan.etsy.com/uk/listing/4522310080/the-red-shoes-1948-movie-poster-print?utm_source=wwwonderlan&amp;utm_medium=site&amp;utm_campaign=poster-grid&amp;utm_content=the-red-shoes" target="_blank" rel="noopener">Buy The Red Shoes Poster →</a>
+        </div>
+      </li>
+
+      <li class="card">
+        <img class="card__poster" src="https://cdn.wwwonderlan.com/posters/fire-walk-with-me-1280.webp"
+             alt="Twin Peaks: Fire Walk With Me poster print" width="1280" height="1920"
+             loading="lazy" decoding="async">
+        <div class="card__details">
+          <h2 class="card__title">Twin Peaks: Fire Walk With Me</h2>
+
+          <div class="card__director">
+            <img class="card__avatar" src="https://cdn.wwwonderlan.com/assets/directors/david-lynch.webp"
+                 alt="" width="40" height="40" decoding="async" loading="lazy">
+            <div class="card__text">
+              <p class="card__name">David Lynch</p>
+              <p class="card__meta">
+                <span>1992 ‧ United States ‧ Horror/Crime</span>
+                <img class="card__rating" src="https://cdn.wwwonderlan.com/assets/ratings/18.svg"
+                     alt="Rated 18" width="18" height="18" decoding="async" loading="lazy">
+              </p>
+            </div>
+          </div>
+
+          <a class="card__buy" href="https://wwwonderlan.etsy.com/uk/listing/4541437995/twin-peaks-fire-walk-with-me-1992-movie?utm_source=wwwonderlan&amp;utm_medium=site&amp;utm_campaign=poster-grid&amp;utm_content=fire-walk-with-me" target="_blank" rel="noopener">Buy Twin Peaks: Fire Walk With Me Poster →</a>
+        </div>
+      </li>
+    </ul>
+  </main>
+
+  <div class="details" id="details" role="dialog" aria-modal="true" aria-label="Details">
+    <div class="details__content">
+      <p class="details__lead">Curated film posters designed by WWWONDERLAN</p>
+
+      <p>Available in five sizes</p>
+
+      <div class="details__sizes">
+        <div class="details__size">
+          <p class="details__heading">Standard Sizes</p>
+          <ul>
+            <li>12×18″</li>
+            <li>20×30″</li>
+            <li>24×36″</li>
+          </ul>
+
+          <!-- 8 units per inch, same scale as the A-series below. -->
+          <svg class="details__diagram" viewBox="0 0 194 290" aria-hidden="true">
+            <rect x="1" y="1" width="192" height="288"/>
+            <rect x="1" y="49" width="160" height="240"/>
+            <rect x="1" y="145" width="96" height="144"/>
+            <text x="13" y="31">24×36″</text>
+            <text x="13" y="79">20×30″</text>
+            <text x="13" y="175">12×18″</text>
+          </svg>
+        </div>
+
+        <div class="details__size">
+          <p class="details__heading">A-Series Sizes</p>
+          <ul>
+            <li>A2 (16.5″×23.3″)</li>
+            <li>A1 (23.3″×33.1″)</li>
+          </ul>
+
+          <svg class="details__diagram" viewBox="0 0 194 290" aria-hidden="true">
+            <rect x="1" y="24.2" width="186.4" height="264.8"/>
+            <rect x="1" y="102.6" width="132" height="186.4"/>
+            <text x="13" y="54">A1</text>
+            <text x="13" y="132">A2</text>
+          </svg>
+        </div>
+      </div>
+
+      <p>All posters are made to order and printed on thick, museum-quality matte paper sourced from Japan.</p>
+
+      <p class="details__heading">Paper Specifications</p>
+      <ul>
+        <li>Paper thickness: 10.3 mil</li>
+        <li>Paper weight: 189 g/m²</li>
+        <li>Opacity: 94%</li>
+        <li>ISO brightness: 104%</li>
+      </ul>
+
+      <p>Production and delivery typically take 2–3 weeks. For any inquiries, please contact WWWONDERLAN by <a href="mailto:wwwonderlan@gmail.com">email</a>.</p>
+    </div>
+
+    <button class="details__close" type="button" id="details-close" aria-label="Close details">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M18 6 6 18"/>
+        <path d="m6 6 12 12"/>
+      </svg>
+    </button>
+  </div>
+
+  <div class="dock-rail">
+    <nav class="dock is-collapsed" id="dock" aria-label="Menu">
+      <div class="dock-progress" aria-hidden="true">
+        <div class="dock-progress-fill" id="scroll-progress-fill"></div>
+      </div>
+
+      <div class="dock-panel">
+        <div class="dock-logo-slot">
+          <a href="/" aria-label="WWWONDERLAN home">
+            <img class="dock-logo is-light-only" src="https://cdn.wwwonderlan.com/assets/wwwonderlan-black.png" alt="" width="200" height="57">
+            <img class="dock-logo is-dark-only" src="https://cdn.wwwonderlan.com/assets/wwwonderlan-white.png" alt="" width="200" height="57">
+          </a>
+        </div>
+
+        <ul class="dock-menu">
+          <li><a href="https://www.etsy.com/shop/WWWONDERLAN" target="_blank" rel="noopener">Shop</a></li>
+          <li>
+            <button type="button" id="details-toggle"
+                    aria-expanded="false" aria-controls="details">Details</button>
+          </li>
+          <li><a href="https://instagram.com/wwwonderlan" target="_blank" rel="noopener">Instagram</a></li>
+        </ul>
+
+        <div class="dock-controls">
+          <button class="dock-control" type="button"
+                  data-set-theme="light" aria-label="Light mode">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="12" cy="12" r="5"/>
+              <line x1="12" y1="1" x2="12" y2="3"/>
+              <line x1="12" y1="21" x2="12" y2="23"/>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+              <line x1="1" y1="12" x2="3" y2="12"/>
+              <line x1="21" y1="12" x2="23" y2="12"/>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+            </svg>
+          </button>
+
+          <button class="dock-control" type="button"
+                  data-set-theme="dark" aria-label="Dark mode">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+            </svg>
+          </button>
+
+          <button class="dock-control" type="button"
+                  id="scroll-top" aria-label="Back to top">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="m5 12 7-7 7 7"/>
+              <path d="M12 19V5"/>
+            </svg>
+          </button>
+        </div>
+
+        <p class="dock-copyright">© 2026 WWWONDERLAN</p>
+      </div>
+    </nav>
+  </div>
+
+</div>
+
+<script src="app.js"></script>
+
+</body>
+</html>
