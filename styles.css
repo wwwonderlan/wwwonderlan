@@ -508,6 +508,146 @@ a { text-decoration: none; }
   color: var(--ink);
 }
 
+/* Poster page */
+
+/* 480 poster + 24 + 744 details at full width. Stacks before the details
+   column gets too narrow for the meta row. */
+.main {
+  max-width: calc(var(--content-width) + var(--page-x) * 2);
+  margin: 0 auto;
+  padding: 0 var(--page-x);
+}
+
+.card-detail {
+  display: grid;
+  grid-template-columns: minmax(0, 480px) 1fr;
+  gap: var(--gap-col);
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .card-detail { grid-template-columns: 1fr; }
+}
+
+.card-detail__poster {
+  width: 100%;
+  height: auto;
+}
+
+.detail {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-col);
+}
+
+.detail__title {
+  margin: 0;
+  font-size: var(--type-heading);
+  line-height: var(--line-heading);
+  font-weight: 700;
+}
+
+/* Wraps rather than squashing: four fields will not sit on one line
+   in the stacked layout. */
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--gap-card) var(--gap-col);
+}
+
+.meta__field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-card);
+}
+
+.meta__label,
+.detail__description,
+.cast__label,
+.cast__name,
+.cta a {
+  font-size: var(--type-body);
+  line-height: var(--line-body);
+}
+
+.meta__label,
+.cast__label,
+.cast__name { font-weight: 700; }
+
+.meta__value,
+.cast__role,
+.detail__description {
+  font-size: var(--type-body);
+  line-height: var(--line-body);
+  font-weight: 500;
+  color: var(--muted);
+}
+
+.detail__description { margin: 0; }
+
+.cast {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-col);
+}
+
+.cast__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--gap-col);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cast__member {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-card);
+}
+
+.cast__avatar {
+  width: var(--avatar-size);
+  height: var(--avatar-size);
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.cast__name-block {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* Equal halves, and the padding needs an edge to read against. */
+.cta {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border: 1px solid var(--color-line);
+}
+
+.cta a {
+  padding: var(--gap-col);
+  font-weight: 700;
+  color: var(--muted);
+  transition: color var(--ui-ms) var(--ui-ease);
+}
+
+.cta a:first-child {
+  color: var(--ink);
+  border-inline-end: 1px solid var(--color-line);
+}
+
+.cta a:hover { color: var(--ink); }
+
+@media (max-width: 600px) {
+  .cta { grid-template-columns: 1fr; }
+  .cta a:first-child {
+    border-inline-end: 0;
+    border-block-end: 1px solid var(--color-line);
+  }
+}
+
 /* Details */
 
 /* Opens below the header so the logo stays visible. Solid, not glass —
