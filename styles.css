@@ -60,6 +60,7 @@
   --line-heading: 24px;
 
   --avatar-size: 40px;
+  --cast-avatar-size: 60px;
   /* Matches the line it sits on, so an inline badge can't grow the line box. */
   --rating-size: var(--line-body);
   /* Padding twice plus one line of type. Known, so the dock CTA can
@@ -685,8 +686,8 @@ a { text-decoration: none; }
 }
 
 .cast__avatar {
-  width: var(--avatar-size);
-  height: var(--avatar-size);
+  width: var(--cast-avatar-size);
+  height: var(--cast-avatar-size);
   border-radius: 50%;
   object-fit: cover;
 }
@@ -694,7 +695,14 @@ a { text-decoration: none; }
 .cast__name-block {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 2px;
+}
+
+/* Set tighter than the type size, so the two lines read as one label. */
+.cast__name,
+.cast__role {
+  font-size: var(--type-body);
+  line-height: 12px;
 }
 
 /* Bleeds to the page edge so the last member is visibly cut, which is what
