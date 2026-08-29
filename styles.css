@@ -51,6 +51,8 @@
   --gap-poster: 16px;
   --gap-col: 24px;
   --gap-row: 32px;
+  /* The poster page's rhythm: 24px at 1440, easing to 16px by 960. */
+  --gap-detail: clamp(16px, 1.667vw, 24px);
 
   /* Two sizes carry the whole site. Legibility is absolute, so neither
      scales with the viewport — the layout reflows around them instead. */
@@ -578,7 +580,7 @@ a { text-decoration: none; }
 .card-detail {
   display: grid;
   grid-template-columns: minmax(0, 480px) minmax(0, 1fr);
-  gap: var(--gap-col);
+  gap: var(--gap-detail);
   align-items: start;
 }
 
@@ -597,7 +599,7 @@ a { text-decoration: none; }
   min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: var(--gap-col);
+  gap: var(--gap-detail);
 }
 
 .detail__title {
@@ -612,7 +614,7 @@ a { text-decoration: none; }
 .meta {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--gap-poster) var(--gap-col);
+  gap: var(--gap-poster) var(--gap-detail);
 }
 
 .meta__field {
@@ -654,13 +656,13 @@ a { text-decoration: none; }
 .cast {
   display: flex;
   flex-direction: column;
-  gap: var(--gap-col);
+  gap: var(--gap-detail);
 }
 
 .cast__list {
   display: flex;
   flex-wrap: nowrap;
-  gap: var(--gap-col);
+  gap: var(--gap-detail);
   margin: 0;
   padding: 0;
   list-style: none;
@@ -694,30 +696,17 @@ a { text-decoration: none; }
 .cast__name-block {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 4px;
 }
 
-/* nowrap sets the member's width — it hugs its longest line. Nothing is
-   clipped, so the leading can sit tighter than the type. */
+/* nowrap sets the member's width — it hugs its longest line. The leading
+   cannot go below the glyph height: overflow-x on the rail makes both axes
+   scroll containers, so anything outside the line box is clipped. */
 .cast__name,
 .cast__role {
   font-size: var(--type-body);
-  line-height: 12px;
+  line-height: 16px;
   white-space: nowrap;
-}
-
-/* Bleeds to the page edge so the last member is visibly cut, which is what
-   signals there is more to push. Only worth it where the column is the
-   full width of the page. */
-@media (max-width: 600px) {
-  .cast {
-    gap: var(--gap-poster);
-  }
-
-  .cast__list {
-    margin-inline: calc(var(--page-x) * -1);
-    padding-inline: var(--page-x);
-  }
 }
 
 /* Equal halves, and the padding needs an edge to read against. */
@@ -729,7 +718,7 @@ a { text-decoration: none; }
 
 .cta a {
   min-width: 0;
-  padding: var(--gap-col);
+  padding: var(--gap-detail);
   font-weight: 700;
   color: var(--muted);
   transition: color var(--ui-ms) var(--ui-ease);
