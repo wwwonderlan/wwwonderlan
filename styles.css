@@ -61,6 +61,9 @@
 
   --avatar-size: 40px;
   --cast-avatar-size: 60px;
+  /* The widest that still fits five members across the desktop column
+     (744 − four 24px gaps, over five). Past five, the rail scrolls. */
+  --cast-member-width: 128px;
   /* Matches the line it sits on, so an inline badge can't grow the line box. */
   --rating-size: var(--line-body);
   /* Padding twice plus one line of type. Known, so the dock CTA can
@@ -675,7 +678,7 @@ a { text-decoration: none; }
 
 .cast__member {
   flex: none;
-  width: 88px;
+  width: var(--cast-member-width);
   scroll-snap-align: start;
 
   display: flex;
@@ -693,16 +696,22 @@ a { text-decoration: none; }
 }
 
 .cast__name-block {
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: 2px;
 }
 
-/* Set tighter than the type size, so the two lines read as one label. */
+/* Truncated on width rather than a character count, so it holds for any
+   name. 16px is the tightest leading that clears the glyphs: ellipsis
+   needs overflow hidden, and a shorter line would clip the letters. */
 .cast__name,
 .cast__role {
   font-size: var(--type-body);
-  line-height: 12px;
+  line-height: 16px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* Bleeds to the page edge so the last member is visibly cut, which is what
