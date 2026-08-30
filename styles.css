@@ -664,20 +664,18 @@ a { text-decoration: none; }
   line-height: var(--line-prose);
 }
 
-/* Sits at the end of the sentence it credits, like a citation. Exactly one
-   line tall and aligned to the line box top, so it centres on the line
-   without depending on font metrics. */
+/* Sits at the end of the sentence it credits. The anchor is exactly one line
+   tall and aligned to the line box top, so the pill inside centres on the
+   line without depending on font metrics — and is shorter than the line, so
+   it never touches the row above when it wraps onto its own line.
+
+   The gap before it is the source whitespace, not a margin: a margin would
+   survive the line break and indent the pill at the start of a new line. */
 .source {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
   height: var(--line-prose);
-  padding-inline: 5px 10px;
   vertical-align: top;
-  margin-inline-start: var(--gap-card);
-
-  border-radius: 999px;
-  background-color: var(--source-chip);
 
   font-size: 12px;
   font-weight: 500;
@@ -687,6 +685,17 @@ a { text-decoration: none; }
 }
 
 .source:hover { color: var(--ink); }
+
+.source__pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 22px;
+  padding-inline: 5px 10px;
+
+  border-radius: 999px;
+  background-color: var(--source-chip);
+}
 
 /* A light disc under the mark: foreign favicons are drawn for one. */
 .source img {
