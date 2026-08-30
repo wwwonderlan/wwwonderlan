@@ -60,6 +60,7 @@
   --line-body: 18px;
   --type-heading: 20px;
   --line-heading: 24px;
+  --line-prose: 24px;
 
   --avatar-size: 40px;
   --cast-avatar-size: 60px;
@@ -651,7 +652,10 @@ a { text-decoration: none; }
   color: var(--muted);
 }
 
-.detail__description { margin: 0; }
+.detail__description {
+  margin: 0;
+  line-height: var(--line-prose);
+}
 
 .cast {
   display: flex;
