@@ -23,7 +23,8 @@
   --color-line: rgba(0, 0, 0, 0.1);
   --color-accent: #007AFF;
   --source-bg: #FFFFFF;
-  --source-size: 20px;
+  --source-chip: rgba(0, 0, 0, 0.05);
+  --source-size: 16px;
 
   /* Frosted glass */
   --glass-bg: rgba(255, 255, 255, 0.6);
@@ -129,6 +130,7 @@
   --muted: #71767B;
   --color-line: rgba(255, 255, 255, 0.1);
   --source-bg: #E7E9EA;
+  --source-chip: rgba(255, 255, 255, 0.08);
 
   --glass-bg: rgba(0, 0, 0, 0.55);
   --glass-backdrop: blur(20px) saturate(190%) brightness(1.1);
@@ -662,29 +664,37 @@ a { text-decoration: none; }
   line-height: var(--line-prose);
 }
 
-/* Sits at the end of the sentence it credits, like a citation. The anchor
-   is one line tall and aligned to the top of the line box, which centres
-   the disc on the line without depending on font metrics. */
+/* Sits at the end of the sentence it credits, like a citation. Exactly one
+   line tall and aligned to the line box top, so it centres on the line
+   without depending on font metrics. */
 .source {
   display: inline-flex;
   align-items: center;
+  gap: 6px;
   height: var(--line-prose);
+  padding-inline: 5px 10px;
   vertical-align: top;
   margin-inline-start: var(--gap-card);
 
-  opacity: 0.7;
-  transition: opacity var(--ui-ms) var(--ui-ease);
+  border-radius: 999px;
+  background-color: var(--source-chip);
+
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--muted);
+  white-space: nowrap;
+  transition: color var(--ui-ms) var(--ui-ease);
 }
 
-.source:hover { opacity: 1; }
+.source:hover { color: var(--ink); }
 
+/* A light disc under the mark: foreign favicons are drawn for one. */
 .source img {
   width: var(--source-size);
   height: var(--source-size);
   border-radius: 50%;
   object-fit: cover;
   background-color: var(--source-bg);
-  border: 1px solid var(--color-line);
 }
 
 .cast {
