@@ -22,6 +22,8 @@
   --muted: #536471;
   --color-line: rgba(0, 0, 0, 0.1);
   --color-accent: #007AFF;
+  --source-bg: #FFFFFF;
+  --source-size: 20px;
 
   /* Frosted glass */
   --glass-bg: rgba(255, 255, 255, 0.6);
@@ -125,6 +127,7 @@
   --ink: #E7E9EA;
   --muted: #71767B;
   --color-line: rgba(255, 255, 255, 0.1);
+  --source-bg: #E7E9EA;
 
   --glass-bg: rgba(0, 0, 0, 0.55);
   --glass-backdrop: blur(20px) saturate(190%) brightness(1.1);
@@ -655,6 +658,31 @@ a { text-decoration: none; }
 .detail__description {
   margin: 0;
   line-height: var(--line-prose);
+}
+
+/* Sits at the end of the sentence it credits, like a citation. */
+.source {
+  display: inline-flex;
+  width: var(--source-size);
+  height: var(--source-size);
+  margin-inline-start: var(--gap-card);
+  vertical-align: middle;
+
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: var(--source-bg);
+  border: 1px solid var(--color-line);
+
+  opacity: 0.7;
+  transition: opacity var(--ui-ms) var(--ui-ease);
+}
+
+.source:hover { opacity: 1; }
+
+.source img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .cast {
